@@ -22,16 +22,19 @@ class _ChartScreenState extends State<ChartScreen> {
     final dio = Dio();
     final stringJson = await CryptoInfoServiceImpl(dio).getCryptoInfo();
     List<dynamic> json = jsonDecode(stringJson);
-    final candlesList = json.map((value) {
-      return Candle(
-        date: DateTime.fromMillisecondsSinceEpoch(value[0]),
-        open: value[1],
-        high: value[2],
-        low: value[3],
-        close: value[4],
-        volume: value[5],
-      );
-    });
+    final candlesList = json
+        .map(
+          (candle) => Candle(
+            date: DateTime.fromMillisecondsSinceEpoch(candle[0]),
+            open: candle[1],
+            high: candle[2],
+            low: candle[3],
+            close: candle[4],
+            volume: candle[5],
+          ),
+        )
+        .toList()
+        .reversed;
 
     setState(() {
       _candles.addAll(candlesList);
