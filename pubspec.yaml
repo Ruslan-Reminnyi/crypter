@@ -32,7 +32,8 @@ dependencies:
     sdk: flutter
   dio: ^5.9.2
   web_socket_channel: ^3.0.3
-  candlesticks: ^3.0.1
+  candlesticks:
+    path: ./forks/candlesticks
   cupertino_icons: ^1.0.8
 
 dev_dependencies:

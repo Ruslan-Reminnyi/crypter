@@ -1,0 +1,19 @@
+name: candlesticks
+description: A high-performance, interactive Flutter candlestick chart for financial apps.
+version: 3.0.1
+homepage: https://github.com/r-mzy47/candlesticks
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.0.0"
+  
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_lints: ^6.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:

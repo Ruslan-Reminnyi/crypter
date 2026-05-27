@@ -1,0 +1,69 @@
+import 'dart:convert';
+
+import 'package:candlesticks/candlesticks.dart';
+import 'package:http/http.dart' as http;
+import 'package:web_socket_channel/web_socket_channel.dart';
+
+class BinanceRepository {
+  Candle candleFromBinanceKline(List<dynamic> json) {
+    return Candle(
+      date: DateTime.fromMillisecondsSinceEpoch(json[0] as int),
+      open: double.parse(json[1]),
+      high: double.parse(json[2]),
+      low: double.parse(json[3]),
+      close: double.parse(json[4]),
+      volume: double.parse(json[5]),
+    );
+  }
+
+  Future<List<Candle>> fetchCandles({
+    required String symbol,
+    required String interval,
+    int? endTime,
+  }) async {
+    final uri = Uri.https(
+      'api.binance.com',
+      '/api/v3/klines',
+      {
+        'symbol': symbol,
+        'interval': interval,
+        if (endTime != null) 'endTime': endTime.toString(),
+      },
+    );
+
+    final res = await http.get(uri);
+
+    return (jsonDecode(res.body) as List<dynamic>)
+        .map((e) => candleFromBinanceKline(e))
+        .toList()
+        .reversed
+        .toList();
+  }
+
+  Future<List<String>> fetchSymbols() async {
+    final uri = Uri.parse('https://api.binance.com/api/v3/ticker/price');
+    final res = await http.get(uri);
+
+    final data = jsonDecode(res.body) as List<dynamic>;
+
+    return data
+        .map((e) => (e as Map<String, dynamic>)['symbol'] as String)
+        .toList();
+  }
+
+  WebSocketChannel establishConnection(String symbol, String interval) {
+    final channel = WebSocketChannel.connect(
+      Uri.parse('wss://stream.binance.com:9443/ws'),
+    );
+    channel.sink.add(
+      jsonEncode(
+        {
+          'method': 'SUBSCRIBE',
+          'params': ['$symbol@kline_$interval'],
+          'id': 1,
+        },
+      ),
+    );
+    return channel;
+  }
+}
