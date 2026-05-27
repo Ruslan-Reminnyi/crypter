@@ -59,6 +59,13 @@ class CandleInfoText extends StatelessWidget {
               color: candle.isBull ? bullColor : bearColor,
             ),
           ),
+          TextSpan(text: ' Vol:'),
+          TextSpan(
+            text: HelperFunctions.priceToString(candle.volume),
+            style: TextStyle(
+              color: candle.isBull ? bullColor : bearColor,
+            ),
+          ),
         ],
       ),
     );
