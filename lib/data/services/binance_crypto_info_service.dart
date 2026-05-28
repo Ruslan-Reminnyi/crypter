@@ -3,13 +3,13 @@ import 'package:crypter/domain/services/crypto_info_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart' hide Interval;
 
-class CryptoInfoServiceImpl implements CryptoInfoService {
+class BinanceCryptoInfoService implements CryptoInfoService {
   final Dio _dio;
 
-  CryptoInfoServiceImpl(this._dio);
+  BinanceCryptoInfoService(this._dio);
 
   @override
-  Future<String> getCryptoInfo({
+  Future<String> getCryptoCandlesInfo({
     String? symbol = 'ETHUSDT',
     String? interval = '1d',
     int? limit = 30,

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:candlesticks/candlesticks.dart';
 import 'package:crypter/core/urls.dart';
-import 'package:crypter/data/services/crypto_info_service_impl.dart';
+import 'package:crypter/data/services/binance_crypto_info_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -38,7 +38,7 @@ class _ChartScreenState extends State<ChartScreen> {
     await _webSocketChannel?.ready;
 
     final dio = Dio();
-    final stringJson = await CryptoInfoServiceImpl(dio).getCryptoInfo();
+    final stringJson = await BinanceCryptoInfoService(dio).getCryptoCandlesInfo();
     List<dynamic> json = jsonDecode(stringJson);
     final candlesList = json
         .map(
