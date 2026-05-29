@@ -98,4 +98,58 @@ class Candle {
       volume: (json['volume'] as num).toDouble(),
     );
   }
+
+  /// Creates a candle from a JSON map of a compact format.
+  ///
+  /// The expected format is:
+  ///
+  /// ```json
+  /// {
+  ///   "t": 1715731200000,
+  ///   "o": 1780.36,
+  ///   "h": 1873.93,
+  ///   "l": 1755.34,
+  ///   "c": 1848.56,
+  ///   "v": 1200
+  /// }
+  /// ```
+  ///
+  /// The [date] value must be milliseconds since the Unix epoch.
+  factory Candle.fromCompactJson(Map<String, dynamic> json) {
+    return Candle(
+      date: DateTime.fromMillisecondsSinceEpoch(json['t'] as int),
+      open: double.tryParse(json['o'].toString()) ?? 0.0,
+      high: double.tryParse(json['h'].toString()) ?? 0.0,
+      low: double.tryParse(json['l'].toString()) ?? 0.0,
+      close: double.tryParse(json['c'].toString()) ?? 0.0,
+      volume: double.tryParse(json['v'].toString()) ?? 0.0,
+    );
+  }
+
+  /// Creates a candle from a list.
+  ///
+  /// The expected format is:
+  ///
+  /// ```json
+  /// {
+  ///   "0": 1715731200000,
+  ///   "1": 1780.36,
+  ///   "2": 1873.93,
+  ///   "3": 1755.34,
+  ///   "4": 1848.56,
+  ///   "5": 1200
+  /// }
+  /// ```
+  ///
+  /// The [date] value must be milliseconds since the Unix epoch.
+  factory Candle.fromList(List<dynamic> json) {
+    return Candle(
+      date: DateTime.fromMillisecondsSinceEpoch(json[0] as int),
+      open: double.tryParse(json[1].toString()) ?? 0.0,
+      high: double.tryParse(json[2].toString()) ?? 0.0,
+      low: double.tryParse(json[3].toString()) ?? 0.0,
+      close: double.tryParse(json[4].toString()) ?? 0.0,
+      volume: double.tryParse(json[5].toString()) ?? 0.0,
+    );
+  }
 }
