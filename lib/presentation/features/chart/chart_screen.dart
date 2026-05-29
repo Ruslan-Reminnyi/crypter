@@ -1,11 +1,7 @@
-import 'dart:convert';
-
 import 'package:candlesticks/candlesticks.dart';
-import 'package:crypter/core/urls.dart';
 import 'package:crypter/data/services/binance_crypto_info_service.dart';
-import 'package:dio/dio.dart';
+import 'package:crypter/domain/services/crypto_info_service.dart';
 import 'package:flutter/material.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
 
 class ChartScreen extends StatefulWidget {
   const ChartScreen({super.key, required this.title});
@@ -17,48 +13,14 @@ class ChartScreen extends StatefulWidget {
 }
 
 class _ChartScreenState extends State<ChartScreen> {
-  final List<Candle> _candles = [];
-  WebSocketChannel? _webSocketChannel;
+  late CryptoInfoService _cryptoInfoService;
 
   @override
   void initState() {
-    _webSocketChannel = WebSocketChannel.connect(Uri.parse(binanceBaseWebSocketUrl));
-    _webSocketChannel?.sink.add(
-      jsonEncode({
-        "method": "SUBSCRIBE",
-        "params": ['ethusdt@kline_1d'],
-        "id": 1,
-      }),
-    );
+    _cryptoInfoService = BinanceCryptoInfoService();
+    _cryptoInfoService.subscribeToWebSocket();
+    _cryptoInfoService.listenToWebSocketChannelStream();
     super.initState();
-  }
-
-  @override
-  void didChangeDependencies() async {
-    await _webSocketChannel?.ready;
-
-    final dio = Dio();
-    final stringJson = await BinanceCryptoInfoService(dio).getCryptoCandlesInfo();
-    List<dynamic> json = jsonDecode(stringJson);
-    final candlesList = json
-        .map(
-          (candle) => Candle(
-            date: DateTime.fromMillisecondsSinceEpoch(candle[0]),
-            open: candle[1],
-            high: candle[2],
-            low: candle[3],
-            close: candle[4],
-            volume: candle[5],
-          ),
-        )
-        .toList()
-        .reversed;
-
-    setState(() {
-      _candles.addAll(candlesList);
-    });
-
-    super.didChangeDependencies();
   }
 
   @override
@@ -71,28 +33,14 @@ class _ChartScreenState extends State<ChartScreen> {
       ),
       body: SizedBox.square(
         dimension: width,
-        child: StreamBuilder(
-          stream: _webSocketChannel?.stream,
+        child: StreamBuilder<List<Candle>>(
+          stream: _cryptoInfoService.stream,
           builder: (context, snapshot) {
             if (snapshot.hasData && snapshot.data != null) {
-              final json = jsonDecode(snapshot.data)['k'];
-              if (json != null) {
-                final newestCandle = Candle(
-                  date: DateTime.fromMillisecondsSinceEpoch(json['t']),
-                  open: double.parse(json['o']),
-                  high: double.parse(json['h']),
-                  low: double.parse(json['l']),
-                  close: double.parse(json['c']),
-                  volume: double.parse(json['v']),
-                );
-
-                _candles[0] = newestCandle;
-
-                return Candlesticks(candles: _candles);
-              }
+              return Candlesticks(candles: snapshot.data!);
+            } else {
+              return SizedBox.shrink();
             }
-
-            return SizedBox.shrink();
           },
         ),
       ),
@@ -101,14 +49,8 @@ class _ChartScreenState extends State<ChartScreen> {
 
   @override
   void dispose() {
-    _webSocketChannel?.sink.add(
-      jsonEncode({
-        "method": "UNSUBSCRIBE",
-        "params": ['ethusdt@kline_1d'],
-        "id": 1,
-      }),
-    );
-    _webSocketChannel?.sink.close();
+    _cryptoInfoService.unsubscribeFromWebSocket();
+    _cryptoInfoService.dispose();
     super.dispose();
   }
 }
