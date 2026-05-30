@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:crypter/core/urls.dart';
-import 'package:crypter/domain/services/web_socket_service.dart';
+import 'package:crypter/domain/services/remote/web_socket_service.dart';
 import 'package:flutter/material.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 

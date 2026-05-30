@@ -1,7 +1,7 @@
 import 'package:candlesticks/candlesticks.dart';
-import 'package:crypter/data/services/binance_crypto_info_service.dart';
+import 'package:crypter/data/repositories/binance_crypto_info_repo.dart';
 import 'package:crypter/data/services/remote/binance_web_socket_service.dart';
-import 'package:crypter/domain/services/crypto_info_service.dart';
+import 'package:crypter/domain/repositories/crypto_info_repo.dart';
 import 'package:flutter/material.dart';
 
 class ChartScreen extends StatefulWidget {
@@ -14,14 +14,14 @@ class ChartScreen extends StatefulWidget {
 }
 
 class _ChartScreenState extends State<ChartScreen> {
-  late CryptoInfoService _cryptoInfoService;
+  late CryptoInfoRepo _cryptoInfoRepo;
 
   @override
   void initState() {
     final binanceWebSocketService = BinanceWebSocketService();
-    _cryptoInfoService = BinanceCryptoInfoService(binanceWebSocketService);
-    _cryptoInfoService.subscribeToWebSocket();
-    _cryptoInfoService.listenToWebSocketChannelStream();
+    _cryptoInfoRepo = BinanceCryptoInfoRepo(binanceWebSocketService);
+    _cryptoInfoRepo.subscribeToWebSocket();
+    _cryptoInfoRepo.listenToWebSocketChannelStream();
     super.initState();
   }
 
@@ -36,7 +36,7 @@ class _ChartScreenState extends State<ChartScreen> {
       body: SizedBox.square(
         dimension: width,
         child: StreamBuilder<List<Candle>>(
-          stream: _cryptoInfoService.stream,
+          stream: _cryptoInfoRepo.stream,
           builder: (context, snapshot) {
             if (snapshot.hasData && snapshot.data != null) {
               return Candlesticks(candles: snapshot.data!);
@@ -51,8 +51,8 @@ class _ChartScreenState extends State<ChartScreen> {
 
   @override
   void dispose() {
-    _cryptoInfoService.unsubscribeFromWebSocket();
-    _cryptoInfoService.dispose();
+    _cryptoInfoRepo.unsubscribeFromWebSocket();
+    _cryptoInfoRepo.dispose();
     super.dispose();
   }
 }

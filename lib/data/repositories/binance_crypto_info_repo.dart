@@ -3,18 +3,18 @@ import 'dart:convert';
 import 'package:candlesticks/candlesticks.dart';
 import 'package:crypter/core/urls.dart';
 import 'package:crypter/data/extensions/list_extensions.dart';
-import 'package:crypter/domain/services/crypto_info_service.dart';
-import 'package:crypter/domain/services/web_socket_service.dart';
+import 'package:crypter/domain/repositories/crypto_info_repo.dart';
+import 'package:crypter/domain/services/remote/web_socket_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart' hide Interval;
 import 'package:rxdart/rxdart.dart';
 
-class BinanceCryptoInfoService implements CryptoInfoService {
+class BinanceCryptoInfoRepo implements CryptoInfoRepo {
   final Dio _dio;
   final BehaviorSubject<List<Candle>> _subject;
   final WebSocketService _webSocket;
 
-  BinanceCryptoInfoService(this._webSocket)
+  BinanceCryptoInfoRepo(this._webSocket)
     : _dio = Dio(),
       _subject = BehaviorSubject.seeded(<Candle>[]) {
     _init();
@@ -66,10 +66,9 @@ class BinanceCryptoInfoService implements CryptoInfoService {
         final json = jsonDecode(item)['k'];
         if (json != null) {
           final newestCandle = Candle.fromCompactJson(json);
-          final currentList = _subject.value;
-
-          currentList[0] = newestCandle;
-          _subject.add(currentList);
+          final currentCandles = List<Candle>.from(_subject.value);
+          currentCandles[0] = newestCandle;
+          _subject.add(currentCandles);
         }
       },
       onError: (error) {
