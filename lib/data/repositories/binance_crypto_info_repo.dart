@@ -1,22 +1,21 @@
 import 'dart:convert';
 
 import 'package:candlesticks/candlesticks.dart';
-import 'package:crypter/core/urls.dart';
 import 'package:crypter/data/extensions/list_extensions.dart';
 import 'package:crypter/domain/repositories/crypto_info_repo.dart';
 import 'package:crypter/domain/services/remote/web_socket_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart' hide Interval;
+import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
+@LazySingleton(as: CryptoInfoRepo)
 class BinanceCryptoInfoRepo implements CryptoInfoRepo {
   final Dio _dio;
-  final BehaviorSubject<List<Candle>> _subject;
   final WebSocketService _webSocket;
+  final BehaviorSubject<List<Candle>> _subject;
 
-  BinanceCryptoInfoRepo(this._webSocket)
-    : _dio = Dio(),
-      _subject = BehaviorSubject.seeded(<Candle>[]) {
+  BinanceCryptoInfoRepo(this._dio, this._webSocket, this._subject) {
     _init();
   }
 
@@ -34,7 +33,7 @@ class BinanceCryptoInfoRepo implements CryptoInfoRepo {
   }) async {
     try {
       final response = await _dio.get(
-        binanceCryptoInfoUrl,
+        '/api/v3/klines',
         queryParameters: {'symbol': symbol, 'interval': interval, 'limit': limit},
       );
 

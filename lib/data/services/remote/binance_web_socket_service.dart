@@ -1,15 +1,15 @@
 import 'dart:convert';
 
-import 'package:crypter/core/urls.dart';
 import 'package:crypter/domain/services/remote/web_socket_service.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
+@LazySingleton(as: WebSocketService)
 class BinanceWebSocketService implements WebSocketService {
   final WebSocketChannel _channel;
 
-  BinanceWebSocketService()
-    : _channel = WebSocketChannel.connect(Uri.parse(binanceBaseWebSocketUrl)) {
+  BinanceWebSocketService(this._channel) {
     init();
   }
 

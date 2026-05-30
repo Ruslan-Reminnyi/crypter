@@ -1,0 +1,51 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// dart format width=80
+
+// **************************************************************************
+// InjectableConfigGenerator
+// **************************************************************************
+
+// ignore_for_file: type=lint
+// coverage:ignore-file
+
+// ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:candlesticks/candlesticks.dart' as _i940;
+import 'package:dio/dio.dart' as _i361;
+import 'package:get_it/get_it.dart' as _i174;
+import 'package:injectable/injectable.dart' as _i526;
+import 'package:rxdart/rxdart.dart' as _i430;
+import 'package:web_socket_channel/web_socket_channel.dart' as _i525;
+
+import '../../data/repositories/binance_crypto_info_repo.dart' as _i694;
+import '../../data/services/remote/binance_web_socket_service.dart' as _i702;
+import '../../domain/repositories/crypto_info_repo.dart' as _i907;
+import '../../domain/services/remote/web_socket_service.dart' as _i300;
+import 'modules/app_module.dart' as _i349;
+
+// initializes the registration of main-scope dependencies inside of GetIt
+_i174.GetIt $configure(
+  _i174.GetIt getIt, {
+  String? environment,
+  _i526.EnvironmentFilter? environmentFilter,
+}) {
+  final gh = _i526.GetItHelper(getIt, environment, environmentFilter);
+  final appModule = _$AppModule();
+  gh.lazySingleton<_i361.Dio>(() => appModule.dio);
+  gh.lazySingleton<_i525.WebSocketChannel>(() => appModule.webSocketChannel);
+  gh.lazySingleton<_i430.BehaviorSubject<List<_i940.Candle>>>(
+    () => appModule.behaviourSubject,
+  );
+  gh.lazySingleton<_i300.WebSocketService>(
+    () => _i702.BinanceWebSocketService(gh<_i525.WebSocketChannel>()),
+  );
+  gh.lazySingleton<_i907.CryptoInfoRepo>(
+    () => _i694.BinanceCryptoInfoRepo(
+      gh<_i361.Dio>(),
+      gh<_i300.WebSocketService>(),
+      gh<_i430.BehaviorSubject<List<_i940.Candle>>>(),
+    ),
+  );
+  return getIt;
+}
+
+class _$AppModule extends _i349.AppModule {}

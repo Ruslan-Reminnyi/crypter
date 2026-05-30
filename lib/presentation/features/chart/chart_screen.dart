@@ -1,8 +1,7 @@
 import 'package:candlesticks/candlesticks.dart';
-import 'package:crypter/data/repositories/binance_crypto_info_repo.dart';
-import 'package:crypter/data/services/remote/binance_web_socket_service.dart';
 import 'package:crypter/domain/repositories/crypto_info_repo.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 class ChartScreen extends StatefulWidget {
   const ChartScreen({super.key, required this.title});
@@ -18,8 +17,7 @@ class _ChartScreenState extends State<ChartScreen> {
 
   @override
   void initState() {
-    final binanceWebSocketService = BinanceWebSocketService();
-    _cryptoInfoRepo = BinanceCryptoInfoRepo(binanceWebSocketService);
+    _cryptoInfoRepo = GetIt.I<CryptoInfoRepo>();
     _cryptoInfoRepo.subscribeToWebSocket();
     _cryptoInfoRepo.listenToWebSocketChannelStream();
     super.initState();
