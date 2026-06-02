@@ -4,6 +4,7 @@ import 'package:crypter/data/remote/endpoints.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 @module
@@ -23,4 +24,8 @@ abstract class AppModule {
 
   @lazySingleton
   BehaviorSubject<List<Candle>> get behaviourSubject => BehaviorSubject.seeded(<Candle>[]);
+
+  @singleton
+  @preResolve
+  Future<SharedPreferences> get sharedPreferences => SharedPreferences.getInstance();
 }
