@@ -21,6 +21,7 @@ import '../../data/services/remote/binance_web_socket_service.dart' as _i702;
 import '../../domain/repositories/crypto_info_repo.dart' as _i907;
 import '../../domain/services/remote/web_socket_service.dart' as _i300;
 import 'modules/app_module.dart' as _i349;
+import 'modules/config_module.dart' as _i810;
 
 // initializes the registration of main-scope dependencies inside of GetIt
 _i174.GetIt $configure(
@@ -30,13 +31,20 @@ _i174.GetIt $configure(
 }) {
   final gh = _i526.GetItHelper(getIt, environment, environmentFilter);
   final appModule = _$AppModule();
-  gh.lazySingleton<_i361.Dio>(() => appModule.dio);
+  final appConfigModule = _$AppConfigModule();
   gh.lazySingleton<_i525.WebSocketChannel>(() => appModule.webSocketChannel);
   gh.lazySingleton<_i430.BehaviorSubject<List<_i940.Candle>>>(
     () => appModule.behaviourSubject,
   );
+  gh.factory<String>(
+    () => appConfigModule.binanceApiBaseUrl,
+    instanceName: 'apiBaseUrl',
+  );
   gh.lazySingleton<_i300.WebSocketService>(
     () => _i702.BinanceWebSocketService(gh<_i525.WebSocketChannel>()),
+  );
+  gh.lazySingleton<_i361.Dio>(
+    () => appModule.dio(gh<String>(instanceName: 'apiBaseUrl')),
   );
   gh.lazySingleton<_i907.CryptoInfoRepo>(
     () => _i694.BinanceCryptoInfoRepo(
@@ -49,3 +57,5 @@ _i174.GetIt $configure(
 }
 
 class _$AppModule extends _i349.AppModule {}
+
+class _$AppConfigModule extends _i810.AppConfigModule {}
