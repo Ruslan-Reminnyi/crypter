@@ -26,8 +26,8 @@ class BinanceWebSocketService implements WebSocketService {
   }
 
   @override
-  void subscribe({int id = 1, String? symbol, String? interval}) {
-    final params = Endpoints.binanceWebSocket.klineStreams(symbol ?? 'ethusdt', interval ?? '1d');
+  void subscribe(int id, {required String symbol, required String interval}) {
+    final params = Endpoints.binanceWebSocket.klineStreams(symbol, interval);
     _channel.sink.add(
       jsonEncode({
         "method": "SUBSCRIBE",
@@ -38,8 +38,8 @@ class BinanceWebSocketService implements WebSocketService {
   }
 
   @override
-  void unsubscribe({int id = 1, String? symbol, String? interval}) {
-    final params = Endpoints.binanceWebSocket.klineStreams(symbol ?? 'ethusdt', interval ?? '1d');
+  void unsubscribe(int id, {required String symbol, required String interval}) {
+    final params = Endpoints.binanceWebSocket.klineStreams(symbol, interval);
     _channel.sink.add(
       jsonEncode({
         "method": "UNSUBSCRIBE",

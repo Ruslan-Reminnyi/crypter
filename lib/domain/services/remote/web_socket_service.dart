@@ -2,7 +2,7 @@ abstract interface class WebSocketService {
   Stream get stream;
 
   void init();
-  void subscribe({int id, String? symbol, String? interval});
-  void unsubscribe({int id, String? symbol, String? interval});
+  void subscribe(int id, {required String symbol, required String interval});
+  void unsubscribe(int id, {required String symbol, required String interval});
   void close();
 }

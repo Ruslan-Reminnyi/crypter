@@ -16,26 +16,24 @@ class BinanceCryptoInfoRepo implements CryptoInfoRepo {
   final WebSocketService _webSocket;
   final BehaviorSubject<List<Candle>> _subject;
 
-  BinanceCryptoInfoRepo(this._dio, this._webSocket, this._subject) {
-    _init();
-  }
-
-  void _init() {
-    _fetchCryptoTradingHistory().then((history) => _subject.add(history));
-  }
+  BinanceCryptoInfoRepo(this._dio, this._webSocket, this._subject);
 
   @override
   Stream<List<Candle>> get stream => _subject.stream;
 
   Future<List<Candle>> _fetchCryptoTradingHistory({
-    String? symbol = 'ETHUSDT',
-    String? interval = '1d',
-    int? limit = 30,
+    required String symbol,
+    required String interval,
+    int? limit,
   }) async {
     try {
       final response = await _dio.get(
         Endpoints.binanceApi.klines,
-        queryParameters: {'symbol': symbol, 'interval': interval, 'limit': limit},
+        queryParameters: {
+          'symbol': symbol.toUpperCase(),
+          'interval': interval,
+          'limit': limit ?? 30,
+        },
       );
 
       List<dynamic> data = jsonDecode(response.data.toString());
@@ -49,22 +47,28 @@ class BinanceCryptoInfoRepo implements CryptoInfoRepo {
   }
 
   @override
-  void subscribeToWebSocket({int id = 1, String? symbol = "ethusdt", String? interval = '1d'}) =>
-      _webSocket.subscribe();
+  void subscribeToWebSocket(int id, {required String symbol, required String interval}) {
+    _fetchCryptoTradingHistory(
+      symbol: symbol,
+      interval: interval,
+    ).then((history) => _subject.add(history));
+
+    _webSocket.subscribe(id, symbol: symbol, interval: interval);
+  }
 
   @override
-  void unsubscribeFromWebSocket({
-    int id = 1,
-    String? symbol = 'ethusdt',
-    String? interval = '1d',
-  }) => _webSocket.unsubscribe();
+  void unsubscribeFromWebSocket(int id, {required String symbol, required String interval}) {
+    _webSocket.unsubscribe(id, symbol: symbol, interval: interval);
+
+    _subject.value.clear();
+  }
 
   @override
   void listenToWebSocketChannelStream() {
     _webSocket.stream.listen(
       (item) {
         final json = jsonDecode(item)['k'];
-        if (json != null) {
+        if (json != null && _subject.value.isNotEmpty) {
           final newestCandle = Candle.fromCompactJson(json);
           final currentCandles = List<Candle>.from(_subject.value);
           currentCandles[0] = newestCandle;
