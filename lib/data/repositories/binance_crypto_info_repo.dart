@@ -7,10 +7,8 @@ import 'package:crypter/domain/repositories/crypto_info_repo.dart';
 import 'package:crypter/domain/services/remote/web_socket_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart' hide Interval;
-import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
-@LazySingleton(as: CryptoInfoRepo)
 class BinanceCryptoInfoRepo implements CryptoInfoRepo {
   final Dio _dio;
   final WebSocketService _webSocket;
@@ -64,7 +62,7 @@ class BinanceCryptoInfoRepo implements CryptoInfoRepo {
   }
 
   @override
-  void listenToWebSocketChannelStream() {
+  void listenToWebSocketStream() {
     _webSocket.stream.listen(
       (item) {
         final json = jsonDecode(item)['k'];

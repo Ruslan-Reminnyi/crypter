@@ -1,5 +1,4 @@
 import 'package:crypter/domain/services/local/local_storage_service.dart';
-import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class _LocalStorageKeys {
@@ -7,7 +6,6 @@ abstract class _LocalStorageKeys {
   static const String kInterval = 'interval';
 }
 
-@Singleton(as: LocalStorageService)
 class SharedPreferencesService implements LocalStorageService {
   final SharedPreferences _sharedPreferences;
 
