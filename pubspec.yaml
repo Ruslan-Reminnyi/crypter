@@ -39,6 +39,9 @@ dependencies:
   rxdart: ^0.28.0
   shared_preferences: ^2.5.5
   cupertino_icons: ^1.0.8
+  firebase_core: ^4.10.0
+  firebase_analytics: ^12.4.2
+  firebase_crashlytics: ^5.2.3
 
 dev_dependencies:
   flutter_test:

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "667865093938",
+    "project_id": "crypter-a65b8",
+    "storage_bucket": "crypter-a65b8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:667865093938:android:29a85ec1c15072f400e92b",
+        "android_client_info": {
+          "package_name": "com.example.crypter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXn9uPkI9uTmpuIHnFlNuVNHpKIJ0b0oI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
