@@ -1,1 +1,45 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"crypter-a65b8","appId":"1:667865093938:android:29a85ec1c15072f400e92b","fileOutput":"android/app/google-services.json"}},"ios":{"default":{"projectId":"crypter-a65b8","appId":"1:667865093938:ios:1a6dc0c58a2bdf5b00e92b","uploadDebugSymbols":true,"fileOutput":"ios/Runner/GoogleService-Info.plist"}},"dart":{"lib/firebase_options.dart":{"projectId":"crypter-a65b8","configurations":{"android":"1:667865093938:android:29a85ec1c15072f400e92b","ios":"1:667865093938:ios:1a6dc0c58a2bdf5b00e92b","web":"1:667865093938:web:7a67ea5394e7fbef00e92b"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "crypter-a65b8",
+          "appId": "1:667865093938:android:29a85ec1c15072f400e92b",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "crypter-a65b8",
+          "appId": "1:667865093938:ios:1a6dc0c58a2bdf5b00e92b",
+          "uploadDebugSymbols": true,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "crypter-a65b8",
+          "configurations": {
+            "android": "1:667865093938:android:29a85ec1c15072f400e92b",
+            "ios": "1:667865093938:ios:1a6dc0c58a2bdf5b00e92b",
+            "web": "1:667865093938:web:7a67ea5394e7fbef00e92b"
+          }
+        }
+      }
+    }
+  },
+  "hosting": {
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
