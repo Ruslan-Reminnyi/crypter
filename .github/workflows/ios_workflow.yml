@@ -1,0 +1,49 @@
+name: iOS build for simulator and creation zip
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+      platform:
+        required: true
+        type: string
+
+jobs:
+  ios_build:
+    runs-on: macos-latest
+    environment: ${{ inputs.environment }}
+
+    timeout-minutes: 60
+
+    env:
+      ENVIRONMENT: ${{ inputs.environment }}
+      PLATFORM: ${{ inputs.platform }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup workspace
+        uses: ./.github/actions/setup-workspace
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '4.0'
+          bundler-cache: true
+
+      - name: Run Fastlane
+        run: bundle exec fastlane build_for_simulator
+
+      - name: Upload simulator build (zip)
+        uses: actions/upload-artifact@v7
+        with:
+          name:
+            Crypter-Simulator-Build
+          path:
+            build/ios/archives/iphonesimulator/Crypter-Simulator.zip
+
+      - name: Add tag to commit
+        uses: ./.github/actions/add-tag

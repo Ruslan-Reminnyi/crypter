@@ -1,0 +1,8 @@
+name: Install Firebase CLI
+description: Downloads and installs Firebase CLI
+runs:
+  using: "composite"
+  steps:
+    - name: Install Firebase CLI
+      shell: bash
+      run: curl -sL https://firebase.tools | bash

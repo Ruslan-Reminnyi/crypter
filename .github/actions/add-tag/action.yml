@@ -1,0 +1,17 @@
+name: Create and push tag
+description: Add tag to the commit based on the environment, platform, version and build number
+runs:
+  using: "composite"
+  steps:
+    - name: Add a tag to the commit
+      shell: bash
+      run: |
+        TAG="environments/\
+        ${{ env.ENVIRONMENT }}/\
+        ${{ env.PLATFORM }}/\
+        ${{ env.VERSION }}/\
+        ${{ env.BUILD_NUMBER }}"
+
+        echo $TAG
+        git tag $TAG
+        git push origin $TAG

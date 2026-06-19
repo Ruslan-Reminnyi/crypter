@@ -1,0 +1,26 @@
+name: Setup workspace
+description: Sets up Flutter and environments variables
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version-file: '.fvm/fvm_config.json'
+        cache: true
+
+    - name: Set up environment variables
+      shell: bash
+      run: |
+        COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+        echo "COMMIT_MESSAGE=$COMMIT_MESSAGE" >> $GITHUB_ENV
+        FULL_VERSION=$(yq '.version' pubspec.yaml)
+        VERSION=$(cut -d'+' -f1 <<< "$FULL_VERSION")
+        BUILD_NUMBER=$(cut -d'+' -f2 <<< "$FULL_VERSION")
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
+        echo "BUILD_NUMBER=$BUILD_NUMBER" >> $GITHUB_ENV
+        SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)
+        echo "SHORT_SHA=$SHORT_SHA" >> $GITHUB_ENV
+        echo "Run number ${{ github.run_number }}"
+        FLUTTER_VERSION=$(jq -r '.flutterSdkVersion' .fvm/fvm_config.json)
+        echo "FLUTTER_VERSION=$FLUTTER_VERSION" >> $GITHUB.ENV

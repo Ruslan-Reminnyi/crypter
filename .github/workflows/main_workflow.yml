@@ -1,0 +1,51 @@
+name: CI/CD
+
+run-name: "${{ inputs.platform }} build for ${{ inputs.environment }}"
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment'
+        required: false
+        type: choice
+        default: 'stage'
+        options:
+          - stage
+      platform:
+        description: 'Platform'
+        required: true
+        type: choice
+        default: 'Android'
+        options:
+          - Android
+          - iOS
+          - Web
+
+permissions:
+  contents: write
+
+jobs:
+  run_android_workflow:
+    if: ${{ inputs.platform == 'Android' }}
+    uses: ./.github/workflows/android_workflow.yml
+    with:
+      environment: ${{ inputs.environment }}
+      platform: 'Android'
+    secrets: inherit
+
+  run_ios_workflow:
+    if: ${{ inputs.platform == 'iOS' }}
+    uses: ./.github/workflows/ios_workflow.yml
+    with:
+      environment: ${{ inputs.environment }}
+      platform: 'iOS'
+    secrets: inherit
+
+  run_web_workflow:
+    if: ${{ inputs.platform == 'Web' }}
+    uses: ./.github/workflows/web_workflow.yml
+    with:
+      environment: ${{ inputs.environment }}
+      platform: 'Web'
+    secrets: inherit

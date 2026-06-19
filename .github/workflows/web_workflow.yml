@@ -1,0 +1,46 @@
+name: Web deployment to Firebase hosting
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+      platform:
+        required: true
+        type: string
+
+jobs:
+  web_build:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+
+    timeout-minutes: 60
+
+    env:
+      ENVIRONMENT: ${{ inputs.environment }}
+      PLATFORM: ${{ inputs.platform }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup workspace
+        uses: ./.github/actions/setup-workspace
+
+      - name: Build
+        run: flutter build web --wasm
+
+      - name: Install Firebase CLI
+        uses: ./.github/actions/install-firebase-cli
+
+      - name: Deploy to Firebase hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          projectId: crypter-a65b8
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_CRYPTER_A65B8 }}
+          channelId: live
+
+      - name: Add tag to commit
+        uses: ./.github/actions/add-tag
