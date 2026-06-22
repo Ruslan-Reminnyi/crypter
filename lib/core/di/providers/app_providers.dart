@@ -1,4 +1,5 @@
 import 'package:candlesticks/candlesticks.dart';
+import 'package:crypter/core/app/navigation/router.dart';
 import 'package:crypter/data/remote/endpoints.dart';
 import 'package:crypter/domain/repositories/crypto_info_repo.dart';
 import 'package:crypter/domain/services/local/local_storage_service.dart';
@@ -23,3 +24,4 @@ part 'behaviour_subject_provider.dart';
 part 'dio_provider.dart';
 part 'web_socket_provider.dart';
 part 'shared_preferences_service_provider.dart';
+part 'router_provider.dart';

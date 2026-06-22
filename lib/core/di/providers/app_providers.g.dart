@@ -367,3 +367,44 @@ final class SharedPreferencesServiceProvider
 
 String _$sharedPreferencesServiceHash() =>
     r'30733c76b97f80d36bd6514e3462803a532fff62';
+
+@ProviderFor(router)
+final routerProvider = RouterProvider._();
+
+final class RouterProvider
+    extends $FunctionalProvider<AppRouter, AppRouter, AppRouter>
+    with $Provider<AppRouter> {
+  RouterProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'routerProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$routerHash();
+
+  @$internal
+  @override
+  $ProviderElement<AppRouter> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  AppRouter create(Ref ref) {
+    return router(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(AppRouter value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<AppRouter>(value),
+    );
+  }
+}
+
+String _$routerHash() => r'2ee7b6c1055e3c0a42917025428037278a4bd6fb';
