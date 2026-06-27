@@ -20,7 +20,7 @@ class ChartScreen extends ConsumerWidget {
         title: Text(title),
         actions: [
           GestureDetector(
-            onTap: () => context.go(AppRoutes.ordersHistory.path),
+            onTap: () => context.go('${AppRoutes.orders.path}/all'),
             child: Icon(Icons.content_paste),
           ),
         ],

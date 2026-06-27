@@ -1,3 +1,26 @@
 {
-  "crypter": "Crypter"
+  "crypter": "Crypter",
+  "areYouSure": "Are you sure?",
+  "doYouWantToDeleteOrder": "Do you want to delete this order?",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "orderNumber": "Order #",
+  "number": "Number",
+  "save": "Save",
+  "quantity": "Quantity",
+  "fillPrice": "Fill Price",
+  "placingTime": "Placing time",
+  "takeProfit": "Take profit",
+  "stopLoss": "Stop loss",
+  "closingTime": "Closing time",
+  "leverage": "Leverage",
+  "margin": "Margin",
+  "realizedPnL": "Realized PnL",
+  "thisIsRequiredField": "This is a required field",
+  "thisInputMustContainOnlyNumbers": "This field must contain only numbers",
+  "thisInputMustContainEitherNumbersOrDecimal": "This field must contain either numbers or decimal",
+  "dateTimeFormatIs": "DateTime format is YYYY-MM-DD HH:MM",
+  "useHereSomethingLike": "Use here something like 1:100",
+  "thisFieldMustStartFromEitherMinusOrPlus": "This field must start from either - or +",
+  "thisDateDoesNotExist": "This date does not exist"
 }
