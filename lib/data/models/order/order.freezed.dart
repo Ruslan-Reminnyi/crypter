@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Order {
 
- int get number; Symbol get symbol; Exchange get exchange; Side get side; double get quantity;@JsonKey(name: 'price') double get fillPrice; DateTime get placingTime; OrderStatus get status; double? get takeProfit; double? get stopLoss; DateTime? get closingTime; String? get leverage; double? get margin; double? get realizedPnL;
+@JsonKey(name: DbConstants.columnId) int? get id; int get number;@EnumConverter(Symbol.values) Symbol get symbol;@EnumConverter(Exchange.values) Exchange get exchange;@EnumConverter(Side.values) Side get side; double get quantity;@JsonKey(name: DbConstants.columnPrice) double get fillPrice;@DateTimeConverter() DateTime get placingTime;@EnumConverter(OrderStatus.values) OrderStatus get status; double? get takeProfit; double? get stopLoss;@DateTimeConverter() DateTime? get closingTime; String? get leverage; double? get margin; double? get realizedPnL;
 /// Create a copy of Order
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $OrderCopyWith<Order> get copyWith => _$OrderCopyWithImpl<Order>(this as Order, 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Order&&(identical(other.number, number) || other.number == number)&&(identical(other.symbol, symbol) || other.symbol == symbol)&&(identical(other.exchange, exchange) || other.exchange == exchange)&&(identical(other.side, side) || other.side == side)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.fillPrice, fillPrice) || other.fillPrice == fillPrice)&&(identical(other.placingTime, placingTime) || other.placingTime == placingTime)&&(identical(other.status, status) || other.status == status)&&(identical(other.takeProfit, takeProfit) || other.takeProfit == takeProfit)&&(identical(other.stopLoss, stopLoss) || other.stopLoss == stopLoss)&&(identical(other.closingTime, closingTime) || other.closingTime == closingTime)&&(identical(other.leverage, leverage) || other.leverage == leverage)&&(identical(other.margin, margin) || other.margin == margin)&&(identical(other.realizedPnL, realizedPnL) || other.realizedPnL == realizedPnL));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Order&&(identical(other.id, id) || other.id == id)&&(identical(other.number, number) || other.number == number)&&(identical(other.symbol, symbol) || other.symbol == symbol)&&(identical(other.exchange, exchange) || other.exchange == exchange)&&(identical(other.side, side) || other.side == side)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.fillPrice, fillPrice) || other.fillPrice == fillPrice)&&(identical(other.placingTime, placingTime) || other.placingTime == placingTime)&&(identical(other.status, status) || other.status == status)&&(identical(other.takeProfit, takeProfit) || other.takeProfit == takeProfit)&&(identical(other.stopLoss, stopLoss) || other.stopLoss == stopLoss)&&(identical(other.closingTime, closingTime) || other.closingTime == closingTime)&&(identical(other.leverage, leverage) || other.leverage == leverage)&&(identical(other.margin, margin) || other.margin == margin)&&(identical(other.realizedPnL, realizedPnL) || other.realizedPnL == realizedPnL));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,number,symbol,exchange,side,quantity,fillPrice,placingTime,status,takeProfit,stopLoss,closingTime,leverage,margin,realizedPnL);
+int get hashCode => Object.hash(runtimeType,id,number,symbol,exchange,side,quantity,fillPrice,placingTime,status,takeProfit,stopLoss,closingTime,leverage,margin,realizedPnL);
 
 @override
 String toString() {
-  return 'Order(number: $number, symbol: $symbol, exchange: $exchange, side: $side, quantity: $quantity, fillPrice: $fillPrice, placingTime: $placingTime, status: $status, takeProfit: $takeProfit, stopLoss: $stopLoss, closingTime: $closingTime, leverage: $leverage, margin: $margin, realizedPnL: $realizedPnL)';
+  return 'Order(id: $id, number: $number, symbol: $symbol, exchange: $exchange, side: $side, quantity: $quantity, fillPrice: $fillPrice, placingTime: $placingTime, status: $status, takeProfit: $takeProfit, stopLoss: $stopLoss, closingTime: $closingTime, leverage: $leverage, margin: $margin, realizedPnL: $realizedPnL)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $OrderCopyWith<$Res>  {
   factory $OrderCopyWith(Order value, $Res Function(Order) _then) = _$OrderCopyWithImpl;
 @useResult
 $Res call({
- int number, Symbol symbol, Exchange exchange, Side side, double quantity,@JsonKey(name: 'price') double fillPrice, DateTime placingTime, OrderStatus status, double? takeProfit, double? stopLoss, DateTime? closingTime, String? leverage, double? margin, double? realizedPnL
+@JsonKey(name: DbConstants.columnId) int? id, int number,@EnumConverter(Symbol.values) Symbol symbol,@EnumConverter(Exchange.values) Exchange exchange,@EnumConverter(Side.values) Side side, double quantity,@JsonKey(name: DbConstants.columnPrice) double fillPrice,@DateTimeConverter() DateTime placingTime,@EnumConverter(OrderStatus.values) OrderStatus status, double? takeProfit, double? stopLoss,@DateTimeConverter() DateTime? closingTime, String? leverage, double? margin, double? realizedPnL
 });
 
 
@@ -65,9 +65,10 @@ class _$OrderCopyWithImpl<$Res>
 
 /// Create a copy of Order
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? number = null,Object? symbol = null,Object? exchange = null,Object? side = null,Object? quantity = null,Object? fillPrice = null,Object? placingTime = null,Object? status = null,Object? takeProfit = freezed,Object? stopLoss = freezed,Object? closingTime = freezed,Object? leverage = freezed,Object? margin = freezed,Object? realizedPnL = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? number = null,Object? symbol = null,Object? exchange = null,Object? side = null,Object? quantity = null,Object? fillPrice = null,Object? placingTime = null,Object? status = null,Object? takeProfit = freezed,Object? stopLoss = freezed,Object? closingTime = freezed,Object? leverage = freezed,Object? margin = freezed,Object? realizedPnL = freezed,}) {
   return _then(_self.copyWith(
-number: null == number ? _self.number : number // ignore: cast_nullable_to_non_nullable
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int?,number: null == number ? _self.number : number // ignore: cast_nullable_to_non_nullable
 as int,symbol: null == symbol ? _self.symbol : symbol // ignore: cast_nullable_to_non_nullable
 as Symbol,exchange: null == exchange ? _self.exchange : exchange // ignore: cast_nullable_to_non_nullable
 as Exchange,side: null == side ? _self.side : side // ignore: cast_nullable_to_non_nullable
@@ -166,10 +167,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int number,  Symbol symbol,  Exchange exchange,  Side side,  double quantity, @JsonKey(name: 'price')  double fillPrice,  DateTime placingTime,  OrderStatus status,  double? takeProfit,  double? stopLoss,  DateTime? closingTime,  String? leverage,  double? margin,  double? realizedPnL)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: DbConstants.columnId)  int? id,  int number, @EnumConverter(Symbol.values)  Symbol symbol, @EnumConverter(Exchange.values)  Exchange exchange, @EnumConverter(Side.values)  Side side,  double quantity, @JsonKey(name: DbConstants.columnPrice)  double fillPrice, @DateTimeConverter()  DateTime placingTime, @EnumConverter(OrderStatus.values)  OrderStatus status,  double? takeProfit,  double? stopLoss, @DateTimeConverter()  DateTime? closingTime,  String? leverage,  double? margin,  double? realizedPnL)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Order() when $default != null:
-return $default(_that.number,_that.symbol,_that.exchange,_that.side,_that.quantity,_that.fillPrice,_that.placingTime,_that.status,_that.takeProfit,_that.stopLoss,_that.closingTime,_that.leverage,_that.margin,_that.realizedPnL);case _:
+return $default(_that.id,_that.number,_that.symbol,_that.exchange,_that.side,_that.quantity,_that.fillPrice,_that.placingTime,_that.status,_that.takeProfit,_that.stopLoss,_that.closingTime,_that.leverage,_that.margin,_that.realizedPnL);case _:
   return orElse();
 
 }
@@ -187,10 +188,10 @@ return $default(_that.number,_that.symbol,_that.exchange,_that.side,_that.quanti
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int number,  Symbol symbol,  Exchange exchange,  Side side,  double quantity, @JsonKey(name: 'price')  double fillPrice,  DateTime placingTime,  OrderStatus status,  double? takeProfit,  double? stopLoss,  DateTime? closingTime,  String? leverage,  double? margin,  double? realizedPnL)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: DbConstants.columnId)  int? id,  int number, @EnumConverter(Symbol.values)  Symbol symbol, @EnumConverter(Exchange.values)  Exchange exchange, @EnumConverter(Side.values)  Side side,  double quantity, @JsonKey(name: DbConstants.columnPrice)  double fillPrice, @DateTimeConverter()  DateTime placingTime, @EnumConverter(OrderStatus.values)  OrderStatus status,  double? takeProfit,  double? stopLoss, @DateTimeConverter()  DateTime? closingTime,  String? leverage,  double? margin,  double? realizedPnL)  $default,) {final _that = this;
 switch (_that) {
 case _Order():
-return $default(_that.number,_that.symbol,_that.exchange,_that.side,_that.quantity,_that.fillPrice,_that.placingTime,_that.status,_that.takeProfit,_that.stopLoss,_that.closingTime,_that.leverage,_that.margin,_that.realizedPnL);case _:
+return $default(_that.id,_that.number,_that.symbol,_that.exchange,_that.side,_that.quantity,_that.fillPrice,_that.placingTime,_that.status,_that.takeProfit,_that.stopLoss,_that.closingTime,_that.leverage,_that.margin,_that.realizedPnL);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -207,10 +208,10 @@ return $default(_that.number,_that.symbol,_that.exchange,_that.side,_that.quanti
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int number,  Symbol symbol,  Exchange exchange,  Side side,  double quantity, @JsonKey(name: 'price')  double fillPrice,  DateTime placingTime,  OrderStatus status,  double? takeProfit,  double? stopLoss,  DateTime? closingTime,  String? leverage,  double? margin,  double? realizedPnL)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: DbConstants.columnId)  int? id,  int number, @EnumConverter(Symbol.values)  Symbol symbol, @EnumConverter(Exchange.values)  Exchange exchange, @EnumConverter(Side.values)  Side side,  double quantity, @JsonKey(name: DbConstants.columnPrice)  double fillPrice, @DateTimeConverter()  DateTime placingTime, @EnumConverter(OrderStatus.values)  OrderStatus status,  double? takeProfit,  double? stopLoss, @DateTimeConverter()  DateTime? closingTime,  String? leverage,  double? margin,  double? realizedPnL)?  $default,) {final _that = this;
 switch (_that) {
 case _Order() when $default != null:
-return $default(_that.number,_that.symbol,_that.exchange,_that.side,_that.quantity,_that.fillPrice,_that.placingTime,_that.status,_that.takeProfit,_that.stopLoss,_that.closingTime,_that.leverage,_that.margin,_that.realizedPnL);case _:
+return $default(_that.id,_that.number,_that.symbol,_that.exchange,_that.side,_that.quantity,_that.fillPrice,_that.placingTime,_that.status,_that.takeProfit,_that.stopLoss,_that.closingTime,_that.leverage,_that.margin,_that.realizedPnL);case _:
   return null;
 
 }
@@ -222,20 +223,21 @@ return $default(_that.number,_that.symbol,_that.exchange,_that.side,_that.quanti
 @JsonSerializable()
 
 class _Order extends Order {
-  const _Order({required this.number, required this.symbol, required this.exchange, required this.side, required this.quantity, @JsonKey(name: 'price') required this.fillPrice, required this.placingTime, required this.status, this.takeProfit, this.stopLoss, this.closingTime, this.leverage, this.margin, this.realizedPnL}): super._();
+  const _Order({@JsonKey(name: DbConstants.columnId) this.id, required this.number, @EnumConverter(Symbol.values) required this.symbol, @EnumConverter(Exchange.values) required this.exchange, @EnumConverter(Side.values) required this.side, required this.quantity, @JsonKey(name: DbConstants.columnPrice) required this.fillPrice, @DateTimeConverter() required this.placingTime, @EnumConverter(OrderStatus.values) required this.status, this.takeProfit, this.stopLoss, @DateTimeConverter() this.closingTime, this.leverage, this.margin, this.realizedPnL}): super._();
   factory _Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
 
+@override@JsonKey(name: DbConstants.columnId) final  int? id;
 @override final  int number;
-@override final  Symbol symbol;
-@override final  Exchange exchange;
-@override final  Side side;
+@override@EnumConverter(Symbol.values) final  Symbol symbol;
+@override@EnumConverter(Exchange.values) final  Exchange exchange;
+@override@EnumConverter(Side.values) final  Side side;
 @override final  double quantity;
-@override@JsonKey(name: 'price') final  double fillPrice;
-@override final  DateTime placingTime;
-@override final  OrderStatus status;
+@override@JsonKey(name: DbConstants.columnPrice) final  double fillPrice;
+@override@DateTimeConverter() final  DateTime placingTime;
+@override@EnumConverter(OrderStatus.values) final  OrderStatus status;
 @override final  double? takeProfit;
 @override final  double? stopLoss;
-@override final  DateTime? closingTime;
+@override@DateTimeConverter() final  DateTime? closingTime;
 @override final  String? leverage;
 @override final  double? margin;
 @override final  double? realizedPnL;
@@ -253,16 +255,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Order&&(identical(other.number, number) || other.number == number)&&(identical(other.symbol, symbol) || other.symbol == symbol)&&(identical(other.exchange, exchange) || other.exchange == exchange)&&(identical(other.side, side) || other.side == side)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.fillPrice, fillPrice) || other.fillPrice == fillPrice)&&(identical(other.placingTime, placingTime) || other.placingTime == placingTime)&&(identical(other.status, status) || other.status == status)&&(identical(other.takeProfit, takeProfit) || other.takeProfit == takeProfit)&&(identical(other.stopLoss, stopLoss) || other.stopLoss == stopLoss)&&(identical(other.closingTime, closingTime) || other.closingTime == closingTime)&&(identical(other.leverage, leverage) || other.leverage == leverage)&&(identical(other.margin, margin) || other.margin == margin)&&(identical(other.realizedPnL, realizedPnL) || other.realizedPnL == realizedPnL));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Order&&(identical(other.id, id) || other.id == id)&&(identical(other.number, number) || other.number == number)&&(identical(other.symbol, symbol) || other.symbol == symbol)&&(identical(other.exchange, exchange) || other.exchange == exchange)&&(identical(other.side, side) || other.side == side)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.fillPrice, fillPrice) || other.fillPrice == fillPrice)&&(identical(other.placingTime, placingTime) || other.placingTime == placingTime)&&(identical(other.status, status) || other.status == status)&&(identical(other.takeProfit, takeProfit) || other.takeProfit == takeProfit)&&(identical(other.stopLoss, stopLoss) || other.stopLoss == stopLoss)&&(identical(other.closingTime, closingTime) || other.closingTime == closingTime)&&(identical(other.leverage, leverage) || other.leverage == leverage)&&(identical(other.margin, margin) || other.margin == margin)&&(identical(other.realizedPnL, realizedPnL) || other.realizedPnL == realizedPnL));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,number,symbol,exchange,side,quantity,fillPrice,placingTime,status,takeProfit,stopLoss,closingTime,leverage,margin,realizedPnL);
+int get hashCode => Object.hash(runtimeType,id,number,symbol,exchange,side,quantity,fillPrice,placingTime,status,takeProfit,stopLoss,closingTime,leverage,margin,realizedPnL);
 
 @override
 String toString() {
-  return 'Order(number: $number, symbol: $symbol, exchange: $exchange, side: $side, quantity: $quantity, fillPrice: $fillPrice, placingTime: $placingTime, status: $status, takeProfit: $takeProfit, stopLoss: $stopLoss, closingTime: $closingTime, leverage: $leverage, margin: $margin, realizedPnL: $realizedPnL)';
+  return 'Order(id: $id, number: $number, symbol: $symbol, exchange: $exchange, side: $side, quantity: $quantity, fillPrice: $fillPrice, placingTime: $placingTime, status: $status, takeProfit: $takeProfit, stopLoss: $stopLoss, closingTime: $closingTime, leverage: $leverage, margin: $margin, realizedPnL: $realizedPnL)';
 }
 
 
@@ -273,7 +275,7 @@ abstract mixin class _$OrderCopyWith<$Res> implements $OrderCopyWith<$Res> {
   factory _$OrderCopyWith(_Order value, $Res Function(_Order) _then) = __$OrderCopyWithImpl;
 @override @useResult
 $Res call({
- int number, Symbol symbol, Exchange exchange, Side side, double quantity,@JsonKey(name: 'price') double fillPrice, DateTime placingTime, OrderStatus status, double? takeProfit, double? stopLoss, DateTime? closingTime, String? leverage, double? margin, double? realizedPnL
+@JsonKey(name: DbConstants.columnId) int? id, int number,@EnumConverter(Symbol.values) Symbol symbol,@EnumConverter(Exchange.values) Exchange exchange,@EnumConverter(Side.values) Side side, double quantity,@JsonKey(name: DbConstants.columnPrice) double fillPrice,@DateTimeConverter() DateTime placingTime,@EnumConverter(OrderStatus.values) OrderStatus status, double? takeProfit, double? stopLoss,@DateTimeConverter() DateTime? closingTime, String? leverage, double? margin, double? realizedPnL
 });
 
 
@@ -290,9 +292,10 @@ class __$OrderCopyWithImpl<$Res>
 
 /// Create a copy of Order
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? number = null,Object? symbol = null,Object? exchange = null,Object? side = null,Object? quantity = null,Object? fillPrice = null,Object? placingTime = null,Object? status = null,Object? takeProfit = freezed,Object? stopLoss = freezed,Object? closingTime = freezed,Object? leverage = freezed,Object? margin = freezed,Object? realizedPnL = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? number = null,Object? symbol = null,Object? exchange = null,Object? side = null,Object? quantity = null,Object? fillPrice = null,Object? placingTime = null,Object? status = null,Object? takeProfit = freezed,Object? stopLoss = freezed,Object? closingTime = freezed,Object? leverage = freezed,Object? margin = freezed,Object? realizedPnL = freezed,}) {
   return _then(_Order(
-number: null == number ? _self.number : number // ignore: cast_nullable_to_non_nullable
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int?,number: null == number ? _self.number : number // ignore: cast_nullable_to_non_nullable
 as int,symbol: null == symbol ? _self.symbol : symbol // ignore: cast_nullable_to_non_nullable
 as Symbol,exchange: null == exchange ? _self.exchange : exchange // ignore: cast_nullable_to_non_nullable
 as Exchange,side: null == side ? _self.side : side // ignore: cast_nullable_to_non_nullable

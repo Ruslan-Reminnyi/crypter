@@ -9,23 +9,23 @@ import 'package:crypter/presentation/common/formatters/app_input_formatters.dart
 import 'package:crypter/presentation/common/validators/input_error.dart';
 import 'package:crypter/presentation/common/validators/validators.dart';
 import 'package:crypter/presentation/features/orders/notifiers/orders_notifier.dart';
-import 'package:crypter/presentation/features/orders/providers/order_by_number_provider.dart';
+import 'package:crypter/presentation/features/orders/providers/order_by_id_provider.dart';
 import 'package:crypter/presentation/features/orders/widgets/custom_dropdown_menu_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class OrderPage extends ConsumerStatefulWidget {
-  final int? number;
+  final int? id;
 
-  const OrderPage(this.number, {super.key});
+  const OrderPage(this.id, {super.key});
 
   @override
   ConsumerState<OrderPage> createState() => _OrderPageState();
 }
 
 class _OrderPageState extends ConsumerState<OrderPage> {
-  bool get _isCreation => widget.number == null;
+  bool get _isCreation => widget.id == null;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -51,7 +51,7 @@ class _OrderPageState extends ConsumerState<OrderPage> {
     super.didChangeDependencies();
 
     if (!_isCreation) {
-      _order = ref.watch(orderByNumberProvider(widget.number!));
+      _order = ref.watch(orderByIdProvider(widget.id!));
     }
 
     _initControllers();
@@ -337,7 +337,7 @@ class _OrderPageState extends ConsumerState<OrderPage> {
                 child: ElevatedButton(
                   onPressed: _onSave,
                   style: ButtonStyle(fixedSize: WidgetStatePropertyAll(Size(double.infinity, 50))),
-                  child: Text(context.l10n.save),
+                  child: Text(_isCreation ? context.l10n.save : context.l10n.update),
                 ),
               ),
               SizedBox(height: 24),
@@ -364,6 +364,7 @@ class _OrderPageState extends ConsumerState<OrderPage> {
   void _onSave() {
     if (_formKey.currentState?.validate() ?? false) {
       _order = Order(
+        id: _isCreation ? null : _order.id,
         number: int.parse(_numberController.text),
         exchange: Exchange.values.firstWhere(
           ((item) => item.displayName == _exchangeController.text),
@@ -384,7 +385,11 @@ class _OrderPageState extends ConsumerState<OrderPage> {
         realizedPnL: double.tryParse(_realizedPnLController.text),
       );
 
-      ref.read(ordersProvider.notifier).saveOrder(_order);
+      if (_isCreation) {
+        ref.read(ordersProvider.notifier).saveOrder(_order);
+      } else {
+        ref.read(ordersProvider.notifier).updateOrder(_order);
+      }
       context.pop();
     }
   }
@@ -394,7 +399,7 @@ class _OrderPageState extends ConsumerState<OrderPage> {
       final isDeleted = await showDeletionDialog(context);
 
       if (isDeleted == true && mounted) {
-        ref.read(ordersProvider.notifier).deleteOrder(int.parse(_numberController.text));
+        ref.read(ordersProvider.notifier).deleteOrder(_order.id!);
         context.pop();
       }
     }

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'order_by_number_provider.dart';
+part of 'order_by_id_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -9,29 +9,28 @@ part of 'order_by_number_provider.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(orderByNumber)
-final orderByNumberProvider = OrderByNumberFamily._();
+@ProviderFor(orderById)
+final orderByIdProvider = OrderByIdFamily._();
 
-final class OrderByNumberProvider
-    extends $FunctionalProvider<Order, Order, Order>
+final class OrderByIdProvider extends $FunctionalProvider<Order, Order, Order>
     with $Provider<Order> {
-  OrderByNumberProvider._({
-    required OrderByNumberFamily super.from,
+  OrderByIdProvider._({
+    required OrderByIdFamily super.from,
     required int super.argument,
   }) : super(
          retry: null,
-         name: r'orderByNumberProvider',
+         name: r'orderByIdProvider',
          isAutoDispose: true,
          dependencies: null,
          $allTransitiveDependencies: null,
        );
 
   @override
-  String debugGetCreateSourceHash() => _$orderByNumberHash();
+  String debugGetCreateSourceHash() => _$orderByIdHash();
 
   @override
   String toString() {
-    return r'orderByNumberProvider'
+    return r'orderByIdProvider'
         ''
         '($argument)';
   }
@@ -44,7 +43,7 @@ final class OrderByNumberProvider
   @override
   Order create(Ref ref) {
     final argument = this.argument as int;
-    return orderByNumber(ref, argument);
+    return orderById(ref, argument);
   }
 
   /// {@macro riverpod.override_with_value}
@@ -57,7 +56,7 @@ final class OrderByNumberProvider
 
   @override
   bool operator ==(Object other) {
-    return other is OrderByNumberProvider && other.argument == argument;
+    return other is OrderByIdProvider && other.argument == argument;
   }
 
   @override
@@ -66,22 +65,22 @@ final class OrderByNumberProvider
   }
 }
 
-String _$orderByNumberHash() => r'7d8676b999d3f60713f6465c3c15a0e96c00a270';
+String _$orderByIdHash() => r'30348383f38e5936a59ad1c4078c85b86e032ac9';
 
-final class OrderByNumberFamily extends $Family
+final class OrderByIdFamily extends $Family
     with $FunctionalFamilyOverride<Order, int> {
-  OrderByNumberFamily._()
+  OrderByIdFamily._()
     : super(
         retry: null,
-        name: r'orderByNumberProvider',
+        name: r'orderByIdProvider',
         dependencies: null,
         $allTransitiveDependencies: null,
         isAutoDispose: true,
       );
 
-  OrderByNumberProvider call(int number) =>
-      OrderByNumberProvider._(argument: number, from: this);
+  OrderByIdProvider call(int id) =>
+      OrderByIdProvider._(argument: id, from: this);
 
   @override
-  String toString() => r'orderByNumberProvider';
+  String toString() => r'orderByIdProvider';
 }

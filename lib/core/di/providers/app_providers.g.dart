@@ -9,46 +9,53 @@ part of 'app_providers.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(cryptoInfoRepo)
-final cryptoInfoRepoProvider = CryptoInfoRepoProvider._();
+@ProviderFor(cryptoInfoRepository)
+final cryptoInfoRepositoryProvider = CryptoInfoRepositoryProvider._();
 
-final class CryptoInfoRepoProvider
-    extends $FunctionalProvider<CryptoInfoRepo, CryptoInfoRepo, CryptoInfoRepo>
-    with $Provider<CryptoInfoRepo> {
-  CryptoInfoRepoProvider._()
+final class CryptoInfoRepositoryProvider
+    extends
+        $FunctionalProvider<
+          CryptoInfoRepository,
+          CryptoInfoRepository,
+          CryptoInfoRepository
+        >
+    with $Provider<CryptoInfoRepository> {
+  CryptoInfoRepositoryProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'cryptoInfoRepoProvider',
+        name: r'cryptoInfoRepositoryProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$cryptoInfoRepoHash();
+  String debugGetCreateSourceHash() => _$cryptoInfoRepositoryHash();
 
   @$internal
   @override
-  $ProviderElement<CryptoInfoRepo> $createElement($ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+  $ProviderElement<CryptoInfoRepository> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
 
   @override
-  CryptoInfoRepo create(Ref ref) {
-    return cryptoInfoRepo(ref);
+  CryptoInfoRepository create(Ref ref) {
+    return cryptoInfoRepository(ref);
   }
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(CryptoInfoRepo value) {
+  Override overrideWithValue(CryptoInfoRepository value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<CryptoInfoRepo>(value),
+      providerOverride: $SyncValueProvider<CryptoInfoRepository>(value),
     );
   }
 }
 
-String _$cryptoInfoRepoHash() => r'6dc2508618957373940d5c71fdbeaa7221a504c8';
+String _$cryptoInfoRepositoryHash() =>
+    r'44ac9380591b1ebc9ef1ce32cc21f3738ac539a2';
 
 @ProviderFor(binanceWebSocketService)
 final binanceWebSocketServiceProvider = BinanceWebSocketServiceProvider._();
@@ -408,3 +415,91 @@ final class RouterProvider
 }
 
 String _$routerHash() => r'2ee7b6c1055e3c0a42917025428037278a4bd6fb';
+
+@ProviderFor(sqflite)
+final sqfliteProvider = SqfliteProvider._();
+
+final class SqfliteProvider
+    extends $FunctionalProvider<Database, Database, Database>
+    with $Provider<Database> {
+  SqfliteProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'sqfliteProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$sqfliteHash();
+
+  @$internal
+  @override
+  $ProviderElement<Database> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  Database create(Ref ref) {
+    return sqflite(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(Database value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<Database>(value),
+    );
+  }
+}
+
+String _$sqfliteHash() => r'38a117e2861208f8caee37b9ed7503003070d7ee';
+
+@ProviderFor(sqfliteService)
+final sqfliteServiceProvider = SqfliteServiceProvider._();
+
+final class SqfliteServiceProvider
+    extends
+        $FunctionalProvider<
+          LocalDatabaseService,
+          LocalDatabaseService,
+          LocalDatabaseService
+        >
+    with $Provider<LocalDatabaseService> {
+  SqfliteServiceProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'sqfliteServiceProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$sqfliteServiceHash();
+
+  @$internal
+  @override
+  $ProviderElement<LocalDatabaseService> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  LocalDatabaseService create(Ref ref) {
+    return sqfliteService(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(LocalDatabaseService value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<LocalDatabaseService>(value),
+    );
+  }
+}
+
+String _$sqfliteServiceHash() => r'9a8fe1e2c35276eb217a7ed69007a62e60d05fe5';

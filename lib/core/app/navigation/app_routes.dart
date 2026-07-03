@@ -6,9 +6,9 @@ enum AppRoutes {
   workingOrders,
   filledOrders;
 
-  static String get orderPagePath => '${AppRoutes.order}/:number';
+  static String get orderPagePath => '${AppRoutes.order}/:id';
 
-  static String orderPage(int number) => '${AppRoutes.order}/$number';
+  static String orderPage(int id) => '${AppRoutes.order}/$id';
 }
 
 extension AppRoutesType on AppRoutes {

@@ -61,12 +61,12 @@ class AppRouter {
                 path: AppRoutes.orderPagePath,
                 parentNavigatorKey: rootNavigatorKey,
                 builder: (_, state) {
-                  final numberString = state.pathParameters['number'];
-                  int? number;
-                  if (numberString != null) {
-                    number = int.tryParse(numberString);
+                  final idString = state.pathParameters['id'];
+                  int? id;
+                  if (idString != null) {
+                    id = int.tryParse(idString);
                   }
-                  return OrderPage(number);
+                  return OrderPage(id);
                 },
               ),
             ],

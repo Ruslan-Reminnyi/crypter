@@ -27,7 +27,7 @@ class FilteredOrdersPage extends ConsumerWidget {
           final isDeleted = await showDeletionDialog(context);
 
           if (isDeleted == true) {
-            ref.read(ordersProvider.notifier).deleteOrder(orders[index].number);
+            ref.read(ordersProvider.notifier).deleteOrder(orders[index].id!);
           }
         },
       ),

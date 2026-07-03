@@ -1,6 +1,6 @@
 import 'package:candlesticks/candlesticks.dart';
 import 'package:crypter/core/app/navigation/app_routes.dart';
-import 'package:crypter/presentation/features/chart/providers/crypto_info_repo_stream.dart';
+import 'package:crypter/presentation/features/chart/providers/crypto_info_repository_stream.dart';
 import 'package:crypter/presentation/features/chart/widgets/chart_settings.dart';
 import 'package:flutter/material.dart' hide Interval;
 import 'package:flutter_riverpod/flutter_riverpod.dart';

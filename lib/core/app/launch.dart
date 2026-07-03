@@ -1,3 +1,4 @@
+import 'package:crypter/core/app/config/app_config.dart';
 import 'package:crypter/core/di/async_app_dependencies.dart';
 import 'package:crypter/core/app/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -10,7 +11,8 @@ Future<AsyncAppDependencies> launch() async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  final asyncAppDependencies = await AsyncAppDependencies.init();
+  final appConfig = AppConfig.fromEnvironment();
+  final asyncAppDependencies = await AsyncAppDependencies.init(appConfig);
 
   return asyncAppDependencies;
 }

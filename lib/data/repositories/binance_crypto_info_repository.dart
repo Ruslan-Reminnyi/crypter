@@ -3,18 +3,18 @@ import 'dart:convert';
 import 'package:candlesticks/candlesticks.dart';
 import 'package:crypter/data/extensions/list_extensions.dart';
 import 'package:crypter/data/remote/endpoints.dart';
-import 'package:crypter/domain/repositories/crypto_info_repo.dart';
+import 'package:crypter/domain/repositories/crypto_info_repository.dart';
 import 'package:crypter/domain/services/remote/web_socket_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart' hide Interval;
 import 'package:rxdart/rxdart.dart';
 
-class BinanceCryptoInfoRepo implements CryptoInfoRepo {
+class BinanceCryptoInfoRepository implements CryptoInfoRepository {
   final Dio _dio;
   final WebSocketService _webSocket;
   final BehaviorSubject<List<Candle>> _subject;
 
-  BinanceCryptoInfoRepo(this._dio, this._webSocket, this._subject);
+  BinanceCryptoInfoRepository(this._dio, this._webSocket, this._subject);
 
   @override
   Stream<List<Candle>> get stream => _subject.stream;

@@ -1,3 +1,6 @@
+import 'package:crypter/core/app/contants/db_constants.dart';
+import 'package:crypter/data/utils/date_time_converter.dart';
+import 'package:crypter/data/utils/enum_converter.dart';
 import 'package:crypter/domain/enums/exchange.dart';
 import 'package:crypter/domain/enums/order_status.dart';
 import 'package:crypter/domain/enums/symbol.dart';
@@ -13,17 +16,18 @@ abstract class Order with _$Order {
   const Order._();
 
   const factory Order({
+    @JsonKey(name: DbConstants.columnId) int? id,
     required int number,
-    required Symbol symbol,
-    required Exchange exchange,
-    required Side side,
+    @EnumConverter(Symbol.values) required Symbol symbol,
+    @EnumConverter(Exchange.values) required Exchange exchange,
+    @EnumConverter(Side.values) required Side side,
     required double quantity,
-    @JsonKey(name: 'price') required double fillPrice,
-    required DateTime placingTime,
-    required OrderStatus status,
+    @JsonKey(name: DbConstants.columnPrice) required double fillPrice,
+    @DateTimeConverter() required DateTime placingTime,
+    @EnumConverter(OrderStatus.values) required OrderStatus status,
     double? takeProfit,
     double? stopLoss,
-    DateTime? closingTime,
+    @DateTimeConverter() DateTime? closingTime,
     String? leverage,
     double? margin,
     double? realizedPnL,

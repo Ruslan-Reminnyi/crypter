@@ -2,7 +2,7 @@ import 'package:crypter/core/di/providers/app_providers.dart';
 import 'package:crypter/domain/enums/exchange.dart';
 import 'package:crypter/domain/enums/interval.dart';
 import 'package:crypter/domain/enums/symbol.dart';
-import 'package:crypter/domain/repositories/crypto_info_repo.dart';
+import 'package:crypter/domain/repositories/crypto_info_repository.dart';
 import 'package:crypter/domain/services/local/local_storage_service.dart';
 import 'package:crypter/presentation/features/chart/notifiers/chart_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -11,7 +11,7 @@ part 'chart_notifier.g.dart';
 
 @riverpod
 class ChartNotifier extends _$ChartNotifier {
-  CryptoInfoRepo get _cryptoInfoRepo => ref.watch(cryptoInfoRepoProvider);
+  CryptoInfoRepository get _cryptoInfoRepo => ref.watch(cryptoInfoRepositoryProvider);
   LocalStorageService get _sharedPreferences => ref.read(sharedPreferencesServiceProvider);
 
   @override

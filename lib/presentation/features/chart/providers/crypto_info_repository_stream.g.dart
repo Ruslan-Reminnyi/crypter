@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'crypto_info_repo_stream.dart';
+part of 'crypto_info_repository_stream.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -46,4 +46,4 @@ final class CandlesProvider
   }
 }
 
-String _$candlesHash() => r'9090362be5b41da3364b9b75617b8cc90e1906be';
+String _$candlesHash() => r'5a21bd82cb8b0e6ed5f61cf29eba710d13c43f3a';
