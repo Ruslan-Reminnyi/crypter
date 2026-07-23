@@ -7,7 +7,7 @@ part of 'order.dart';
 // **************************************************************************
 
 _Order _$OrderFromJson(Map<String, dynamic> json) => _Order(
-  id: (json['_id'] as num?)?.toInt(),
+  id: (json['id'] as num?)?.toInt(),
   number: (json['number'] as num).toInt(),
   symbol: $enumDecode(_$SymbolEnumMap, json['symbol']),
   exchange: $enumDecode(_$ExchangeEnumMap, json['exchange']),
@@ -15,39 +15,39 @@ _Order _$OrderFromJson(Map<String, dynamic> json) => _Order(
   quantity: (json['quantity'] as num).toDouble(),
   fillPrice: (json['price'] as num).toDouble(),
   placingTime: const DateTimeConverter().fromJson(
-    (json['placingTime'] as num).toInt(),
+    (json['placing_time'] as num).toInt(),
   ),
   status: $enumDecode(_$OrderStatusEnumMap, json['status']),
-  takeProfit: (json['takeProfit'] as num?)?.toDouble(),
-  stopLoss: (json['stopLoss'] as num?)?.toDouble(),
+  takeProfit: (json['take_profit'] as num?)?.toDouble(),
+  stopLoss: (json['stop_loss'] as num?)?.toDouble(),
   closingTime: _$JsonConverterFromJson<int, DateTime>(
-    json['closingTime'],
+    json['closing_time'],
     const DateTimeConverter().fromJson,
   ),
   leverage: json['leverage'] as String?,
   margin: (json['margin'] as num?)?.toDouble(),
-  realizedPnL: (json['realizedPnL'] as num?)?.toDouble(),
+  realizedPnL: (json['realized_pnl'] as num?)?.toDouble(),
 );
 
 Map<String, dynamic> _$OrderToJson(_Order instance) => <String, dynamic>{
-  '_id': instance.id,
+  'id': instance.id,
   'number': instance.number,
   'symbol': _$SymbolEnumMap[instance.symbol]!,
   'exchange': _$ExchangeEnumMap[instance.exchange]!,
   'side': _$SideEnumMap[instance.side]!,
   'quantity': instance.quantity,
   'price': instance.fillPrice,
-  'placingTime': const DateTimeConverter().toJson(instance.placingTime),
+  'placing_time': const DateTimeConverter().toJson(instance.placingTime),
   'status': _$OrderStatusEnumMap[instance.status]!,
-  'takeProfit': instance.takeProfit,
-  'stopLoss': instance.stopLoss,
-  'closingTime': _$JsonConverterToJson<int, DateTime>(
+  'take_profit': instance.takeProfit,
+  'stop_loss': instance.stopLoss,
+  'closing_time': _$JsonConverterToJson<int, DateTime>(
     instance.closingTime,
     const DateTimeConverter().toJson,
   ),
   'leverage': instance.leverage,
   'margin': instance.margin,
-  'realizedPnL': instance.realizedPnL,
+  'realized_pnl': instance.realizedPnL,
 };
 
 const _$SymbolEnumMap = {Symbol.ethusdt: 'ethusdt', Symbol.bnbusdt: 'bnbusdt'};

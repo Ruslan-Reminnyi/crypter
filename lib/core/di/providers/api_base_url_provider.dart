@@ -1,4 +1,4 @@
 part of 'package:crypter/core/di/providers/app_providers.dart';
 
 @riverpod
-AppRouter router(Ref ref) => AppRouter(ref.watch(authRepositoryProvider));
+String apiBaseUrl(Ref _) => AppConfig.fromEnvironment().apiBaseUrl;

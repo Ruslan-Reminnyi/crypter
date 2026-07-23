@@ -1,8 +1,8 @@
-/// API Endpoints
-// usage example: Endpoints.binanceApi.klines
-class Endpoints {
-  static final binanceApi = _BinanceEndpoints();
-  static final binanceWebSocket = _BinanceWebSocketEndpoints();
+/// Chart Endpoints
+// usage example: ChartEndpoints.binanceApi.klines
+class ChartEndpoints {
+  static final binanceApi = _BinanceApiEndpoints();
+  static final binanceWebSocket = _BinanceWebSocketApiEndpoints();
 }
 
 enum _ApiVersion {
@@ -17,7 +17,7 @@ abstract interface class _EndpointModule {
   String get path;
 }
 
-class _BinanceEndpoints extends _EndpointModule {
+class _BinanceApiEndpoints extends _EndpointModule {
   @override
   String get path => 'klines';
 
@@ -26,7 +26,7 @@ class _BinanceEndpoints extends _EndpointModule {
   }
 }
 
-class _BinanceWebSocketEndpoints extends _EndpointModule {
+class _BinanceWebSocketApiEndpoints extends _EndpointModule {
   @override
   String get path => 'wss://stream.binance.com:9443/ws';
 

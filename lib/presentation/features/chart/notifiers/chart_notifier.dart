@@ -2,6 +2,7 @@ import 'package:crypter/core/di/providers/app_providers.dart';
 import 'package:crypter/domain/enums/exchange.dart';
 import 'package:crypter/domain/enums/interval.dart';
 import 'package:crypter/domain/enums/symbol.dart';
+import 'package:crypter/domain/repositories/auth_repository.dart';
 import 'package:crypter/domain/repositories/crypto_info_repository.dart';
 import 'package:crypter/domain/services/local/local_storage_service.dart';
 import 'package:crypter/presentation/features/chart/notifiers/chart_state.dart';
@@ -11,7 +12,8 @@ part 'chart_notifier.g.dart';
 
 @riverpod
 class ChartNotifier extends _$ChartNotifier {
-  CryptoInfoRepository get _cryptoInfoRepo => ref.watch(cryptoInfoRepositoryProvider);
+  AuthRepository get _authRepository => ref.read(authRepositoryProvider);
+  CryptoInfoRepository get _cryptoInfoRepository => ref.watch(cryptoInfoRepositoryProvider);
   LocalStorageService get _sharedPreferences => ref.read(sharedPreferencesServiceProvider);
 
   @override
@@ -37,7 +39,7 @@ class ChartNotifier extends _$ChartNotifier {
   }
 
   void _initWebSocket(ChartState chartState) {
-    _cryptoInfoRepo
+    _cryptoInfoRepository
       ..subscribeToWebSocket(
         1,
         symbol: chartState.symbol.symbol,
@@ -47,7 +49,7 @@ class ChartNotifier extends _$ChartNotifier {
   }
 
   void _reconnectToWebSocket({String? previousSymbol, String? previousInterval}) {
-    _cryptoInfoRepo
+    _cryptoInfoRepository
       ..unsubscribeFromWebSocket(
         1,
         symbol: previousSymbol ?? state.symbol.symbol,
@@ -73,4 +75,6 @@ class ChartNotifier extends _$ChartNotifier {
 
     _sharedPreferences.setInterval(newInterval.timeframe);
   }
+
+  Future<bool> logout() async => await _authRepository.logout();
 }

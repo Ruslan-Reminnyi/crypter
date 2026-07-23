@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:crypter/data/remote/endpoints.dart';
+import 'package:crypter/data/remote/chart_endpoints.dart';
 import 'package:crypter/domain/services/remote/web_socket_service.dart';
 import 'package:flutter/material.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -25,7 +25,7 @@ class BinanceWebSocketService implements WebSocketService {
 
   @override
   void subscribe(int id, {required String symbol, required String interval}) {
-    final params = Endpoints.binanceWebSocket.klineStreams(symbol, interval);
+    final params = ChartEndpoints.binanceWebSocket.klineStreams(symbol, interval);
     _channel.sink.add(
       jsonEncode({
         "method": "SUBSCRIBE",
@@ -37,7 +37,7 @@ class BinanceWebSocketService implements WebSocketService {
 
   @override
   void unsubscribe(int id, {required String symbol, required String interval}) {
-    final params = Endpoints.binanceWebSocket.klineStreams(symbol, interval);
+    final params = ChartEndpoints.binanceWebSocket.klineStreams(symbol, interval);
     _channel.sink.add(
       jsonEncode({
         "method": "UNSUBSCRIBE",

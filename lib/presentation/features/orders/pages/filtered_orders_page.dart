@@ -1,5 +1,5 @@
 import 'package:crypter/domain/enums/order_tab.dart';
-import 'package:crypter/presentation/common/dialogs/deletion_dialog.dart';
+import 'package:crypter/presentation/common/dialogs/app_dialog.dart';
 import 'package:crypter/presentation/features/orders/notifiers/orders_notifier.dart';
 import 'package:crypter/presentation/features/orders/providers/filtered_orders_provider.dart';
 import 'package:crypter/presentation/features/orders/widgets/order_tile.dart';
@@ -24,9 +24,9 @@ class FilteredOrdersPage extends ConsumerWidget {
       itemBuilder: (context, index) => OrderTile(
         order: orders[index],
         onDelete: () async {
-          final isDeleted = await showDeletionDialog(context);
+          final isConfirmed = await AppDialog.orderDeletion(context);
 
-          if (isDeleted == true) {
+          if (isConfirmed == true) {
             ref.read(ordersProvider.notifier).deleteOrder(orders[index].id!);
           }
         },

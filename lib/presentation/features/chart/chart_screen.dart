@@ -1,5 +1,7 @@
 import 'package:candlesticks/candlesticks.dart';
 import 'package:crypter/core/app/navigation/app_routes.dart';
+import 'package:crypter/presentation/common/dialogs/app_dialog.dart';
+import 'package:crypter/presentation/features/chart/notifiers/chart_notifier.dart';
 import 'package:crypter/presentation/features/chart/providers/crypto_info_repository_stream.dart';
 import 'package:crypter/presentation/features/chart/widgets/chart_settings.dart';
 import 'package:flutter/material.dart' hide Interval;
@@ -20,8 +22,21 @@ class ChartScreen extends ConsumerWidget {
         title: Text(title),
         actions: [
           GestureDetector(
-            onTap: () => context.go('${AppRoutes.orders.path}/all'),
+            onTap: () => context.go('${AppRoutes.chart.path}${AppRoutes.allOrders.path}'),
             child: Icon(Icons.content_paste),
+          ),
+          SizedBox(width: 2),
+          GestureDetector(
+            onTap: () async {
+              final isConfirmed = await AppDialog.logout(context);
+              if (isConfirmed == true) {
+                final canLoggedOut = await ref.read(chartProvider.notifier).logout();
+                if (canLoggedOut && context.mounted) {
+                  context.go(AppRoutes.login.path);
+                }
+              }
+            },
+            child: Icon(Icons.exit_to_app_rounded),
           ),
         ],
       ),

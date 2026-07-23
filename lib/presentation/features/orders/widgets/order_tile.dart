@@ -15,7 +15,7 @@ class OrderTile extends StatelessWidget {
       leading: Text(order.number.toString()),
       title: Text('${order.formatDateTime(false)}'),
       trailing: GestureDetector(onTap: onDelete, child: Icon(Icons.close_rounded)),
-      onTap: () => context.push(AppRoutes.orderPage(order.id!)),
+      onTap: () => context.push(AppRoutes.orderPageFullPath(order.id!)),
     );
   }
 }

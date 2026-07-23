@@ -1,4 +1,6 @@
 enum AppRoutes {
+  login,
+  signUp,
   chart,
   orders,
   order,
@@ -6,14 +8,18 @@ enum AppRoutes {
   workingOrders,
   filledOrders;
 
-  static String get orderPagePath => '${AppRoutes.order}/:id';
+  static String get orderPath => '${AppRoutes.order.path}/:id';
 
-  static String orderPage(int id) => '${AppRoutes.order}/$id';
+  static String get orderFullPath => '${AppRoutes.chart.path}${AppRoutes.order.path}/:id';
+
+  static String orderPageFullPath(int id) => '${AppRoutes.chart.path}${AppRoutes.order.path}/$id';
 }
 
 extension AppRoutesType on AppRoutes {
   String get path => switch (this) {
-    AppRoutes.chart => '/',
+    AppRoutes.login => '/login',
+    AppRoutes.signUp => '/sign_up',
+    AppRoutes.chart => '/chart',
     AppRoutes.orders => '/orders',
     AppRoutes.order => '/order',
     AppRoutes.allOrders => '${AppRoutes.orders.path}/all',

@@ -13,8 +13,11 @@ part 'order.g.dart';
 
 @freezed
 abstract class Order with _$Order {
+  static const String kRealizedPnL = 'realized_pnl';
+
   const Order._();
 
+  @JsonSerializable(fieldRename: .snake)
   const factory Order({
     @JsonKey(name: DbConstants.columnId) int? id,
     required int number,
@@ -30,7 +33,7 @@ abstract class Order with _$Order {
     @DateTimeConverter() DateTime? closingTime,
     String? leverage,
     double? margin,
-    double? realizedPnL,
+    @JsonKey(name: Order.kRealizedPnL) double? realizedPnL,
   }) = _Order;
 
   factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);

@@ -61,4 +61,44 @@ class Validators {
     }
     return null;
   }
+
+  static InputError? name(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return EmptyInputError();
+    }
+    return null;
+  }
+
+  static InputError? email(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return EmptyInputError();
+    }
+    final regEx = RegExp(
+      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
+    );
+    if (!regEx.hasMatch(value)) {
+      return InvalidEmailFormatError();
+    }
+    return null;
+  }
+
+  static InputError? password(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return EmptyInputError();
+    }
+    if (value.length < 8) {
+      return InvalidPasswordFormatError();
+    }
+    return null;
+  }
+
+  static InputError? confirmPassword(String? value, String? password) {
+    if ((value == null || value.trim().isEmpty) && (password == null || password.trim().isEmpty)) {
+      return EmptyInputError();
+    }
+    if (value != password) {
+      return InvalidConfirmPasswordFormatError();
+    }
+    return null;
+  }
 }

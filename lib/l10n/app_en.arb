@@ -23,5 +23,19 @@
   "dateTimeFormatIs": "DateTime format is YYYY-MM-DD HH:MM",
   "useHereSomethingLike": "Use here something like 1:100",
   "thisFieldMustStartFromEitherMinusOrPlus": "This field must start from either - or +",
-  "thisDateDoesNotExist": "This date does not exist"
+  "thisDateDoesNotExist": "This date does not exist",
+  "alreadyHaveAccount": "Already have an account?",
+  "dontHaveAccountYet": "Don't have an account yet?",
+  "signUp": "Sign up",
+  "login": "Log in",
+  "nameMustBeFiftyCharactersOrLess": "Name must be 50 characters or less",
+  "emailIsNotValid": "Email is not valid",
+  "passwordMustBeAtLeastEightCharacters": "Password must be at least 8 characters",
+  "passwordsDoNotMatch": "Passwords do not match",
+  "name": "Name",
+  "email": "Email",
+  "password": "Password",
+  "confirmPassword": "Confirm password",
+  "doYouWantToLogout": "Do you want to logout?",
+  "logout": "Logout"
 }

@@ -1,9 +1,9 @@
 part of 'package:crypter/core/di/providers/app_providers.dart';
 
 @riverpod
-Dio dio(Ref ref) => Dio(
+Dio chartDio(Ref ref) => Dio(
   BaseOptions(
-    baseUrl: ref.watch(binanceApiBaseUrlProvider),
+    baseUrl: ref.watch(chartBaseUrlProvider),
     connectTimeout: DiConstants.connectTimeout,
     receiveTimeout: DiConstants.receiveTimeout,
   ),

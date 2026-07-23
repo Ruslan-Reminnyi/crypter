@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:candlesticks/candlesticks.dart';
 import 'package:crypter/data/extensions/list_extensions.dart';
-import 'package:crypter/data/remote/endpoints.dart';
+import 'package:crypter/data/remote/chart_endpoints.dart';
 import 'package:crypter/domain/repositories/crypto_info_repository.dart';
 import 'package:crypter/domain/services/remote/web_socket_service.dart';
 import 'package:dio/dio.dart';
@@ -26,7 +26,7 @@ class BinanceCryptoInfoRepository implements CryptoInfoRepository {
   }) async {
     try {
       final response = await _dio.get(
-        Endpoints.binanceApi.klines,
+        ChartEndpoints.binanceApi.klines,
         queryParameters: {
           'symbol': symbol.toUpperCase(),
           'interval': interval,

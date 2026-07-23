@@ -55,7 +55,7 @@ final class CryptoInfoRepositoryProvider
 }
 
 String _$cryptoInfoRepositoryHash() =>
-    r'44ac9380591b1ebc9ef1ce32cc21f3738ac539a2';
+    r'bd151e99f323c3ff6202b2ef924d50ae96e45227';
 
 @ProviderFor(binanceWebSocketService)
 final binanceWebSocketServiceProvider = BinanceWebSocketServiceProvider._();
@@ -151,25 +151,25 @@ final class SharedPreferencesProvider
 
 String _$sharedPreferencesHash() => r'60288ca1ce4af1c804cf7ab08dfdf385a74937ef';
 
-@ProviderFor(binanceApiBaseUrl)
-final binanceApiBaseUrlProvider = BinanceApiBaseUrlProvider._();
+@ProviderFor(chartBaseUrl)
+final chartBaseUrlProvider = ChartBaseUrlProvider._();
 
-final class BinanceApiBaseUrlProvider
+final class ChartBaseUrlProvider
     extends $FunctionalProvider<String, String, String>
     with $Provider<String> {
-  BinanceApiBaseUrlProvider._()
+  ChartBaseUrlProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'binanceApiBaseUrlProvider',
+        name: r'chartBaseUrlProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$binanceApiBaseUrlHash();
+  String debugGetCreateSourceHash() => _$chartBaseUrlHash();
 
   @$internal
   @override
@@ -178,7 +178,7 @@ final class BinanceApiBaseUrlProvider
 
   @override
   String create(Ref ref) {
-    return binanceApiBaseUrl(ref);
+    return chartBaseUrl(ref);
   }
 
   /// {@macro riverpod.override_with_value}
@@ -190,7 +190,7 @@ final class BinanceApiBaseUrlProvider
   }
 }
 
-String _$binanceApiBaseUrlHash() => r'1692c2ce987f08670024ab3fd0603c816cc4d97d';
+String _$chartBaseUrlHash() => r'46b3f39c53be4fd9dfb35bc4cafd92ea52d4d735';
 
 @ProviderFor(behaviourSubject)
 final behaviourSubjectProvider = BehaviourSubjectProvider._();
@@ -241,24 +241,24 @@ final class BehaviourSubjectProvider
 
 String _$behaviourSubjectHash() => r'877e55b6192e72b8eac3a6b3e91e4af9b799444e';
 
-@ProviderFor(dio)
-final dioProvider = DioProvider._();
+@ProviderFor(chartDio)
+final chartDioProvider = ChartDioProvider._();
 
-final class DioProvider extends $FunctionalProvider<Dio, Dio, Dio>
+final class ChartDioProvider extends $FunctionalProvider<Dio, Dio, Dio>
     with $Provider<Dio> {
-  DioProvider._()
+  ChartDioProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'dioProvider',
+        name: r'chartDioProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$dioHash();
+  String debugGetCreateSourceHash() => _$chartDioHash();
 
   @$internal
   @override
@@ -267,7 +267,7 @@ final class DioProvider extends $FunctionalProvider<Dio, Dio, Dio>
 
   @override
   Dio create(Ref ref) {
-    return dio(ref);
+    return chartDio(ref);
   }
 
   /// {@macro riverpod.override_with_value}
@@ -279,7 +279,7 @@ final class DioProvider extends $FunctionalProvider<Dio, Dio, Dio>
   }
 }
 
-String _$dioHash() => r'5fef88fcf45aeb332fac48ad9fc6e00b984f6cda';
+String _$chartDioHash() => r'6d040cc9bcababd6c997eced831fb009affd81f7';
 
 @ProviderFor(webSocketChannel)
 final webSocketChannelProvider = WebSocketChannelProvider._();
@@ -325,7 +325,7 @@ final class WebSocketChannelProvider
   }
 }
 
-String _$webSocketChannelHash() => r'bbcc5df83f96ec3be856bab0a99083150eba94c0';
+String _$webSocketChannelHash() => r'e77def9cfe8fb9660546b17d08aaa25acdeed004';
 
 @ProviderFor(sharedPreferencesService)
 final sharedPreferencesServiceProvider = SharedPreferencesServiceProvider._();
@@ -414,7 +414,7 @@ final class RouterProvider
   }
 }
 
-String _$routerHash() => r'2ee7b6c1055e3c0a42917025428037278a4bd6fb';
+String _$routerHash() => r'76999e02935bc0baf1322a5b32989f826c600f97';
 
 @ProviderFor(sqflite)
 final sqfliteProvider = SqfliteProvider._();
@@ -503,3 +503,220 @@ final class SqfliteServiceProvider
 }
 
 String _$sqfliteServiceHash() => r'9a8fe1e2c35276eb217a7ed69007a62e60d05fe5';
+
+@ProviderFor(authRepository)
+final authRepositoryProvider = AuthRepositoryProvider._();
+
+final class AuthRepositoryProvider
+    extends $FunctionalProvider<AuthRepository, AuthRepository, AuthRepository>
+    with $Provider<AuthRepository> {
+  AuthRepositoryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'authRepositoryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$authRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<AuthRepository> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  AuthRepository create(Ref ref) {
+    return authRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(AuthRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<AuthRepository>(value),
+    );
+  }
+}
+
+String _$authRepositoryHash() => r'28d84d33b40a1a6fa8d00a9193a570560b3c9b71';
+
+@ProviderFor(apiBaseUrl)
+final apiBaseUrlProvider = ApiBaseUrlProvider._();
+
+final class ApiBaseUrlProvider
+    extends $FunctionalProvider<String, String, String>
+    with $Provider<String> {
+  ApiBaseUrlProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'apiBaseUrlProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$apiBaseUrlHash();
+
+  @$internal
+  @override
+  $ProviderElement<String> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  String create(Ref ref) {
+    return apiBaseUrl(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(String value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<String>(value),
+    );
+  }
+}
+
+String _$apiBaseUrlHash() => r'028d6ecd946d777b5d17fde033ef70f6036db6d1';
+
+@ProviderFor(apiDio)
+final apiDioProvider = ApiDioProvider._();
+
+final class ApiDioProvider extends $FunctionalProvider<Dio, Dio, Dio>
+    with $Provider<Dio> {
+  ApiDioProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'apiDioProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$apiDioHash();
+
+  @$internal
+  @override
+  $ProviderElement<Dio> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  Dio create(Ref ref) {
+    return apiDio(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(Dio value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<Dio>(value),
+    );
+  }
+}
+
+String _$apiDioHash() => r'658fb192469547bfe31e43ad555f5e9a0e1d2e75';
+
+@ProviderFor(profileRepository)
+final profileRepositoryProvider = ProfileRepositoryProvider._();
+
+final class ProfileRepositoryProvider
+    extends
+        $FunctionalProvider<
+          ProfileRepository,
+          ProfileRepository,
+          ProfileRepository
+        >
+    with $Provider<ProfileRepository> {
+  ProfileRepositoryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'profileRepositoryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$profileRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<ProfileRepository> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  ProfileRepository create(Ref ref) {
+    return profileRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(ProfileRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<ProfileRepository>(value),
+    );
+  }
+}
+
+String _$profileRepositoryHash() => r'99f4f47c06de2c82060dce161f2575ad42a761b9';
+
+@ProviderFor(laravelDatabaseService)
+final laravelDatabaseServiceProvider = LaravelDatabaseServiceProvider._();
+
+final class LaravelDatabaseServiceProvider
+    extends
+        $FunctionalProvider<
+          RemoteDatabaseService,
+          RemoteDatabaseService,
+          RemoteDatabaseService
+        >
+    with $Provider<RemoteDatabaseService> {
+  LaravelDatabaseServiceProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'laravelDatabaseServiceProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$laravelDatabaseServiceHash();
+
+  @$internal
+  @override
+  $ProviderElement<RemoteDatabaseService> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  RemoteDatabaseService create(Ref ref) {
+    return laravelDatabaseService(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(RemoteDatabaseService value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<RemoteDatabaseService>(value),
+    );
+  }
+}
+
+String _$laravelDatabaseServiceHash() =>
+    r'fd97c087543208c37b1c76603cb043620fc27e39';

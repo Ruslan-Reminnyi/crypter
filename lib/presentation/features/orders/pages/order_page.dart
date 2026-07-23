@@ -4,7 +4,7 @@ import 'package:crypter/domain/enums/exchange.dart';
 import 'package:crypter/domain/enums/symbol.dart';
 import 'package:crypter/domain/enums/side.dart';
 import 'package:crypter/domain/enums/order_status.dart';
-import 'package:crypter/presentation/common/dialogs/deletion_dialog.dart';
+import 'package:crypter/presentation/common/dialogs/app_dialog.dart';
 import 'package:crypter/presentation/common/formatters/app_input_formatters.dart';
 import 'package:crypter/presentation/common/validators/input_error.dart';
 import 'package:crypter/presentation/common/validators/validators.dart';
@@ -396,9 +396,9 @@ class _OrderPageState extends ConsumerState<OrderPage> {
 
   void _onDelete() async {
     if (_formKey.currentState?.validate() ?? false) {
-      final isDeleted = await showDeletionDialog(context);
+      final isConfirmed = await AppDialog.orderDeletion(context);
 
-      if (isDeleted == true && mounted) {
+      if (isConfirmed == true && mounted) {
         ref.read(ordersProvider.notifier).deleteOrder(_order.id!);
         context.pop();
       }

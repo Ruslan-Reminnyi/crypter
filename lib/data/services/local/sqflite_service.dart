@@ -34,10 +34,11 @@ class SqfliteService implements LocalDatabaseService {
   }
 
   @override
-  Future<int> insert(Order order) async => await db.insert(DbConstants.tableOrders, order.toJson());
+  Future<int> insertOrder(Order order) async =>
+      await db.insert(DbConstants.tableOrders, order.toJson());
 
   @override
-  Future<void> update(Order order) async => await db.update(
+  Future<void> updateOrder(Order order) async => await db.update(
     DbConstants.tableOrders,
     order.toJson(),
     where: '${DbConstants.columnId} = ?',
@@ -46,7 +47,7 @@ class SqfliteService implements LocalDatabaseService {
   );
 
   @override
-  Future<Order> get(int id) async {
+  Future<Order> getOrder(int id) async {
     final maps = await db.query(
       DbConstants.tableOrders,
       columns: _allColumns,
@@ -58,14 +59,14 @@ class SqfliteService implements LocalDatabaseService {
   }
 
   @override
-  Future<List<Order>> getAll() async {
+  Future<List<Order>> getAllOrders() async {
     final maps = await db.query(DbConstants.tableOrders, columns: _allColumns);
 
     return maps.map((item) => Order.fromJson(item)).toList();
   }
 
   @override
-  Future<void> delete(int id) async => await db.delete(
+  Future<void> deleteOrder(int id) async => await db.delete(
     DbConstants.tableOrders,
     where: '${DbConstants.columnId} = ?',
     whereArgs: [id],

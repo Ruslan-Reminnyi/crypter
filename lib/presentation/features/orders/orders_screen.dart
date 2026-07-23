@@ -49,7 +49,7 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
       body: widget.navigationShell,
       floatingActionButton: Consumer(
         builder: (context, ref, child) => FloatingActionButton(
-          onPressed: () => context.push(AppRoutes.orderPagePath),
+          onPressed: () => context.push(AppRoutes.orderFullPath),
           child: Icon(Icons.add_outlined),
         ),
       ),
