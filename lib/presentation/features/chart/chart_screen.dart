@@ -19,6 +19,10 @@ class ChartScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        leading: GestureDetector(
+          onTap: () => context.go('${AppRoutes.chart.path}${AppRoutes.ai.path}'),
+          child: Icon(Icons.question_answer_rounded),
+        ),
         title: Text(title),
         actions: [
           GestureDetector(

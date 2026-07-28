@@ -1,6 +1,7 @@
 import 'package:crypter/core/app/navigation/app_routes.dart';
 import 'package:crypter/domain/enums/order_tab.dart';
 import 'package:crypter/domain/repositories/auth_repository.dart';
+import 'package:crypter/presentation/features/ai/ai_screen.dart';
 import 'package:crypter/presentation/features/auth/login_screen.dart';
 import 'package:crypter/presentation/features/auth/registration_screen.dart';
 import 'package:crypter/presentation/features/chart/chart_screen.dart';
@@ -99,6 +100,12 @@ class AppRouter {
                   }
                   return OrderPage(id);
                 },
+              ),
+              GoRoute(
+                name: AppRoutes.ai.name,
+                path: AppRoutes.ai.path,
+                parentNavigatorKey: rootNavigatorKey,
+                builder: (_, _) => AiScreen(),
               ),
             ],
           ),

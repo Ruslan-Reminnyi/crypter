@@ -55,7 +55,7 @@ final class CryptoInfoRepositoryProvider
 }
 
 String _$cryptoInfoRepositoryHash() =>
-    r'bd151e99f323c3ff6202b2ef924d50ae96e45227';
+    r'38ba7164c9e3e439f25d6aa2b5a1dd7c8b5fcbc8';
 
 @ProviderFor(binanceWebSocketService)
 final binanceWebSocketServiceProvider = BinanceWebSocketServiceProvider._();
@@ -720,3 +720,44 @@ final class LaravelDatabaseServiceProvider
 
 String _$laravelDatabaseServiceHash() =>
     r'fd97c087543208c37b1c76603cb043620fc27e39';
+
+@ProviderFor(aiRepository)
+final aiRepositoryProvider = AiRepositoryProvider._();
+
+final class AiRepositoryProvider
+    extends $FunctionalProvider<AiRepository, AiRepository, AiRepository>
+    with $Provider<AiRepository> {
+  AiRepositoryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'aiRepositoryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$aiRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<AiRepository> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  AiRepository create(Ref ref) {
+    return aiRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(AiRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<AiRepository>(value),
+    );
+  }
+}
+
+String _$aiRepositoryHash() => r'f9bc0b55a981f2c3eed44086fa23054712434dbb';

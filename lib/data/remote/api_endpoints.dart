@@ -1,9 +1,12 @@
+import 'package:crypter/core/app/config/app_config.dart';
+
 /// API Endpoints
 // usage example: ApiEndpoints.auth.login
 class ApiEndpoints {
   static final auth = _AuthEndpoints();
   static final users = _UsersEndpoints();
   static final database = _DatabaseEndpoints();
+  static final ai = _AIEndpoints();
 }
 
 enum _ApiVersion {
@@ -34,4 +37,13 @@ class _DatabaseEndpoints extends _EndpointModule {
   String get orders => '${_ApiVersion.v1.path}/$_path';
 
   String orderById(int id) => '${_ApiVersion.v1.path}/$_path/$id';
+}
+
+class _AIEndpoints extends _EndpointModule {
+  String get _path => 'ai';
+
+  String get host => AppConfig.fromEnvironment().apiBaseUrl;
+
+  String get orderCreationRecommendations =>
+      '$host${_ApiVersion.v1.path}/$_path/order-creation-recommendations';
 }
