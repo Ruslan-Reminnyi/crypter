@@ -6,6 +6,7 @@ abstract class _LocalStorageKeys {
   static const String kInterval = 'interval';
   static const String kToken = 'token';
   static const String kDeviceName = 'device_name';
+  static const String kFirebaseMessagingToken = 'firebase_messaging_token';
 }
 
 class SharedPreferencesService implements LocalStorageService {
@@ -43,6 +44,17 @@ class SharedPreferencesService implements LocalStorageService {
   @override
   Future<bool> setDeviceName(String userDevice) async =>
       await _sharedPreferences.setString(_LocalStorageKeys.kDeviceName, userDevice);
+
+  @override
+  String? get firebaseMessagingToken =>
+      _sharedPreferences.getString(_LocalStorageKeys.kFirebaseMessagingToken);
+
+  @override
+  Future<bool> setFirebaseMessagingToken(String firebaseMessagingToken) async =>
+      await _sharedPreferences.setString(
+        _LocalStorageKeys.kFirebaseMessagingToken,
+        firebaseMessagingToken,
+      );
 
   @override
   Future<bool> clear() async => await _sharedPreferences.clear();

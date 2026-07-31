@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:crypter/data/models/order/order.dart';
 import 'package:crypter/data/remote/api_endpoints.dart';
@@ -80,6 +81,31 @@ class LaravelDatabaseService implements RemoteDatabaseService {
     try {
       await _dio.delete(
         ApiEndpoints.database.orderById(id),
+        options: Options(
+          headers: {'Authorization': 'Bearer $_token', 'Accept': 'application/json'},
+        ),
+      );
+    } on DioException catch (e, st) {
+      return;
+    }
+  }
+
+  @override
+  Future<void> listenToNotifications({
+    int? orderId,
+    double stopLoss = 0.0,
+    required String symbol,
+  }) async {
+    try {
+      await _dio.post(
+        '/api/v1/fcm-notification',
+        data: {
+          'order_id': orderId,
+          'platform': Platform.operatingSystem,
+          'fcm_token': _sharedPreferencesService.firebaseMessagingToken,
+          'stop_loss': stopLoss,
+          'symbol': symbol,
+        },
         options: Options(
           headers: {'Authorization': 'Bearer $_token', 'Accept': 'application/json'},
         ),

@@ -37,5 +37,8 @@
   "password": "Password",
   "confirmPassword": "Confirm password",
   "doYouWantToLogout": "Do you want to logout?",
-  "logout": "Logout"
+  "logout": "Logout",
+  "beAware": "Be aware",
+  "wouldYouLikeToGetNotificationsAboutStopLoss": "Would you like to get notifications about the stop loss?",
+  "receive": "Receive"
 }

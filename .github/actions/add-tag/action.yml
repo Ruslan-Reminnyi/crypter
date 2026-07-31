@@ -10,7 +10,7 @@ runs:
         ${{ env.ENVIRONMENT }}/\
         ${{ env.PLATFORM }}/\
         ${{ env.VERSION }}/\
-        ${{ env.BUILD_NUMBER }}"
+        ${{ github.run_number }}"
 
         echo $TAG
         git tag $TAG

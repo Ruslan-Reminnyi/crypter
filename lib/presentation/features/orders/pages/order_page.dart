@@ -1,3 +1,4 @@
+import 'package:crypter/core/di/providers/app_providers.dart';
 import 'package:crypter/data/extensions/build_context_extensions.dart';
 import 'package:crypter/data/models/order/order.dart';
 import 'package:crypter/domain/enums/exchange.dart';
@@ -361,7 +362,7 @@ class _OrderPageState extends ConsumerState<OrderPage> {
     );
   }
 
-  void _onSave() {
+  void _onSave() async {
     if (_formKey.currentState?.validate() ?? false) {
       _order = Order(
         id: _isCreation ? null : _order.id,
@@ -390,7 +391,41 @@ class _OrderPageState extends ConsumerState<OrderPage> {
       } else {
         ref.read(ordersProvider.notifier).updateOrder(_order);
       }
-      context.pop();
+
+      final areNotificationsGranted = await ref
+          .read(notificationsRepositoryProvider)
+          .isPermissionGranted();
+      if (areNotificationsGranted) {
+        ref
+            .read(ordersProvider.notifier)
+            .listenToNotifications(
+              orderId: _order.id ?? 27,
+              stopLoss: double.tryParse(_stopLossController.text) ?? 0.0,
+              symbol: _symbolController.text,
+            );
+      } else {
+        if (mounted) {
+          final isConfirmed = await AppDialog.requestPermission(context);
+
+          if (isConfirmed == true) {
+            final granted = await ref.read(notificationsRepositoryProvider).requestPermission();
+
+            if (granted) {
+              ref
+                  .read(ordersProvider.notifier)
+                  .listenToNotifications(
+                    orderId: _isCreation ? null : _order.id,
+                    stopLoss: double.tryParse(_stopLossController.text) ?? 0.0,
+                    symbol: _symbolController.text,
+                  );
+            }
+          }
+        }
+      }
+
+      if (mounted) {
+        context.pop();
+      }
     }
   }
 

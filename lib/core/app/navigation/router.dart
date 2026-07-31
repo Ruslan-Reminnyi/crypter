@@ -111,4 +111,6 @@ class AppRouter {
           ),
         ],
       );
+
+  void navigateFromPushNotification(String route) => router.go(route);
 }

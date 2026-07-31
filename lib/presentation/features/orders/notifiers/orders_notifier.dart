@@ -92,4 +92,16 @@ class OrdersNotifier extends _$OrdersNotifier {
           debugPrint('Error deleting an order from laravel - $error');
         });
   }
+
+  void listenToNotifications({
+    required int? orderId,
+    required double stopLoss,
+    required String symbol,
+  }) {
+    _remoteDatabaseService.listenToNotifications(
+      orderId: orderId,
+      stopLoss: stopLoss,
+      symbol: symbol,
+    );
+  }
 }

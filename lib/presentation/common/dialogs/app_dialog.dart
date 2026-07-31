@@ -19,6 +19,14 @@ abstract class AppDialog {
     confirmText: context.l10n.logout,
   );
 
+  static Future<bool?> requestPermission(BuildContext context) => _show(
+    context: context,
+    title: context.l10n.beAware,
+    content: context.l10n.wouldYouLikeToGetNotificationsAboutStopLoss,
+    cancelText: context.l10n.cancel,
+    confirmText: context.l10n.receive,
+  );
+
   static Future<bool?> _show({
     required BuildContext context,
     required String title,

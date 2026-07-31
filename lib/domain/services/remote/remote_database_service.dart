@@ -8,4 +8,5 @@ abstract interface class RemoteDatabaseService {
   Future<Order> getOrder(int id);
   Future<void> updateOrder(Order order);
   Future<void> deleteOrder(int id);
+  Future<void> listenToNotifications({int? orderId, double stopLoss, required String symbol});
 }
