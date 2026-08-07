@@ -12,8 +12,9 @@ part of 'order_by_id_provider.dart';
 @ProviderFor(orderById)
 final orderByIdProvider = OrderByIdFamily._();
 
-final class OrderByIdProvider extends $FunctionalProvider<Order, Order, Order>
-    with $Provider<Order> {
+final class OrderByIdProvider
+    extends $FunctionalProvider<AsyncValue<Order>, Order, FutureOr<Order>>
+    with $FutureModifier<Order>, $FutureProvider<Order> {
   OrderByIdProvider._({
     required OrderByIdFamily super.from,
     required int super.argument,
@@ -37,21 +38,13 @@ final class OrderByIdProvider extends $FunctionalProvider<Order, Order, Order>
 
   @$internal
   @override
-  $ProviderElement<Order> $createElement($ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+  $FutureProviderElement<Order> $createElement($ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
 
   @override
-  Order create(Ref ref) {
+  FutureOr<Order> create(Ref ref) {
     final argument = this.argument as int;
     return orderById(ref, argument);
-  }
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(Order value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<Order>(value),
-    );
   }
 
   @override
@@ -65,10 +58,10 @@ final class OrderByIdProvider extends $FunctionalProvider<Order, Order, Order>
   }
 }
 
-String _$orderByIdHash() => r'30348383f38e5936a59ad1c4078c85b86e032ac9';
+String _$orderByIdHash() => r'c8928a0d04f915ffea9748e8f5ca2f5ad0c881a2';
 
 final class OrderByIdFamily extends $Family
-    with $FunctionalFamilyOverride<Order, int> {
+    with $FunctionalFamilyOverride<FutureOr<Order>, int> {
   OrderByIdFamily._()
     : super(
         retry: null,

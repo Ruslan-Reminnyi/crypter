@@ -11,9 +11,11 @@ enum AppRoutes {
 
   static String get orderPath => '${AppRoutes.order.path}/:id';
 
-  static String get orderFullPath => '${AppRoutes.chart.path}${AppRoutes.order.path}/:id';
+  static String get orderFullPath =>
+      '${AppRoutes.chart.path}${AppRoutes.allOrders.path}${AppRoutes.order.path}/:id';
 
-  static String orderPageFullPath(int id) => '${AppRoutes.chart.path}${AppRoutes.order.path}/$id';
+  static String orderPageFullPath(int id) =>
+      '${AppRoutes.chart.path}${AppRoutes.allOrders.path}${AppRoutes.order.path}/$id';
 }
 
 extension AppRoutesType on AppRoutes {

@@ -7,6 +7,7 @@ class ApiEndpoints {
   static final users = _UsersEndpoints();
   static final database = _DatabaseEndpoints();
   static final ai = _AIEndpoints();
+  static final notifications = _NotificationsEndpoints();
 }
 
 enum _ApiVersion {
@@ -46,4 +47,8 @@ class _AIEndpoints extends _EndpointModule {
 
   String get orderCreationRecommendations =>
       '$host${_ApiVersion.v1.path}/$_path/order-creation-recommendations';
+}
+
+class _NotificationsEndpoints extends _EndpointModule {
+  String get firebaseMessaging => '${_ApiVersion.v1.path}/fcm-notification';
 }

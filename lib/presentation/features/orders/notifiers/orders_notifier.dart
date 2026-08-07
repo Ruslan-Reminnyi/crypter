@@ -1,4 +1,5 @@
 import 'package:crypter/core/di/providers/app_providers.dart';
+import 'package:crypter/data/models/firebase_messaging_notification/firebase_messaging_notification.dart';
 import 'package:crypter/data/models/order/order.dart';
 import 'package:crypter/domain/services/local/local_database_service.dart';
 import 'package:crypter/domain/services/remote/remote_database_service.dart';
@@ -10,7 +11,6 @@ part 'orders_notifier.g.dart';
 @riverpod
 class OrdersNotifier extends _$OrdersNotifier {
   LocalDatabaseService get _databaseService => ref.read(sqfliteServiceProvider);
-
   RemoteDatabaseService get _remoteDatabaseService => ref.watch(laravelDatabaseServiceProvider);
 
   @override
@@ -37,24 +37,19 @@ class OrdersNotifier extends _$OrdersNotifier {
         });
   }
 
-  void saveOrder(Order order) {
-    _remoteDatabaseService
-        .createOrder(order)
-        .then((newId) {
-          final newOrder = order.copyWith(id: newId);
+  Future<int?> saveOrder(Order order) async {
+    try {
+      int? newId = await _remoteDatabaseService.createOrder(order);
+      final newOrder = order.copyWith(id: newId);
+      _databaseService.insertOrder(newOrder);
 
-          _databaseService
-              .insertOrder(newOrder)
-              .then((_) {
-                state = [...state, newOrder];
-              })
-              .catchError((error) {
-                debugPrint('Error saving an order to sqflite - $error');
-              });
-        })
-        .catchError((error) {
-          debugPrint('Error saving an order to laravel - $error');
-        });
+      state = [...state, newOrder];
+
+      return newId;
+    } catch (e, st) {
+      debugPrint('Error saving an order - $e\n$st');
+      return null;
+    }
   }
 
   void updateOrder(Order order) {
@@ -93,15 +88,6 @@ class OrdersNotifier extends _$OrdersNotifier {
         });
   }
 
-  void listenToNotifications({
-    required int? orderId,
-    required double stopLoss,
-    required String symbol,
-  }) {
-    _remoteDatabaseService.listenToNotifications(
-      orderId: orderId,
-      stopLoss: stopLoss,
-      symbol: symbol,
-    );
-  }
+  void getStopLossNotifications(FirebaseMessagingNotification firebaseMessagingNotification) =>
+      _remoteDatabaseService.getStopLossNotifications(firebaseMessagingNotification);
 }

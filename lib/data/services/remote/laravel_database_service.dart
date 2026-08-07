@@ -1,6 +1,5 @@
 import 'dart:async';
-import 'dart:io';
-
+import 'package:crypter/data/models/firebase_messaging_notification/firebase_messaging_notification.dart';
 import 'package:crypter/data/models/order/order.dart';
 import 'package:crypter/data/remote/api_endpoints.dart';
 import 'package:crypter/domain/services/local/local_storage_service.dart';
@@ -91,21 +90,15 @@ class LaravelDatabaseService implements RemoteDatabaseService {
   }
 
   @override
-  Future<void> listenToNotifications({
-    int? orderId,
-    double stopLoss = 0.0,
-    required String symbol,
-  }) async {
+  Future<void> getStopLossNotifications(
+    FirebaseMessagingNotification firebaseMessagingNotification,
+  ) async {
     try {
       await _dio.post(
-        '/api/v1/fcm-notification',
-        data: {
-          'order_id': orderId,
-          'platform': Platform.operatingSystem,
-          'fcm_token': _sharedPreferencesService.firebaseMessagingToken,
-          'stop_loss': stopLoss,
-          'symbol': symbol,
-        },
+        ApiEndpoints.notifications.firebaseMessaging,
+        data: firebaseMessagingNotification
+            .copyWith(firebaseMessagingToken: _sharedPreferencesService.firebaseMessagingToken)
+            .toJson(),
         options: Options(
           headers: {'Authorization': 'Bearer $_token', 'Accept': 'application/json'},
         ),

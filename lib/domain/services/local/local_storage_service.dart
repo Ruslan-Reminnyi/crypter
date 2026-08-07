@@ -8,7 +8,7 @@ abstract interface class LocalStorageService {
   Future<bool> removeToken();
   String? get deviceName;
   Future<bool> setDeviceName(String userDevice);
-  Future<bool> setFirebaseMessagingToken(String firebaseMessagingToken);
   String? get firebaseMessagingToken;
+  Future<bool> setFirebaseMessagingToken(String firebaseMessagingToken);
   Future<bool> clear();
 }

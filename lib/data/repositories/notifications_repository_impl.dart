@@ -11,15 +11,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-const String vapid =
+const String kVapidKey =
     'BNoMvvVKpWqpBzrPg02A8l4zHSv7hph19bwgqrcfuPIiJqqpfzrEShNd1YKEKcL2JFgBt96mXRf7jZRAKLA4U6E';
+const String kRoute = 'route';
 
 @pragma('vm:entry-point')
 Future<void> _handleBackgroundMessage(RemoteMessage remoteMessage) async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
-  print('onBackgroundMessage $remoteMessage');
 }
 
 class NotificationsRepositoryImpl implements NotificationsRepository {
@@ -34,61 +33,37 @@ class NotificationsRepositoryImpl implements NotificationsRepository {
 
   @override
   Future<void> initialize() async {
-    _initializeLocalNotifications();
+    _initializeFlutterLocalNotifications();
     _initializeFirebaseMessagin();
-    final token = await _firebaseMessaging.getToken();
+
+    final token = kIsWeb
+        ? await _firebaseMessaging.getToken(vapidKey: kVapidKey)
+        : Platform.isAndroid
+        ? await _firebaseMessaging.getToken()
+        : await _firebaseMessaging.getAPNSToken();
     if (token != null) {
       _sharedPreferencesService.setFirebaseMessagingToken(token);
     }
   }
 
-  void _initializeFirebaseMessagin() async {
-    await _firebaseMessaging.setForegroundNotificationPresentationOptions(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
-
-    FirebaseMessaging.onBackgroundMessage(_handleBackgroundMessage);
-
-    final initialMessage = await _firebaseMessaging.getInitialMessage();
-    if (initialMessage != null) {
-      router.navigateFromPushNotification(initialMessage.data['route']);
-    }
-
-    FirebaseMessaging.onMessageOpenedApp.listen((remoteMessage) {
-      router.navigateFromPushNotification(remoteMessage.data['route']);
-    });
-
-    if (Platform.isAndroid) {
-      FirebaseMessaging.onMessage.listen((remoteMessage) async {
-        showNotification(
-          title: remoteMessage.notification?.title,
-          body: remoteMessage.notification?.body,
-          payload: remoteMessage.data['route'],
-        );
-      });
-    }
-  }
-
-  void _initializeLocalNotifications() async {
-    final WebInitializationSettings webInitializationSettings = WebInitializationSettings();
-    final AndroidInitializationSettings androidSettings = AndroidInitializationSettings(
-      '@mipmap/ic_launcher',
-    );
-    final IOSInitializationSettings iosSettings = IOSInitializationSettings(
+  void _initializeFlutterLocalNotifications() async {
+    final webSettings = WebInitializationSettings();
+    final androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
+    final iosSettings = IOSInitializationSettings(
       requestAlertPermission: false,
       requestBadgePermission: false,
       requestSoundPermission: false,
     );
-    final InitializationSettings initializationSettings = InitializationSettings(
+
+    final initializationSettings = InitializationSettings(
+      web: webSettings,
       android: androidSettings,
       iOS: iosSettings,
-      web: webInitializationSettings,
     );
+
     await _flutterLocalNotificationsPlugin.initialize(
       settings: initializationSettings,
-      onDidReceiveNotificationResponse: (NotificationResponse notificationResponse) async {
+      onDidReceiveNotificationResponse: (notificationResponse) {
         final payload = notificationResponse.payload;
 
         if (payload != null) {
@@ -96,6 +71,37 @@ class NotificationsRepositoryImpl implements NotificationsRepository {
         }
       },
     );
+  }
+
+  void _initializeFirebaseMessagin() async {
+    FirebaseMessaging.onBackgroundMessage(_handleBackgroundMessage);
+
+    final initialMessage = await _firebaseMessaging.getInitialMessage();
+    if (initialMessage != null) {
+      router.navigateFromPushNotification(initialMessage.data[kRoute]);
+    }
+
+    FirebaseMessaging.onMessageOpenedApp.listen((remoteMessage) {
+      router.navigateFromPushNotification(remoteMessage.data[kRoute]);
+    });
+
+    if (Platform.isIOS) {
+      await _firebaseMessaging.setForegroundNotificationPresentationOptions(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
+    }
+
+    if (Platform.isAndroid) {
+      FirebaseMessaging.onMessage.listen((remoteMessage) async {
+        showNotification(
+          title: remoteMessage.notification?.title,
+          body: remoteMessage.notification?.body,
+          payload: remoteMessage.data[kRoute],
+        );
+      });
+    }
   }
 
   @override
@@ -123,7 +129,7 @@ class NotificationsRepositoryImpl implements NotificationsRepository {
     await _firebaseMessaging.requestPermission(alert: true, badge: true, sound: true);
 
     if (kIsWeb) {
-      final token = await _firebaseMessaging.getToken(vapidKey: vapid);
+      final token = await _firebaseMessaging.getToken(vapidKey: kVapidKey);
       if (token != null) {
         _sharedPreferencesService.setFirebaseMessagingToken(token);
       }
@@ -157,22 +163,21 @@ class NotificationsRepositoryImpl implements NotificationsRepository {
 
   @override
   Future<void> showNotification({String? title, String? body, String? payload}) async {
-    final AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
+    final androidDetails = AndroidNotificationDetails(
       '0',
       'channel_notification',
       channelDescription: 'android channel',
       icon: '@mipmap/ic_launcher',
     );
-    final DarwinNotificationDetails iosDetails = DarwinNotificationDetails();
-    final NotificationDetails notificationDetails = NotificationDetails(
-      android: androidDetails,
-      iOS: iosDetails,
-    );
+    final iosDetails = DarwinNotificationDetails();
+
+    final notificationDetails = NotificationDetails(android: androidDetails, iOS: iosDetails);
+
     await _flutterLocalNotificationsPlugin.show(
       id: 0,
+      notificationDetails: notificationDetails,
       title: title,
       body: body,
-      notificationDetails: notificationDetails,
       payload: payload,
     );
   }

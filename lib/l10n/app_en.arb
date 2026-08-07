@@ -38,7 +38,7 @@
   "confirmPassword": "Confirm password",
   "doYouWantToLogout": "Do you want to logout?",
   "logout": "Logout",
-  "beAware": "Be aware",
+  "getStopLossThresholdAlerts": "Get this stop loss threshold alerts",
   "wouldYouLikeToGetNotificationsAboutStopLoss": "Would you like to get notifications about the stop loss?",
   "receive": "Receive"
 }
