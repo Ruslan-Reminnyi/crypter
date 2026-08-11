@@ -15,6 +15,7 @@ import 'package:crypter/presentation/common/validators/validators.dart';
 import 'package:crypter/presentation/features/orders/notifiers/orders_notifier.dart';
 import 'package:crypter/presentation/features/orders/providers/order_by_id_provider.dart';
 import 'package:crypter/presentation/features/orders/widgets/custom_dropdown_menu_form_field.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -398,7 +399,7 @@ class _OrderPageState extends ConsumerState<OrderPage> {
   Future<void> _getNotificationsIfPermissionGranted(int? newId) async {
     final firebaseMessagingNotification = FirebaseMessagingNotification(
       orderId: _isCreation ? newId : _order.id,
-      platform: Platform.operatingSystem,
+      platform: kIsWeb ? 'web' : Platform.operatingSystem,
       symbol: _symbolController.text,
       side: _sideController.text,
       stopLoss: double.tryParse(_stopLossController.text) ?? 0.0,

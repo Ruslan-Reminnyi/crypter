@@ -41,12 +41,13 @@
     For more details:
     * https://docs.flutter.dev/platform-integration/web/initialization
   -->
-  <script src="flutter_bootstrap.js" async>
+  <script src="flutter_bootstrap.js" async></script>
+  <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function () {
-        navigator.serviceWorker.register('firebase-messaging-sw.js', {
-          scope: '/firebase-cloud-messaging-push-scope',
-        });
+        navigator.serviceWorker.register('/firebase-messaging-sw.js')
+        .then(reg => console.log("FCM registered successfully in:", reg))
+        .catch(err => console.error("Error FCM SW registration:", err));
       });
     }
   </script>

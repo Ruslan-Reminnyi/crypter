@@ -34,7 +34,7 @@ class NotificationsRepositoryImpl implements NotificationsRepository {
   @override
   Future<void> initialize() async {
     _initializeFlutterLocalNotifications();
-    _initializeFirebaseMessagin();
+    _initializeFirebaseMessaging();
 
     final token = kIsWeb
         ? await _firebaseMessaging.getToken(vapidKey: kVapidKey)
@@ -73,8 +73,10 @@ class NotificationsRepositoryImpl implements NotificationsRepository {
     );
   }
 
-  void _initializeFirebaseMessagin() async {
-    FirebaseMessaging.onBackgroundMessage(_handleBackgroundMessage);
+  void _initializeFirebaseMessaging() async {
+    if (!kIsWeb) {
+      FirebaseMessaging.onBackgroundMessage(_handleBackgroundMessage);
+    }
 
     final initialMessage = await _firebaseMessaging.getInitialMessage();
     if (initialMessage != null) {
@@ -85,7 +87,7 @@ class NotificationsRepositoryImpl implements NotificationsRepository {
       router.navigateFromPushNotification(remoteMessage.data[kRoute]);
     });
 
-    if (Platform.isIOS) {
+    if (!kIsWeb && Platform.isIOS) {
       await _firebaseMessaging.setForegroundNotificationPresentationOptions(
         alert: true,
         badge: true,
@@ -93,15 +95,13 @@ class NotificationsRepositoryImpl implements NotificationsRepository {
       );
     }
 
-    if (Platform.isAndroid) {
-      FirebaseMessaging.onMessage.listen((remoteMessage) async {
-        showNotification(
-          title: remoteMessage.notification?.title,
-          body: remoteMessage.notification?.body,
-          payload: remoteMessage.data[kRoute],
-        );
-      });
-    }
+    FirebaseMessaging.onMessage.listen((remoteMessage) async {
+      showNotification(
+        title: remoteMessage.notification?.title,
+        body: remoteMessage.notification?.body,
+        payload: remoteMessage.data[kRoute],
+      );
+    });
   }
 
   @override
@@ -163,6 +163,7 @@ class NotificationsRepositoryImpl implements NotificationsRepository {
 
   @override
   Future<void> showNotification({String? title, String? body, String? payload}) async {
+    final webDetails = WebNotificationDetails();
     final androidDetails = AndroidNotificationDetails(
       '0',
       'channel_notification',
@@ -171,7 +172,11 @@ class NotificationsRepositoryImpl implements NotificationsRepository {
     );
     final iosDetails = DarwinNotificationDetails();
 
-    final notificationDetails = NotificationDetails(android: androidDetails, iOS: iosDetails);
+    final notificationDetails = NotificationDetails(
+      web: webDetails,
+      android: androidDetails,
+      iOS: iosDetails,
+    );
 
     await _flutterLocalNotificationsPlugin.show(
       id: 0,
