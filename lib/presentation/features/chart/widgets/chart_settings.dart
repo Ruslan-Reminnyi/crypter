@@ -2,7 +2,7 @@ import 'package:crypter/domain/enums/exchange.dart';
 import 'package:crypter/domain/enums/interval.dart';
 import 'package:crypter/domain/enums/symbol.dart';
 import 'package:crypter/presentation/features/chart/notifiers/chart_notifier.dart';
-import 'package:crypter/presentation/features/chart/widgets/custom_dropdown_menu.dart';
+import 'package:crypter/presentation/common/widgets/custom_dropdown_menu.dart';
 import 'package:flutter/material.dart' hide Interval;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

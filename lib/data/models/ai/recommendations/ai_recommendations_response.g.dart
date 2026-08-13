@@ -9,6 +9,8 @@ part of 'ai_recommendations_response.dart';
 _AiRecommendationsResponse _$AiRecommendationsResponseFromJson(
   Map<String, dynamic> json,
 ) => _AiRecommendationsResponse(
+  title: json['title'] as String,
+  description: json['description'] as String,
   recommendations: (json['recommendations'] as List<dynamic>)
       .map((e) => AiRecommendation.fromJson(e as Map<String, dynamic>))
       .toList(),
@@ -16,4 +18,8 @@ _AiRecommendationsResponse _$AiRecommendationsResponseFromJson(
 
 Map<String, dynamic> _$AiRecommendationsResponseToJson(
   _AiRecommendationsResponse instance,
-) => <String, dynamic>{'recommendations': instance.recommendations};
+) => <String, dynamic>{
+  'title': instance.title,
+  'description': instance.description,
+  'recommendations': instance.recommendations,
+};

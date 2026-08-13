@@ -1,9 +1,10 @@
-import 'package:crypter/data/models/ai/recommendations/ai_recommendation.dart';
+import 'package:crypter/data/models/ai/recommendations/ai_recommendations_response.dart';
 
 abstract interface class AiRepository {
-  Future<List<AiRecommendation>> generateOrderCreationRecommendations({
+  Future<AiRecommendationsResponse?> generateOrderCreationRecommendations({
     required String symbol,
     required String interval,
     required int limit,
+    required String prompt,
   });
 }

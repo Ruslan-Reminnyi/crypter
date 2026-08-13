@@ -40,5 +40,10 @@
   "logout": "Logout",
   "getStopLossThresholdAlerts": "Get this stop loss threshold alerts",
   "wouldYouLikeToGetNotificationsAboutStopLoss": "Would you like to get notifications about the stop loss?",
-  "receive": "Receive"
+  "receive": "Receive",
+  "limit": "Limit",
+  "promptMustBeAtLeastTwentyCharacters": "Prompt must be at least 20 characters",
+  "askAIToGenerateRecommendationsForCreatingOrder": "Ask AI to generate recommendations for creating an order",
+  "generate": "Generate",
+  "ai": "AI"
 }

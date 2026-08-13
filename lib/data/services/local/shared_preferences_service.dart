@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 abstract class _LocalStorageKeys {
   static const String kSymbol = 'symbol';
   static const String kInterval = 'interval';
+  static const String kLimit = 'limit';
   static const String kToken = 'token';
   static const String kDeviceName = 'device_name';
   static const String kFirebaseMessagingToken = 'firebase_messaging_token';
@@ -27,6 +28,13 @@ class SharedPreferencesService implements LocalStorageService {
   @override
   Future<bool> setInterval(String interval) async =>
       await _sharedPreferences.setString(_LocalStorageKeys.kInterval, interval);
+
+  @override
+  int? get limit => _sharedPreferences.getInt(_LocalStorageKeys.kLimit);
+
+  @override
+  Future<bool> setLimit(int limit) async =>
+      await _sharedPreferences.setInt(_LocalStorageKeys.kLimit, limit);
 
   @override
   String? get token => _sharedPreferences.getString(_LocalStorageKeys.kToken);

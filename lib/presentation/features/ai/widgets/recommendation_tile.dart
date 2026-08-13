@@ -1,3 +1,4 @@
+import 'package:crypter/data/extensions/build_context_extensions.dart';
 import 'package:crypter/data/models/ai/recommendations/ai_recommendation.dart';
 import 'package:flutter/material.dart';
 
@@ -12,9 +13,9 @@ class RecommendationTile extends StatelessWidget {
       crossAxisAlignment: .start,
       children: [
         Text(recommendation.orderType),
-        Text(recommendation.takeProfit.toString()),
-        Text(recommendation.stopLoss.toString()),
-        Text(recommendation.explanation),
+        Text('${context.l10n.takeProfit}: ${recommendation.takeProfit}'),
+        Text('${context.l10n.stopLoss}: ${recommendation.stopLoss}'),
+        Text(recommendation.explanation, textAlign: .justify),
       ],
     );
   }

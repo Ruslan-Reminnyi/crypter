@@ -6,8 +6,11 @@ part 'ai_recommendations_response.g.dart';
 
 @freezed
 abstract class AiRecommendationsResponse with _$AiRecommendationsResponse {
-  const factory AiRecommendationsResponse({required List<AiRecommendation> recommendations}) =
-      _AiRecommendationsResponse;
+  const factory AiRecommendationsResponse({
+    required String title,
+    required String description,
+    required List<AiRecommendation> recommendations,
+  }) = _AiRecommendationsResponse;
 
   factory AiRecommendationsResponse.fromJson(Map<String, dynamic> json) =>
       _$AiRecommendationsResponseFromJson(json);

@@ -12,8 +12,7 @@ part of 'ai_notifier.dart';
 @ProviderFor(AiNotifier)
 final aiProvider = AiNotifierProvider._();
 
-final class AiNotifierProvider
-    extends $NotifierProvider<AiNotifier, List<AiRecommendation>> {
+final class AiNotifierProvider extends $NotifierProvider<AiNotifier, AiState> {
   AiNotifierProvider._()
     : super(
         from: null,
@@ -33,28 +32,27 @@ final class AiNotifierProvider
   AiNotifier create() => AiNotifier();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(List<AiRecommendation> value) {
+  Override overrideWithValue(AiState value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<List<AiRecommendation>>(value),
+      providerOverride: $SyncValueProvider<AiState>(value),
     );
   }
 }
 
-String _$aiNotifierHash() => r'a2c874144bfaacd84990970b6fb3118c6170bf96';
+String _$aiNotifierHash() => r'a79ce882b04f838ea7568d3451e6fb1e6accdda7';
 
-abstract class _$AiNotifier extends $Notifier<List<AiRecommendation>> {
-  List<AiRecommendation> build();
+abstract class _$AiNotifier extends $Notifier<AiState> {
+  AiState build();
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref =
-        this.ref as $Ref<List<AiRecommendation>, List<AiRecommendation>>;
+    final ref = this.ref as $Ref<AiState, AiState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<List<AiRecommendation>, List<AiRecommendation>>,
-              List<AiRecommendation>,
+              AnyNotifier<AiState, AiState>,
+              AiState,
               Object?,
               Object?
             >;

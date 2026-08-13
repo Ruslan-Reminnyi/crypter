@@ -33,7 +33,7 @@ class _OrderPageState extends ConsumerState<OrderPage> {
   bool get _isCreation => widget.id == null;
   bool _areControllersInitialized = false;
 
-  final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>(debugLabel: 'order_page_global_key');
 
   late final TextEditingController _numberController;
   late final TextEditingController _exchangeController;
@@ -144,7 +144,7 @@ class _OrderPageState extends ConsumerState<OrderPage> {
                       keyboardType: .number,
                       textInputAction: .next,
                       validator: (value) {
-                        final result = Validators.orderNumber(value);
+                        final result = Validators.intInput(value);
 
                         return switch (result) {
                           EmptyInputError() => context.l10n.thisIsRequiredField,
@@ -353,20 +353,20 @@ class _OrderPageState extends ConsumerState<OrderPage> {
         ),
         SizedBox(height: 24),
         SizedBox(
-          width: double.infinity,
+          width: .infinity,
           child: ElevatedButton(
             onPressed: _onSave,
-            style: ButtonStyle(fixedSize: WidgetStatePropertyAll(Size(double.infinity, 50))),
+            style: ButtonStyle(fixedSize: WidgetStatePropertyAll(Size(.infinity, 50))),
             child: Text(_isCreation ? context.l10n.save : context.l10n.update),
           ),
         ),
         SizedBox(height: 24),
         if (!_isCreation) ...[
           SizedBox(
-            width: double.infinity,
+            width: .infinity,
             child: ElevatedButton(
               onPressed: _onDelete,
-              style: ButtonStyle(fixedSize: WidgetStatePropertyAll(Size(double.infinity, 50))),
+              style: ButtonStyle(fixedSize: WidgetStatePropertyAll(Size(.infinity, 50))),
               child: Text(context.l10n.delete),
             ),
           ),

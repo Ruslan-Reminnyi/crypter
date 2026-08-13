@@ -2,7 +2,9 @@ abstract interface class LocalStorageService {
   String? get symbol;
   Future<bool> setSymbol(String symbol);
   String? get interval;
-  Future<bool> setInterval(String interval);
+  Future<bool> setInterval(String limit);
+  int? get limit;
+  Future<bool> setLimit(int limit);
   String? get token;
   Future<bool> setToken(String backendToken);
   Future<bool> removeToken();

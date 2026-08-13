@@ -21,3 +21,5 @@ class InvalidEmailFormatError implements InputError {}
 class InvalidPasswordFormatError implements InputError {}
 
 class InvalidConfirmPasswordFormatError implements InputError {}
+
+class InvalidPromptFormatError implements InputError {}

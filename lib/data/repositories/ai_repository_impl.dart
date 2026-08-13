@@ -1,4 +1,3 @@
-import 'package:crypter/data/models/ai/recommendations/ai_recommendation.dart';
 import 'package:crypter/data/models/ai/recommendations/ai_recommendations_response.dart';
 import 'package:crypter/data/remote/api_endpoints.dart';
 import 'package:crypter/domain/repositories/ai_repository.dart';
@@ -15,10 +14,11 @@ class AiRepositoryImpl implements AiRepository {
   String? get _token => _sharedPreferences.token;
 
   @override
-  Future<List<AiRecommendation>> generateOrderCreationRecommendations({
+  Future<AiRecommendationsResponse?> generateOrderCreationRecommendations({
     required String symbol,
     required String interval,
     required int limit,
+    required String prompt,
   }) async {
     try {
       final response = await _dio.post(
@@ -26,13 +26,13 @@ class AiRepositoryImpl implements AiRepository {
         options: Options(
           headers: {"Accept": "application.json", "Authorization": "Bearer $_token"},
         ),
-        data: {'symbol': symbol, 'interval': interval, 'limit': limit},
+        data: {'symbol': symbol, 'interval': interval, 'limit': limit, 'prompt': prompt},
       );
 
-      return AiRecommendationsResponse.fromJson(response.data['data']).recommendations;
+      return AiRecommendationsResponse.fromJson(response.data['data']);
     } on DioException catch (e, st) {
       debugPrint('Error getting recommendations: $e\n$st');
-      return [];
+      return null;
     }
   }
 }

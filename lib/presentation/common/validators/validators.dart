@@ -1,7 +1,7 @@
 import 'package:crypter/presentation/common/validators/input_error.dart';
 
 class Validators {
-  static InputError? orderNumber(String? value) {
+  static InputError? intInput(String? value) {
     if (value == null || value.isEmpty) {
       return EmptyInputError();
     }
@@ -98,6 +98,16 @@ class Validators {
     }
     if (value != password) {
       return InvalidConfirmPasswordFormatError();
+    }
+    return null;
+  }
+
+  static InputError? prompt(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return EmptyInputError();
+    }
+    if (value.length < 20) {
+      return InvalidPromptFormatError();
     }
     return null;
   }

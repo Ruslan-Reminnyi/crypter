@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AiRecommendationsResponse {
 
- List<AiRecommendation> get recommendations;
+ String get title; String get description; List<AiRecommendation> get recommendations;
 /// Create a copy of AiRecommendationsResponse
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $AiRecommendationsResponseCopyWith<AiRecommendationsResponse> get copyWith => _$
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AiRecommendationsResponse&&const DeepCollectionEquality().equals(other.recommendations, recommendations));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AiRecommendationsResponse&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other.recommendations, recommendations));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(recommendations));
+int get hashCode => Object.hash(runtimeType,title,description,const DeepCollectionEquality().hash(recommendations));
 
 @override
 String toString() {
-  return 'AiRecommendationsResponse(recommendations: $recommendations)';
+  return 'AiRecommendationsResponse(title: $title, description: $description, recommendations: $recommendations)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $AiRecommendationsResponseCopyWith<$Res>  {
   factory $AiRecommendationsResponseCopyWith(AiRecommendationsResponse value, $Res Function(AiRecommendationsResponse) _then) = _$AiRecommendationsResponseCopyWithImpl;
 @useResult
 $Res call({
- List<AiRecommendation> recommendations
+ String title, String description, List<AiRecommendation> recommendations
 });
 
 
@@ -65,9 +65,11 @@ class _$AiRecommendationsResponseCopyWithImpl<$Res>
 
 /// Create a copy of AiRecommendationsResponse
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? recommendations = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? description = null,Object? recommendations = null,}) {
   return _then(_self.copyWith(
-recommendations: null == recommendations ? _self.recommendations : recommendations // ignore: cast_nullable_to_non_nullable
+title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
+as String,recommendations: null == recommendations ? _self.recommendations : recommendations // ignore: cast_nullable_to_non_nullable
 as List<AiRecommendation>,
   ));
 }
@@ -153,10 +155,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<AiRecommendation> recommendations)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String title,  String description,  List<AiRecommendation> recommendations)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AiRecommendationsResponse() when $default != null:
-return $default(_that.recommendations);case _:
+return $default(_that.title,_that.description,_that.recommendations);case _:
   return orElse();
 
 }
@@ -174,10 +176,10 @@ return $default(_that.recommendations);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<AiRecommendation> recommendations)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String title,  String description,  List<AiRecommendation> recommendations)  $default,) {final _that = this;
 switch (_that) {
 case _AiRecommendationsResponse():
-return $default(_that.recommendations);case _:
+return $default(_that.title,_that.description,_that.recommendations);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -194,10 +196,10 @@ return $default(_that.recommendations);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<AiRecommendation> recommendations)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String title,  String description,  List<AiRecommendation> recommendations)?  $default,) {final _that = this;
 switch (_that) {
 case _AiRecommendationsResponse() when $default != null:
-return $default(_that.recommendations);case _:
+return $default(_that.title,_that.description,_that.recommendations);case _:
   return null;
 
 }
@@ -209,9 +211,11 @@ return $default(_that.recommendations);case _:
 @JsonSerializable()
 
 class _AiRecommendationsResponse implements AiRecommendationsResponse {
-  const _AiRecommendationsResponse({required final  List<AiRecommendation> recommendations}): _recommendations = recommendations;
+  const _AiRecommendationsResponse({required this.title, required this.description, required final  List<AiRecommendation> recommendations}): _recommendations = recommendations;
   factory _AiRecommendationsResponse.fromJson(Map<String, dynamic> json) => _$AiRecommendationsResponseFromJson(json);
 
+@override final  String title;
+@override final  String description;
  final  List<AiRecommendation> _recommendations;
 @override List<AiRecommendation> get recommendations {
   if (_recommendations is EqualUnmodifiableListView) return _recommendations;
@@ -233,16 +237,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AiRecommendationsResponse&&const DeepCollectionEquality().equals(other._recommendations, _recommendations));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AiRecommendationsResponse&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other._recommendations, _recommendations));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_recommendations));
+int get hashCode => Object.hash(runtimeType,title,description,const DeepCollectionEquality().hash(_recommendations));
 
 @override
 String toString() {
-  return 'AiRecommendationsResponse(recommendations: $recommendations)';
+  return 'AiRecommendationsResponse(title: $title, description: $description, recommendations: $recommendations)';
 }
 
 
@@ -253,7 +257,7 @@ abstract mixin class _$AiRecommendationsResponseCopyWith<$Res> implements $AiRec
   factory _$AiRecommendationsResponseCopyWith(_AiRecommendationsResponse value, $Res Function(_AiRecommendationsResponse) _then) = __$AiRecommendationsResponseCopyWithImpl;
 @override @useResult
 $Res call({
- List<AiRecommendation> recommendations
+ String title, String description, List<AiRecommendation> recommendations
 });
 
 
@@ -270,9 +274,11 @@ class __$AiRecommendationsResponseCopyWithImpl<$Res>
 
 /// Create a copy of AiRecommendationsResponse
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? recommendations = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? title = null,Object? description = null,Object? recommendations = null,}) {
   return _then(_AiRecommendationsResponse(
-recommendations: null == recommendations ? _self._recommendations : recommendations // ignore: cast_nullable_to_non_nullable
+title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
+as String,recommendations: null == recommendations ? _self._recommendations : recommendations // ignore: cast_nullable_to_non_nullable
 as List<AiRecommendation>,
   ));
 }
