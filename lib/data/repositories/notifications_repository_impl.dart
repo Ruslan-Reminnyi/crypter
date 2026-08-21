@@ -10,6 +10,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:talker/talker.dart';
 
 const String kVapidKey =
     'BNoMvvVKpWqpBzrPg02A8l4zHSv7hph19bwgqrcfuPIiJqqpfzrEShNd1YKEKcL2JFgBt96mXRf7jZRAKLA4U6E';
@@ -26,8 +27,9 @@ class NotificationsRepositoryImpl implements NotificationsRepository {
   final FirebaseMessaging _firebaseMessaging;
   final LocalStorageService _sharedPreferencesService;
   final AppRouter router;
+  final Talker _talker;
 
-  NotificationsRepositoryImpl(this._sharedPreferencesService, this.router)
+  NotificationsRepositoryImpl(this._sharedPreferencesService, this.router, this._talker)
     : _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin(),
       _firebaseMessaging = FirebaseMessaging.instance;
 
@@ -44,6 +46,8 @@ class NotificationsRepositoryImpl implements NotificationsRepository {
     if (token != null) {
       _sharedPreferencesService.setFirebaseMessagingToken(token);
     }
+
+    _talker.info('Initialized notifications');
   }
 
   void _initializeFlutterLocalNotifications() async {
@@ -71,6 +75,8 @@ class NotificationsRepositoryImpl implements NotificationsRepository {
         }
       },
     );
+
+    _talker.info('Initialized Flutter Local Notifications');
   }
 
   void _initializeFirebaseMessaging() async {
@@ -102,6 +108,8 @@ class NotificationsRepositoryImpl implements NotificationsRepository {
         payload: remoteMessage.data[kRoute],
       );
     });
+
+    _talker.info('Initialized Firebase Messaging');
   }
 
   @override
@@ -185,5 +193,7 @@ class NotificationsRepositoryImpl implements NotificationsRepository {
       body: body,
       payload: payload,
     );
+
+    _talker.info('Shown a notification with\ntitle: $title\nbody: $body\npayload: $payload');
   }
 }

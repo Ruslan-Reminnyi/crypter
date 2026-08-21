@@ -45,5 +45,6 @@
   "promptMustBeAtLeastTwentyCharacters": "Prompt must be at least 20 characters",
   "askAIToGenerateRecommendationsForCreatingOrder": "Ask AI to generate recommendations for creating an order",
   "generate": "Generate",
-  "ai": "AI"
+  "ai": "AI",
+  "talkerScreen": "TalkerScreen"
 }

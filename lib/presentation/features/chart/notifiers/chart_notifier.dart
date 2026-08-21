@@ -76,5 +76,5 @@ class ChartNotifier extends _$ChartNotifier {
     _sharedPreferences.setInterval(newInterval.timeframe);
   }
 
-  Future<bool> logout() async => await _authRepository.logout();
+  Future<void> logout() async => await _authRepository.logout();
 }

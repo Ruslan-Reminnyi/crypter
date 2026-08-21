@@ -3,8 +3,8 @@ import 'package:crypter/data/models/firebase_messaging_notification/firebase_mes
 import 'package:crypter/data/models/order/order.dart';
 import 'package:crypter/domain/services/local/local_database_service.dart';
 import 'package:crypter/domain/services/remote/remote_database_service.dart';
-import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:talker/talker.dart';
 
 part 'orders_notifier.g.dart';
 
@@ -12,6 +12,7 @@ part 'orders_notifier.g.dart';
 class OrdersNotifier extends _$OrdersNotifier {
   LocalDatabaseService get _databaseService => ref.read(sqfliteServiceProvider);
   RemoteDatabaseService get _remoteDatabaseService => ref.watch(laravelDatabaseServiceProvider);
+  Talker get _talker => ref.read(talkerProvider);
 
   @override
   List<Order> build() {
@@ -27,13 +28,13 @@ class OrdersNotifier extends _$OrdersNotifier {
             state = items;
           } else {
             _databaseService.getAllOrders().then((items) => state = items).catchError((error) {
-              debugPrint('Error getting all orders from sqflite');
+              _talker.error('Error getting all orders from Sqflite');
               return state;
             });
           }
         })
         .catchError((error) {
-          debugPrint('Error getting all orders from laravel');
+          _talker.error('Error getting all orders from Laravel');
         });
   }
 
@@ -47,7 +48,7 @@ class OrdersNotifier extends _$OrdersNotifier {
 
       return newId;
     } catch (e, st) {
-      debugPrint('Error saving an order - $e\n$st');
+      _talker.error('Error saving an order - ', e, st);
       return null;
     }
   }
@@ -63,11 +64,11 @@ class OrdersNotifier extends _$OrdersNotifier {
                 state = [...state, order];
               })
               .catchError((error) {
-                debugPrint('Error updating an order in sqflite - $error');
+                _talker.error('Error updating an order in Sqflite - ', error);
               });
         })
         .catchError((error) {
-          debugPrint('Error updating an order in laravel - $error');
+          _talker.error('Error updating an order in Laravel - ', error);
         });
   }
 
@@ -79,12 +80,12 @@ class OrdersNotifier extends _$OrdersNotifier {
               .deleteOrder(id)
               .then((_) => state = state.where((item) => item.id != id).toList())
               .catchError((error) {
-                debugPrint('Error deleting an order from sqflite - $error');
+                _talker.error('Error deleting an order from Sqflite - ', error);
                 return state;
               });
         })
         .catchError((error) {
-          debugPrint('Error deleting an order from laravel - $error');
+          _talker.error('Error deleting an order from Laravel - ', error);
         });
   }
 

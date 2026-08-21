@@ -41,7 +41,7 @@ final class OrdersNotifierProvider
   }
 }
 
-String _$ordersNotifierHash() => r'ddb677ae74f8f588e816e4a305d96f31c23a5b81';
+String _$ordersNotifierHash() => r'77b9e69e97e06dd47af4ab9fab7374bebefb4d4a';
 
 abstract class _$OrdersNotifier extends $Notifier<List<Order>> {
   List<Order> build();

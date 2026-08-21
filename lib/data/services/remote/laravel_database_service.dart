@@ -5,12 +5,22 @@ import 'package:crypter/data/remote/api_endpoints.dart';
 import 'package:crypter/domain/services/local/local_storage_service.dart';
 import 'package:crypter/domain/services/remote/remote_database_service.dart';
 import 'package:dio/dio.dart';
+import 'package:talker/talker.dart';
+import 'package:talker_dio_logger/talker_dio_logger.dart';
 
 class LaravelDatabaseService implements RemoteDatabaseService {
   final Dio _dio;
   final LocalStorageService _sharedPreferencesService;
+  final Talker _talker;
 
-  LaravelDatabaseService(this._dio, this._sharedPreferencesService);
+  LaravelDatabaseService(this._dio, this._sharedPreferencesService, this._talker) {
+    _dio.interceptors.add(
+      TalkerDioLogger(
+        talker: _talker,
+        settings: TalkerDioLoggerSettings(printResponseHeaders: true),
+      ),
+    );
+  }
 
   String? get _token => _sharedPreferencesService.token;
 
@@ -23,8 +33,19 @@ class LaravelDatabaseService implements RemoteDatabaseService {
           headers: {'Authorization': 'Bearer $_token', 'Accept': 'application/json'},
         ),
       );
+
+      _talker.info('Got all orders');
+
       return response.data['data'].map<Order>((item) => Order.fromJson(item)).toList();
     } on DioException catch (e, st) {
+      if (e.type == DioExceptionType.connectionError) {
+        _talker.warning('Server is not working - $e');
+      } else if (e.type == DioExceptionType.receiveTimeout ||
+          e.type == DioExceptionType.connectionTimeout) {
+        _talker.warning('Encountering a timeout');
+      } else {
+        _talker.critical('Error getting all orders from the server - ', e.error, st);
+      }
       return [];
     }
   }
@@ -39,8 +60,19 @@ class LaravelDatabaseService implements RemoteDatabaseService {
           headers: {'Authorization': 'Bearer $_token', 'Accept': 'application/json'},
         ),
       );
+
+      _talker.info('Created an order on the server');
+
       return response.data['data']['id'];
     } on DioException catch (e, st) {
+      if (e.type == DioExceptionType.connectionError) {
+        _talker.warning('Server is not working - $e');
+      } else if (e.type == DioExceptionType.receiveTimeout ||
+          e.type == DioExceptionType.connectionTimeout) {
+        _talker.warning('Encountering a timeout');
+      } else {
+        _talker.critical('Error creating an order on the server - ', e.error, st);
+      }
       return 0;
     }
   }
@@ -54,8 +86,19 @@ class LaravelDatabaseService implements RemoteDatabaseService {
           headers: {'Authorization': 'Bearer $_token', 'Accept': 'application/json'},
         ),
       );
+
+      _talker.info('Got an order from the server');
+
       return Order.fromJson(response.data['data']);
     } on DioException catch (e, st) {
+      if (e.type == DioExceptionType.connectionError) {
+        _talker.warning('Server is not working - $e');
+      } else if (e.type == DioExceptionType.receiveTimeout ||
+          e.type == DioExceptionType.connectionTimeout) {
+        _talker.warning('Encountering a timeout');
+      } else {
+        _talker.critical('Error getting an order from the server - ', e.error, st);
+      }
       rethrow;
     }
   }
@@ -70,8 +113,17 @@ class LaravelDatabaseService implements RemoteDatabaseService {
           headers: {'Authorization': 'Bearer $_token', 'Accept': 'application/json'},
         ),
       );
+
+      _talker.info('Updated an order on the server');
     } on DioException catch (e, st) {
-      return;
+      if (e.type == DioExceptionType.connectionError) {
+        _talker.warning('Server is not working - $e');
+      } else if (e.type == DioExceptionType.receiveTimeout ||
+          e.type == DioExceptionType.connectionTimeout) {
+        _talker.warning('Encountering a timeout');
+      } else {
+        _talker.critical('Error updating an order on the server - ', e.error, st);
+      }
     }
   }
 
@@ -84,8 +136,17 @@ class LaravelDatabaseService implements RemoteDatabaseService {
           headers: {'Authorization': 'Bearer $_token', 'Accept': 'application/json'},
         ),
       );
+
+      _talker.info('Deleted an order from the server');
     } on DioException catch (e, st) {
-      return;
+      if (e.type == DioExceptionType.connectionError) {
+        _talker.warning('Server is not working - $e');
+      } else if (e.type == DioExceptionType.receiveTimeout ||
+          e.type == DioExceptionType.connectionTimeout) {
+        _talker.warning('Encountering a timeout');
+      } else {
+        _talker.critical('Error deleting an order from the server - ', e.error, st);
+      }
     }
   }
 
@@ -103,8 +164,21 @@ class LaravelDatabaseService implements RemoteDatabaseService {
           headers: {'Authorization': 'Bearer $_token', 'Accept': 'application/json'},
         ),
       );
+
+      _talker.info('Got Stop Loss notifications');
     } on DioException catch (e, st) {
-      return;
+      if (e.type == DioExceptionType.connectionError) {
+        _talker.warning('Server is not working - $e');
+      } else if (e.type == DioExceptionType.receiveTimeout ||
+          e.type == DioExceptionType.connectionTimeout) {
+        _talker.warning('Encountering a timeout');
+      } else {
+        _talker.critical(
+          'Error an attempt to get Stop Loss notifications from the server - ',
+          e.error,
+          st,
+        );
+      }
     }
   }
 }

@@ -7,7 +7,8 @@ enum AppRoutes {
   allOrders,
   workingOrders,
   filledOrders,
-  ai;
+  ai,
+  talker;
 
   static String get orderPath => '${AppRoutes.order.path}/:id';
 
@@ -29,5 +30,6 @@ extension AppRoutesType on AppRoutes {
     AppRoutes.workingOrders => '${AppRoutes.orders.path}/working',
     AppRoutes.filledOrders => '${AppRoutes.orders.path}/filled',
     AppRoutes.ai => '/ai',
+    AppRoutes.talker => '/talker',
   };
 }

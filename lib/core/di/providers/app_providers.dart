@@ -25,6 +25,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:crypter/core/di/constants.dart';
 import 'package:dio/dio.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:talker/talker.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:crypter/data/services/local/shared_preferences_service.dart';
 
@@ -48,3 +49,4 @@ part 'profile_repository_provider.dart';
 part 'laravel_database_service_provider.dart';
 part 'ai_repository_provider.dart';
 part 'notification_repository_provider.dart';
+part 'talker_provider.dart';

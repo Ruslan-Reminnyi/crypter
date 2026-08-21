@@ -2,13 +2,14 @@ import 'dart:convert';
 
 import 'package:crypter/data/remote/chart_endpoints.dart';
 import 'package:crypter/domain/services/remote/web_socket_service.dart';
-import 'package:flutter/material.dart';
+import 'package:talker/talker.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class BinanceWebSocketService implements WebSocketService {
   final WebSocketChannel _channel;
+  final Talker _talker;
 
-  BinanceWebSocketService(this._channel) {
+  BinanceWebSocketService(this._channel, this._talker) {
     init();
   }
 
@@ -18,7 +19,7 @@ class BinanceWebSocketService implements WebSocketService {
   @override
   void init() {
     _channel.ready.onError<WebSocketChannelException>((e, st) {
-      debugPrint('Error starting the WebSocketChannel - ${e.message}\n${e.inner}\n$st');
+      _talker.error('Error starting the WebSocketChannel - ', e.inner, st);
       return;
     });
   }
@@ -33,6 +34,8 @@ class BinanceWebSocketService implements WebSocketService {
         "id": id,
       }),
     );
+
+    _talker.info('Subscribed');
   }
 
   @override
@@ -45,6 +48,8 @@ class BinanceWebSocketService implements WebSocketService {
         "id": id,
       }),
     );
+
+    _talker.info("'Unsubscribed");
   }
 
   @override

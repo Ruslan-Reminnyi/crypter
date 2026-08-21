@@ -5,4 +5,5 @@ CryptoInfoRepository cryptoInfoRepository(Ref ref) => BinanceCryptoInfoRepositor
   ref.watch(chartDioProvider),
   ref.watch(binanceWebSocketServiceProvider),
   ref.watch(behaviourSubjectProvider),
+  ref.watch(talkerProvider),
 );

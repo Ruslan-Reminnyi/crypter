@@ -10,15 +10,17 @@ import 'package:crypter/presentation/features/orders/pages/order_page.dart';
 import 'package:crypter/presentation/features/orders/pages/filtered_orders_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 
 final rootNavigatorKey = GlobalKey<NavigatorState>();
 
 class AppRouter {
   late final GoRouter router;
+  final Talker _talker;
   // ignore: unused_field
   final AuthRepository _authRepository;
 
-  AppRouter(this._authRepository) {
+  AppRouter(this._authRepository, this._talker) {
     final orderPageRoute = GoRoute(
       path: AppRoutes.orderPath,
       parentNavigatorKey: rootNavigatorKey,
@@ -35,6 +37,7 @@ class AppRouter {
     router = GoRouter(
       navigatorKey: rootNavigatorKey,
       initialLocation: AppRoutes.login.path,
+      observers: [TalkerRouteObserver(_talker)],
       redirect: (_, state) {
         final path = state.uri.path;
         final isAuthPath = path == AppRoutes.login.path || path == AppRoutes.signUp.path;
@@ -109,6 +112,11 @@ class AppRouter {
               path: AppRoutes.ai.path,
               parentNavigatorKey: rootNavigatorKey,
               builder: (_, _) => AiScreen(),
+            ),
+            GoRoute(
+              name: AppRoutes.talker.name,
+              path: AppRoutes.talker.path,
+              builder: (_, _) => TalkerScreen(talker: _talker),
             ),
           ],
         ),

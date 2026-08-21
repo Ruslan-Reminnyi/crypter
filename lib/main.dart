@@ -4,7 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 Future<void> main() async {
-  final asyncAppDependencies = await launch();
+  final appDependencies = await launch();
 
-  runApp(ProviderScope(overrides: asyncAppDependencies.overrides, child: const App()));
+  runApp(
+    ProviderScope(
+      overrides: appDependencies.overrides,
+      observers: appDependencies.observers,
+      child: const App(),
+    ),
+  );
 }

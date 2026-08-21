@@ -41,7 +41,7 @@ final class ChartNotifierProvider
   }
 }
 
-String _$chartNotifierHash() => r'f8d22eee3dae50d413d3894c43ec65571831e9e0';
+String _$chartNotifierHash() => r'5d57e285f72521d808fd474064c09aa636000e6f';
 
 abstract class _$ChartNotifier extends $Notifier<ChartState> {
   ChartState build();

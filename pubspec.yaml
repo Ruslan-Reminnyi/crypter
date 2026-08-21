@@ -57,6 +57,10 @@ dependencies:
   device_info_plus: ^11.5.0
   firebase_messaging: ^16.4.3
   flutter_local_notifications: ^22.2.0
+  talker: ^5.1.20
+  talker_flutter: ^5.1.4
+  talker_dio_logger: ^5.1.4
+  talker_riverpod_logger: ^5.1.4
 
 dev_dependencies:
   flutter_test:

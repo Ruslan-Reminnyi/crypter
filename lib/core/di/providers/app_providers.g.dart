@@ -55,7 +55,7 @@ final class CryptoInfoRepositoryProvider
 }
 
 String _$cryptoInfoRepositoryHash() =>
-    r'38ba7164c9e3e439f25d6aa2b5a1dd7c8b5fcbc8';
+    r'71805c749047e8b9da1db305e978c6f6db65e0e5';
 
 @ProviderFor(binanceWebSocketService)
 final binanceWebSocketServiceProvider = BinanceWebSocketServiceProvider._();
@@ -102,7 +102,7 @@ final class BinanceWebSocketServiceProvider
 }
 
 String _$binanceWebSocketServiceHash() =>
-    r'ad0fb25f1c487f2732983d979f5e6fbf32c76f12';
+    r'36d33286659446123bbe8fb29262292bf57220ce';
 
 @ProviderFor(sharedPreferences)
 final sharedPreferencesProvider = SharedPreferencesProvider._();
@@ -414,7 +414,7 @@ final class RouterProvider
   }
 }
 
-String _$routerHash() => r'76999e02935bc0baf1322a5b32989f826c600f97';
+String _$routerHash() => r'7a72eec16ac6f77fa768d258d1297d4bf2c7e94f';
 
 @ProviderFor(sqflite)
 final sqfliteProvider = SqfliteProvider._();
@@ -502,7 +502,7 @@ final class SqfliteServiceProvider
   }
 }
 
-String _$sqfliteServiceHash() => r'9a8fe1e2c35276eb217a7ed69007a62e60d05fe5';
+String _$sqfliteServiceHash() => r'4cb1395c3adab73342e2b95595c7ae93e75a5ddb';
 
 @ProviderFor(authRepository)
 final authRepositoryProvider = AuthRepositoryProvider._();
@@ -543,7 +543,7 @@ final class AuthRepositoryProvider
   }
 }
 
-String _$authRepositoryHash() => r'28d84d33b40a1a6fa8d00a9193a570560b3c9b71';
+String _$authRepositoryHash() => r'0db5d865a714b5e5bbe39e4f866f54fb1b9c8064';
 
 @ProviderFor(apiBaseUrl)
 final apiBaseUrlProvider = ApiBaseUrlProvider._();
@@ -671,7 +671,7 @@ final class ProfileRepositoryProvider
   }
 }
 
-String _$profileRepositoryHash() => r'99f4f47c06de2c82060dce161f2575ad42a761b9';
+String _$profileRepositoryHash() => r'bd3babc8a609c5aa2e1ed93bbd04ffec68eb1a07';
 
 @ProviderFor(laravelDatabaseService)
 final laravelDatabaseServiceProvider = LaravelDatabaseServiceProvider._();
@@ -719,7 +719,7 @@ final class LaravelDatabaseServiceProvider
 }
 
 String _$laravelDatabaseServiceHash() =>
-    r'fd97c087543208c37b1c76603cb043620fc27e39';
+    r'66ab7af9af9a28defbd7683c17466d246a16617e';
 
 @ProviderFor(aiRepository)
 final aiRepositoryProvider = AiRepositoryProvider._();
@@ -760,7 +760,7 @@ final class AiRepositoryProvider
   }
 }
 
-String _$aiRepositoryHash() => r'f9bc0b55a981f2c3eed44086fa23054712434dbb';
+String _$aiRepositoryHash() => r'c6ba805056e2ed604eef5e8b53af1ddbb4ae1715';
 
 @ProviderFor(notificationsRepository)
 final notificationsRepositoryProvider = NotificationsRepositoryProvider._();
@@ -808,4 +808,44 @@ final class NotificationsRepositoryProvider
 }
 
 String _$notificationsRepositoryHash() =>
-    r'b65b1856065cfbd7f76d3e1eafbb9a6bc6f53a96';
+    r'ab4950229d654e3ad3c31c92e098d339a6d7fe23';
+
+@ProviderFor(talker)
+final talkerProvider = TalkerProvider._();
+
+final class TalkerProvider extends $FunctionalProvider<Talker, Talker, Talker>
+    with $Provider<Talker> {
+  TalkerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'talkerProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$talkerHash();
+
+  @$internal
+  @override
+  $ProviderElement<Talker> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  Talker create(Ref ref) {
+    return talker(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(Talker value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<Talker>(value),
+    );
+  }
+}
+
+String _$talkerHash() => r'48075660b509dc69fa7120d026af821899585e48';

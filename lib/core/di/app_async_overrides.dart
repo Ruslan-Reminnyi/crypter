@@ -8,16 +8,17 @@ import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
+import 'package:talker/talker.dart';
 
 /// The class that avoids dealing with Riverpod-specific types such as AsyncValue.
 /// Async dependencies initialized before the app launch and than the providers overridden by them.
-class AsyncAppDependencies {
+class AppAsyncOverrides {
   final SharedPreferences _sharedPreferences;
   final Database _db;
 
-  AsyncAppDependencies._({required this._sharedPreferences, required this._db});
+  AppAsyncOverrides._({required this._sharedPreferences, required this._db});
 
-  static Future<AsyncAppDependencies> init(AppConfig appConfig) async {
+  static Future<AppAsyncOverrides> init(AppConfig appConfig, Talker talker) async {
     final sharedPreferences = await SharedPreferences.getInstance();
 
     final databaseName = 'orders.db';
@@ -60,7 +61,7 @@ class AsyncAppDependencies {
         final sqliteVersion = (await database.rawQuery(
           'select sqlite_version()',
         )).first.values.first;
-        debugPrint('sqlite version - $sqliteVersion'); // 3.51.1
+        talker.debug('Sqlite version - $sqliteVersion'); // 3.51.1
       }
     } else {
       final ioFactory = databaseFactory;
@@ -70,7 +71,7 @@ class AsyncAppDependencies {
       database = await ioFactory.openDatabase(path, options: databaseOptions);
     }
 
-    return AsyncAppDependencies._(sharedPreferences: sharedPreferences, db: database);
+    return AppAsyncOverrides._(sharedPreferences: sharedPreferences, db: database);
   }
 
   List<Override> get overrides => [
