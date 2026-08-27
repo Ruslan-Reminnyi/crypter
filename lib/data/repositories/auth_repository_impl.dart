@@ -3,21 +3,13 @@ import 'package:crypter/domain/repositories/auth_repository.dart';
 import 'package:crypter/domain/services/local/local_storage_service.dart';
 import 'package:dio/dio.dart';
 import 'package:talker/talker.dart';
-import 'package:talker_dio_logger/talker_dio_logger.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final Dio _dio;
   final LocalStorageService _sharedPreferencesService;
   final Talker _talker;
 
-  AuthRepositoryImpl(this._dio, this._sharedPreferencesService, this._talker) {
-    _dio.interceptors.add(
-      TalkerDioLogger(
-        talker: _talker,
-        settings: TalkerDioLoggerSettings(printResponseHeaders: true),
-      ),
-    );
-  }
+  AuthRepositoryImpl(this._dio, this._sharedPreferencesService, this._talker);
 
   @override
   bool get isLoggedIn => _token != null && _token != '';
@@ -26,85 +18,49 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<void> register(String name, String email, String password, String deviceName) async {
-    try {
-      final response = await _dio.post(
-        ApiEndpoints.auth.register,
-        data: {
-          'name': name,
-          'email': email,
-          'password': password,
-          'password_confirmation': password,
-          'device_name': deviceName,
-        },
-      );
-      final token = response.data['token'];
+    final response = await _dio.post(
+      ApiEndpoints.auth.register,
+      data: {
+        'name': name,
+        'email': email,
+        'password': password,
+        'password_confirmation': password,
+        'device_name': deviceName,
+      },
+      options: Options(extra: {'isAuthRequired': false}),
+    );
+    final token = response.data['token'];
 
-      _sharedPreferencesService.setToken(token);
+    _sharedPreferencesService.setToken(token);
 
-      _talker.info('Registered with token - $token');
-    } on DioException catch (e, st) {
-      if (e.type == DioExceptionType.connectionError) {
-        _talker.warning('Server is not working - $e');
-      } else if (e.type == DioExceptionType.receiveTimeout ||
-          e.type == DioExceptionType.connectionTimeout) {
-        _talker.warning('Encountering a timeout');
-      } else {
-        _talker.critical('Error registering a user -', e.error, st);
-      }
-    }
+    _talker.info('Registered with token - $token');
   }
 
   @override
   Future<void> login(String email, String password, String deviceName) async {
-    try {
-      final response = await _dio.post(
-        ApiEndpoints.auth.login,
-        data: {
-          'email': email,
-          'password': password,
-          'password_confirmation': password,
-          'device_name': deviceName,
-        },
-      );
-      final token = response.data['token'];
+    final response = await _dio.post(
+      ApiEndpoints.auth.login,
+      data: {
+        'email': email,
+        'password': password,
+        'password_confirmation': password,
+        'device_name': deviceName,
+      },
+      options: Options(extra: {'isAuthRequired': false}),
+    );
+    final token = response.data['token'];
 
-      _sharedPreferencesService.setToken(token);
+    _sharedPreferencesService.setToken(token);
 
-      _talker.info('Logged in with token - $token');
-    } on DioException catch (e, st) {
-      if (e.type == DioExceptionType.connectionError) {
-        _talker.warning('Server is not working - $e');
-      } else if (e.type == DioExceptionType.receiveTimeout ||
-          e.type == DioExceptionType.connectionTimeout) {
-        _talker.warning('Encountering a timeout');
-      } else {
-        _talker.critical('Error logining a user - ', e.error, st);
-      }
-    }
+    _talker.info('Logged in with token - $token');
   }
 
   @override
   Future<void> logout() async {
-    try {
-      await _dio.post(
-        ApiEndpoints.auth.logout,
-        options: Options(
-          headers: {'Authorization': 'Bearer $_token', 'Accept': 'application/json'},
-        ),
-      );
+    await _dio.post(ApiEndpoints.auth.logout);
 
-      _sharedPreferencesService.setToken('');
+    _sharedPreferencesService.setToken('');
 
-      _talker.info('Logged out');
-    } on DioException catch (e, st) {
-      if (e.type == DioExceptionType.connectionError) {
-        _talker.warning('Server is not working - $e');
-      } else if (e.type == DioExceptionType.receiveTimeout ||
-          e.type == DioExceptionType.connectionTimeout) {
-        _talker.warning('Encountering a timeout');
-      } else {
-        _talker.critical('Error log outing a user - ', e.error, st);
-      }
-    }
+    _talker.info('Logged out');
   }
 }

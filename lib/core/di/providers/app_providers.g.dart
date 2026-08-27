@@ -279,7 +279,7 @@ final class ChartDioProvider extends $FunctionalProvider<Dio, Dio, Dio>
   }
 }
 
-String _$chartDioHash() => r'6d040cc9bcababd6c997eced831fb009affd81f7';
+String _$chartDioHash() => r'30398ec99d75407ef8ef73df850bdcb39679888d';
 
 @ProviderFor(webSocketChannel)
 final webSocketChannelProvider = WebSocketChannelProvider._();
@@ -624,7 +624,7 @@ final class ApiDioProvider extends $FunctionalProvider<Dio, Dio, Dio>
   }
 }
 
-String _$apiDioHash() => r'658fb192469547bfe31e43ad555f5e9a0e1d2e75';
+String _$apiDioHash() => r'77ebc87a62180fafc6556c932d280608185d2385';
 
 @ProviderFor(profileRepository)
 final profileRepositoryProvider = ProfileRepositoryProvider._();
@@ -671,7 +671,7 @@ final class ProfileRepositoryProvider
   }
 }
 
-String _$profileRepositoryHash() => r'bd3babc8a609c5aa2e1ed93bbd04ffec68eb1a07';
+String _$profileRepositoryHash() => r'e62fafe001b064f12942d0473b50c4ca5f6041aa';
 
 @ProviderFor(laravelDatabaseService)
 final laravelDatabaseServiceProvider = LaravelDatabaseServiceProvider._();
@@ -760,7 +760,7 @@ final class AiRepositoryProvider
   }
 }
 
-String _$aiRepositoryHash() => r'c6ba805056e2ed604eef5e8b53af1ddbb4ae1715';
+String _$aiRepositoryHash() => r'865aff15a354c9a757ef48a961539952ffca3f2b';
 
 @ProviderFor(notificationsRepository)
 final notificationsRepositoryProvider = NotificationsRepositoryProvider._();
@@ -849,3 +849,44 @@ final class TalkerProvider extends $FunctionalProvider<Talker, Talker, Talker>
 }
 
 String _$talkerHash() => r'48075660b509dc69fa7120d026af821899585e48';
+
+@ProviderFor(networkService)
+final networkServiceProvider = NetworkServiceProvider._();
+
+final class NetworkServiceProvider
+    extends $FunctionalProvider<NetworkService, NetworkService, NetworkService>
+    with $Provider<NetworkService> {
+  NetworkServiceProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'networkServiceProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$networkServiceHash();
+
+  @$internal
+  @override
+  $ProviderElement<NetworkService> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  NetworkService create(Ref ref) {
+    return networkService(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(NetworkService value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<NetworkService>(value),
+    );
+  }
+}
+
+String _$networkServiceHash() => r'975e36ad43d47dda069d9e4fffa6e00cb94ef6d6';

@@ -6,7 +6,7 @@ runs:
     - name: Add a tag to the commit
       shell: bash
       run: |
-        TAG="environments/\
+        TAG="flavors/\
         ${{ env.ENVIRONMENT }}/\
         ${{ env.PLATFORM }}/\
         ${{ env.VERSION }}/\

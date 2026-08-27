@@ -8,7 +8,6 @@ import 'package:crypter/domain/services/remote/web_socket_service.dart';
 import 'package:dio/dio.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:talker/talker.dart';
-import 'package:talker_dio_logger/talker_dio_logger.dart';
 
 class BinanceCryptoInfoRepository implements CryptoInfoRepository {
   final Dio _dio;
@@ -16,14 +15,7 @@ class BinanceCryptoInfoRepository implements CryptoInfoRepository {
   final BehaviorSubject<List<Candle>> _subject;
   final Talker _talker;
 
-  BinanceCryptoInfoRepository(this._dio, this._webSocket, this._subject, this._talker) {
-    _dio.interceptors.add(
-      TalkerDioLogger(
-        talker: _talker,
-        settings: TalkerDioLoggerSettings(printResponseHeaders: true),
-      ),
-    );
-  }
+  BinanceCryptoInfoRepository(this._dio, this._webSocket, this._subject, this._talker);
 
   @override
   Stream<List<Candle>> get stream => _subject.stream;
@@ -33,32 +25,16 @@ class BinanceCryptoInfoRepository implements CryptoInfoRepository {
     required String interval,
     int? limit,
   }) async {
-    try {
-      final response = await _dio.get(
-        ChartEndpoints.binanceApi.klines,
-        queryParameters: {
-          'symbol': symbol.toUpperCase(),
-          'interval': interval,
-          'limit': limit ?? 30,
-        },
-      );
+    final response = await _dio.get(
+      ChartEndpoints.binanceApi.klines,
+      queryParameters: {'symbol': symbol.toUpperCase(), 'interval': interval, 'limit': limit ?? 30},
+    );
 
-      _talker.info('Fetched crypto trading history');
+    _talker.info('Fetched crypto trading history');
 
-      List<dynamic> data = jsonDecode(response.data.toString());
+    List<dynamic> data = jsonDecode(response.data.toString());
 
-      return data.toCandles();
-    } on DioException catch (e, st) {
-      if (e.type == DioExceptionType.connectionError) {
-        _talker.warning('Server is not working - $e');
-      } else if (e.type == DioExceptionType.receiveTimeout ||
-          e.type == DioExceptionType.connectionTimeout) {
-        _talker.warning('Encountering a timeout');
-      } else {
-        _talker.critical('Error getting crypto info from the Binance API - ', e.error, st);
-      }
-      return [];
-    }
+    return data.toCandles();
   }
 
   @override

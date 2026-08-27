@@ -45,7 +45,16 @@ class ChartScreen extends ConsumerWidget {
             onTap: () async {
               final isConfirmed = await AppDialog.logout(context);
               if (isConfirmed == true) {
-                await ref.read(chartProvider.notifier).logout();
+                try {
+                  await ref.read(chartProvider.notifier).logout();
+                } catch (e) {
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text(e.toString())));
+                  }
+                }
+
                 if (context.mounted) {
                   context.go(AppRoutes.login.path);
                 }

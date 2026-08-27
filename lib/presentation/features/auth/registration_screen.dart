@@ -141,7 +141,14 @@ class _RegisterScreenState extends ConsumerState<RegistrationScreen> {
       final deviceName = await _getDeviceName();
 
       ref.read(sharedPreferencesServiceProvider).setDeviceName(deviceName);
-      await ref.read(authRepositoryProvider).register(name, email, password, deviceName);
+
+      try {
+        await ref.read(authRepositoryProvider).register(name, email, password, deviceName);
+      } catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+        }
+      }
 
       if (mounted) {
         context.go(AppRoutes.chart.path);

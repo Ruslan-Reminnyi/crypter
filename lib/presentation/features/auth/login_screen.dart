@@ -108,7 +108,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
       ref.read(sharedPreferencesServiceProvider).setDeviceName(deviceName);
 
-      await ref.read(authRepositoryProvider).login(email, password, deviceName);
+      try {
+        await ref.read(authRepositoryProvider).login(email, password, deviceName);
+      } catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+        }
+      }
 
       if (mounted) {
         context.go(AppRoutes.chart.path);
