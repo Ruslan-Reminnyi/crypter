@@ -20,22 +20,24 @@ class OrdersNotifier extends _$OrdersNotifier {
     return [];
   }
 
-  void _getInitialState() {
-    _remoteDatabaseService
-        .getAllOrders()
-        .then((items) {
-          if (items.isNotEmpty) {
-            state = items;
-          } else {
-            _databaseService.getAllOrders().then((items) => state = items).catchError((error) {
-              _talker.error('Error getting all orders from Sqflite');
-              return state;
-            });
-          }
-        })
-        .catchError((error) {
-          _talker.error('Error getting all orders from Laravel');
-        });
+  Future<void> _getInitialState() async {
+    try {
+      final allOrdersFromRemoteDb = await _remoteDatabaseService.getAllOrders();
+
+      if (allOrdersFromRemoteDb.isNotEmpty) {
+        state = allOrdersFromRemoteDb;
+      } else {
+        final allOrdersFromLocalDb = await _databaseService.getAllOrders();
+        if (allOrdersFromLocalDb.isNotEmpty) {
+          state = allOrdersFromLocalDb;
+        } else {
+          state = [];
+        }
+      }
+    } catch (e, st) {
+      _talker.error('Error getting all orders - ', e, st);
+      state = [];
+    }
   }
 
   Future<int?> saveOrder(Order order) async {
@@ -53,42 +55,36 @@ class OrdersNotifier extends _$OrdersNotifier {
     }
   }
 
-  void updateOrder(Order order) {
-    _remoteDatabaseService
-        .updateOrder(order)
-        .then((_) {
-          _databaseService
-              .updateOrder(order)
-              .then((_) {
-                state = state..removeWhere((item) => item.id == order.id);
-                state = [...state, order];
-              })
-              .catchError((error) {
-                _talker.error('Error updating an order in Sqflite - ', error);
-              });
-        })
-        .catchError((error) {
-          _talker.error('Error updating an order in Laravel - ', error);
-        });
+  Future<void> updateOrder(Order order) async {
+    try {
+      await _remoteDatabaseService.updateOrder(order);
+      await _databaseService.updateOrder(order);
+
+      state = state..removeWhere((item) => item.id == order.id);
+      state = [...state, order];
+    } catch (e, st) {
+      _talker.error('Error updating an order - ', e, st);
+    }
   }
 
-  void deleteOrder(int id) {
-    _remoteDatabaseService
-        .deleteOrder(id)
-        .then((_) {
-          _databaseService
-              .deleteOrder(id)
-              .then((_) => state = state.where((item) => item.id != id).toList())
-              .catchError((error) {
-                _talker.error('Error deleting an order from Sqflite - ', error);
-                return state;
-              });
-        })
-        .catchError((error) {
-          _talker.error('Error deleting an order from Laravel - ', error);
-        });
+  Future<void> deleteOrder(int id) async {
+    try {
+      await _remoteDatabaseService.deleteOrder(id);
+      await _databaseService.deleteOrder(id);
+
+      state = state.where((item) => item.id != id).toList();
+    } catch (e, st) {
+      _talker.error('Error deleting an order - ', e, st);
+    }
   }
 
-  void getStopLossNotifications(FirebaseMessagingNotification firebaseMessagingNotification) =>
-      _remoteDatabaseService.getStopLossNotifications(firebaseMessagingNotification);
+  Future<void> getStopLossNotifications(
+    FirebaseMessagingNotification firebaseMessagingNotification,
+  ) async {
+    try {
+      await _remoteDatabaseService.getStopLossNotifications(firebaseMessagingNotification);
+    } catch (e, st) {
+      _talker.error('Error getting stop loss notifications - ', e, st);
+    }
+  }
 }

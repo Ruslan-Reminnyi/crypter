@@ -154,9 +154,13 @@ class _AiScreenState extends ConsumerState<AiScreen> {
 
   void _askAI() {
     if (_formKey.currentState?.validate() ?? false) {
-      ref.read(aiProvider.notifier).generateOrderCreationRecommendations(_promptController.text);
+      try {
+        ref.read(aiProvider.notifier).generateOrderCreationRecommendations(_promptController.text);
 
-      _promptController.clear();
+        _promptController.clear();
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+      }
     }
   }
 

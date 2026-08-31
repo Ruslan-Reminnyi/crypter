@@ -12,7 +12,7 @@ class ChartSettings extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(chartProvider);
-    final provider = ref.watch(chartProvider.notifier);
+    final provider = ref.read(chartProvider.notifier);
 
     return Row(
       mainAxisAlignment: .spaceBetween,

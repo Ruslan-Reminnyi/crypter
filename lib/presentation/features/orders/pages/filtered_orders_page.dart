@@ -26,8 +26,12 @@ class FilteredOrdersPage extends ConsumerWidget {
         onDelete: () async {
           final isConfirmed = await AppDialog.orderDeletion(context);
 
-          if (isConfirmed == true) {
-            ref.read(ordersProvider.notifier).deleteOrder(orders[index].id!);
+          if (isConfirmed == true && context.mounted) {
+            try {
+              ref.read(ordersProvider.notifier).deleteOrder(orders[index].id!);
+            } catch (e) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+            }
           }
         },
       ),

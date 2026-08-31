@@ -433,10 +433,16 @@ class _OrderPageState extends ConsumerState<OrderPage> {
       _order = _createNewOrder();
 
       int? newId;
-      if (_isCreation) {
-        newId = await ref.read(ordersProvider.notifier).saveOrder(_order);
-      } else {
-        ref.read(ordersProvider.notifier).updateOrder(_order);
+      try {
+        if (_isCreation) {
+          newId = await ref.read(ordersProvider.notifier).saveOrder(_order);
+        } else {
+          ref.read(ordersProvider.notifier).updateOrder(_order);
+        }
+      } catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+        }
       }
 
       if (_stopLossController.text.isNotEmpty && newId != null) {
@@ -454,7 +460,11 @@ class _OrderPageState extends ConsumerState<OrderPage> {
       final isConfirmed = await AppDialog.orderDeletion(context);
 
       if (isConfirmed == true && mounted) {
-        ref.read(ordersProvider.notifier).deleteOrder(_order.id!);
+        try {
+          ref.read(ordersProvider.notifier).deleteOrder(_order.id!);
+        } catch (e) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+        }
         context.pop();
       }
     }

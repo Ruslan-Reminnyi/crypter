@@ -58,22 +58,22 @@ class ChartNotifier extends _$ChartNotifier {
       ..subscribeToWebSocket(1, symbol: state.symbol.symbol, interval: state.interval.timeframe);
   }
 
-  void changeSymbol(Symbol newSymbol) {
+  Future<void> changeSymbol(Symbol newSymbol) async {
     final previousSymbol = state.symbol.symbol;
     state = state.copyWith(symbol: newSymbol);
 
     _reconnectToWebSocket(previousSymbol: previousSymbol);
 
-    _sharedPreferences.setSymbol(newSymbol.symbol);
+    await _sharedPreferences.setSymbol(newSymbol.symbol);
   }
 
-  void changeInterval(Interval newInterval) {
+  Future<void> changeInterval(Interval newInterval) async {
     final previousInterval = state.interval.timeframe;
     state = state.copyWith(interval: newInterval);
 
     _reconnectToWebSocket(previousInterval: previousInterval);
 
-    _sharedPreferences.setInterval(newInterval.timeframe);
+    await _sharedPreferences.setInterval(newInterval.timeframe);
   }
 
   Future<void> logout() async => await _authRepository.logout();
