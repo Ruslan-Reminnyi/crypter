@@ -66,7 +66,7 @@ final class FilteredOrdersProvider
   }
 }
 
-String _$filteredOrdersHash() => r'c77911ac5ff76eeafb728def365e77251b4f4e83';
+String _$filteredOrdersHash() => r'84ce23ac790eba3d6794e876e9f5dc1d8834d66a';
 
 final class FilteredOrdersFamily extends $Family
     with $FunctionalFamilyOverride<List<Order>, OrderTab> {

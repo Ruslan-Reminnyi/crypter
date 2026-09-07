@@ -58,7 +58,7 @@ final class OrderByIdProvider
   }
 }
 
-String _$orderByIdHash() => r'c8928a0d04f915ffea9748e8f5ca2f5ad0c881a2';
+String _$orderByIdHash() => r'9dda5a05e315c736d8a350847947c0ddc05a8d72';
 
 final class OrderByIdFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<Order>, int> {

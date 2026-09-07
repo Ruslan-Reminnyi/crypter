@@ -13,7 +13,7 @@ part of 'orders_notifier.dart';
 final ordersProvider = OrdersNotifierProvider._();
 
 final class OrdersNotifierProvider
-    extends $NotifierProvider<OrdersNotifier, List<Order>> {
+    extends $NotifierProvider<OrdersNotifier, OrdersState> {
   OrdersNotifierProvider._()
     : super(
         from: null,
@@ -33,27 +33,27 @@ final class OrdersNotifierProvider
   OrdersNotifier create() => OrdersNotifier();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(List<Order> value) {
+  Override overrideWithValue(OrdersState value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<List<Order>>(value),
+      providerOverride: $SyncValueProvider<OrdersState>(value),
     );
   }
 }
 
-String _$ordersNotifierHash() => r'01bb69c3709d02ba0944be051ed00be726a466fb';
+String _$ordersNotifierHash() => r'6297dc95bb7e273d7d534f37b87fd177317a7e77';
 
-abstract class _$OrdersNotifier extends $Notifier<List<Order>> {
-  List<Order> build();
+abstract class _$OrdersNotifier extends $Notifier<OrdersState> {
+  OrdersState build();
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref = this.ref as $Ref<List<Order>, List<Order>>;
+    final ref = this.ref as $Ref<OrdersState, OrdersState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<List<Order>, List<Order>>,
-              List<Order>,
+              AnyNotifier<OrdersState, OrdersState>,
+              OrdersState,
               Object?,
               Object?
             >;

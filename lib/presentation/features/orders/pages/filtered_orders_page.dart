@@ -13,28 +13,40 @@ class FilteredOrdersPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(ordersProvider);
     final orders = ref.watch(filteredOrdersProvider(orderTab));
+    ref.listen(ordersProvider, (prev, next) {
+      if (next.error?.isNotEmpty ?? false) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(next.error.toString())));
+      }
+    });
 
-    if (orders.isEmpty) {
-      return SizedBox.shrink();
-    }
+    return Stack(
+      children: [
+        ListView.builder(
+          itemCount: orders.length,
+          itemBuilder: (context, index) => OrderTile(
+            order: orders[index],
+            onDelete: () async {
+              final isConfirmed = await AppDialog.orderDeletion(context);
 
-    return ListView.builder(
-      itemCount: orders.length,
-      itemBuilder: (context, index) => OrderTile(
-        order: orders[index],
-        onDelete: () async {
-          final isConfirmed = await AppDialog.orderDeletion(context);
-
-          if (isConfirmed == true && context.mounted) {
-            try {
-              ref.read(ordersProvider.notifier).deleteOrder(orders[index].id!);
-            } catch (e) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
-            }
-          }
-        },
-      ),
+              if (isConfirmed == true && context.mounted) {
+                try {
+                  await ref.read(ordersProvider.notifier).deleteOrder(orders[index].id!);
+                } catch (e) {
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text(e.toString())));
+                  }
+                }
+              }
+            },
+          ),
+        ),
+        if (state.isLoading)
+          Positioned.fill(child: Center(child: const CircularProgressIndicator())),
+      ],
     );
   }
 }

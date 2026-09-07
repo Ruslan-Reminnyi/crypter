@@ -8,7 +8,7 @@ part 'filtered_orders_provider.g.dart';
 
 @riverpod
 List<Order> filteredOrders(Ref ref, OrderTab ordersTab) {
-  final orders = ref.watch(ordersProvider);
+  final orders = ref.watch(ordersProvider).orders;
 
   return switch (ordersTab) {
     OrderTab.all => orders,

@@ -410,7 +410,9 @@ class _OrderPageState extends ConsumerState<OrderPage> {
         .isPermissionGranted();
 
     if (areNotificationsGranted) {
-      ref.read(ordersProvider.notifier).getStopLossNotifications(firebaseMessagingNotification);
+      await ref
+          .read(laravelDatabaseServiceProvider)
+          .getStopLossNotifications(firebaseMessagingNotification);
     } else {
       if (mounted) {
         final isConfirmed = await AppDialog.requestPermission(context);
@@ -419,8 +421,8 @@ class _OrderPageState extends ConsumerState<OrderPage> {
           final granted = await ref.read(notificationsRepositoryProvider).requestPermission();
 
           if (granted) {
-            ref
-                .read(ordersProvider.notifier)
+            await ref
+                .read(laravelDatabaseServiceProvider)
                 .getStopLossNotifications(firebaseMessagingNotification);
           }
         }
@@ -437,7 +439,7 @@ class _OrderPageState extends ConsumerState<OrderPage> {
         if (_isCreation) {
           newId = await ref.read(ordersProvider.notifier).saveOrder(_order);
         } else {
-          ref.read(ordersProvider.notifier).updateOrder(_order);
+          await ref.read(ordersProvider.notifier).updateOrder(_order);
         }
       } catch (e) {
         if (mounted) {
@@ -459,13 +461,17 @@ class _OrderPageState extends ConsumerState<OrderPage> {
     if (_formKey.currentState?.validate() ?? false) {
       final isConfirmed = await AppDialog.orderDeletion(context);
 
-      if (isConfirmed == true && mounted) {
+      if (isConfirmed == true) {
         try {
-          ref.read(ordersProvider.notifier).deleteOrder(_order.id!);
+          await ref.read(ordersProvider.notifier).deleteOrder(_order.id!);
         } catch (e) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+          }
         }
-        context.pop();
+        if (mounted) {
+          context.pop();
+        }
       }
     }
   }
