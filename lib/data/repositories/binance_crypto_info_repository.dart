@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:candlesticks/candlesticks.dart';
@@ -14,8 +15,25 @@ class BinanceCryptoInfoRepository implements CryptoInfoRepository {
   final WebSocketService _webSocket;
   final BehaviorSubject<List<Candle>> _subject;
   final Talker _talker;
+  final StreamSubscription _streamSubscription;
 
-  BinanceCryptoInfoRepository(this._dio, this._webSocket, this._subject, this._talker);
+  BinanceCryptoInfoRepository(this._dio, this._webSocket, this._subject, this._talker)
+    : _streamSubscription = _webSocket.stream.listen(
+        (item) {
+          final json = jsonDecode(item)['k'];
+          if (json != null && _subject.value.isNotEmpty) {
+            final newestCandle = Candle.fromCompactJson(json);
+            final currentCandles = List<Candle>.from(_subject.value);
+            currentCandles[0] = newestCandle;
+            _subject.add(currentCandles);
+          }
+
+          _talker.info('Refreshed the newest candle');
+        },
+        onError: (error) {
+          _talker.critical('Error listening the WebSocketChannel stream - ', error);
+        },
+      );
 
   @override
   Stream<List<Candle>> get stream => _subject.stream;
@@ -44,43 +62,28 @@ class BinanceCryptoInfoRepository implements CryptoInfoRepository {
       interval: interval,
     ).then((history) => _subject.add(history));
 
-    _talker.info('Subscribed to the Binance Web Socket');
-
     _webSocket.subscribe(id, symbol: symbol, interval: interval);
+
+    _streamSubscription.resume();
+
+    _talker.info('Subscribed to the Binance Web Socket');
   }
 
   @override
   void unsubscribeFromWebSocket(int id, {required String symbol, required String interval}) {
     _webSocket.unsubscribe(id, symbol: symbol, interval: interval);
 
-    _talker.info('Unsubscribed from the Binance Web Socket');
-
     _subject.value.clear();
-  }
 
-  @override
-  void listenToWebSocketStream() {
-    _webSocket.stream.listen(
-      (item) {
-        final json = jsonDecode(item)['k'];
-        if (json != null && _subject.value.isNotEmpty) {
-          final newestCandle = Candle.fromCompactJson(json);
-          final currentCandles = List<Candle>.from(_subject.value);
-          currentCandles[0] = newestCandle;
-          _subject.add(currentCandles);
-        }
+    _streamSubscription.pause();
 
-        _talker.info('Refreshed the newest candle');
-      },
-      onError: (error) {
-        _talker.critical('Error listening the WebSocketChannel stream - ', error);
-      },
-    );
+    _talker.info('Unsubscribed from the Binance Web Socket');
   }
 
   @override
   void dispose() {
-    _webSocket.close();
+    _streamSubscription.cancel();
     _subject.close();
+    _webSocket.close();
   }
 }

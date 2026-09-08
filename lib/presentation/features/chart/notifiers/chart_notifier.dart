@@ -39,13 +39,11 @@ class ChartNotifier extends _$ChartNotifier {
   }
 
   void _initWebSocket(ChartState chartState) {
-    _cryptoInfoRepository
-      ..subscribeToWebSocket(
-        1,
-        symbol: chartState.symbol.symbol,
-        interval: chartState.interval.timeframe,
-      )
-      ..listenToWebSocketStream();
+    _cryptoInfoRepository.subscribeToWebSocket(
+      1,
+      symbol: chartState.symbol.symbol,
+      interval: chartState.interval.timeframe,
+    );
   }
 
   void _reconnectToWebSocket({String? previousSymbol, String? previousInterval}) {
@@ -57,6 +55,18 @@ class ChartNotifier extends _$ChartNotifier {
       )
       ..subscribeToWebSocket(1, symbol: state.symbol.symbol, interval: state.interval.timeframe);
   }
+
+  void subscribeToWebSocket() => _cryptoInfoRepository.subscribeToWebSocket(
+    1,
+    symbol: state.symbol.symbol,
+    interval: state.interval.timeframe,
+  );
+
+  void unsubscribeFromWebSocket() => _cryptoInfoRepository.unsubscribeFromWebSocket(
+    1,
+    symbol: state.symbol.symbol,
+    interval: state.interval.timeframe,
+  );
 
   Future<void> changeSymbol(Symbol newSymbol) async {
     final previousSymbol = state.symbol.symbol;
@@ -76,5 +86,8 @@ class ChartNotifier extends _$ChartNotifier {
     await _sharedPreferences.setInterval(newInterval.timeframe);
   }
 
-  Future<void> logout() async => await _authRepository.logout();
+  Future<void> logout() async {
+    _cryptoInfoRepository.dispose();
+    await _authRepository.logout();
+  }
 }

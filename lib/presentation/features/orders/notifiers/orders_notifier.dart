@@ -55,11 +55,7 @@ class OrdersNotifier extends _$OrdersNotifier {
       return newId;
     } catch (e, st) {
       _talker.error('Error saving an order - ', e, st);
-      state = state.copyWith(
-        isLoading: false,
-        orders: [],
-        error: 'Error getting all orders - $e\n$st',
-      );
+      state = state.copyWith(isLoading: false, error: 'Error getting all orders - $e\n$st');
       return null;
     }
   }
@@ -75,11 +71,7 @@ class OrdersNotifier extends _$OrdersNotifier {
       state = state.copyWith(isLoading: false, orders: updatedList);
     } catch (e, st) {
       _talker.error('Error updating an order - ', e, st);
-      state = state.copyWith(
-        isLoading: false,
-        orders: [],
-        error: 'Error getting all orders - $e\n$st',
-      );
+      state = state.copyWith(isLoading: false, error: 'Error getting all orders - $e\n$st');
     }
   }
 
@@ -94,11 +86,7 @@ class OrdersNotifier extends _$OrdersNotifier {
       state = state.copyWith(isLoading: false, orders: updatedList);
     } catch (e, st) {
       _talker.error('Error deleting an order - ', e, st);
-      state = state.copyWith(
-        isLoading: false,
-        orders: [],
-        error: 'Error getting all orders - $e\n$st',
-      );
+      state = state.copyWith(isLoading: false, error: 'Error getting all orders - $e\n$st');
     }
   }
 }

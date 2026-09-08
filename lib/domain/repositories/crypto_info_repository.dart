@@ -5,6 +5,5 @@ abstract interface class CryptoInfoRepository {
 
   void subscribeToWebSocket(int id, {required String symbol, required String interval});
   void unsubscribeFromWebSocket(int id, {required String symbol, required String interval});
-  void listenToWebSocketStream();
   void dispose();
 }

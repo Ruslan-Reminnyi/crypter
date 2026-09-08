@@ -16,11 +16,14 @@ final rootNavigatorKey = GlobalKey<NavigatorState>();
 
 class AppRouter {
   late final GoRouter router;
+  late final RouteObserver<ModalRoute> routeObserver;
   final Talker _talker;
   // ignore: unused_field
   final AuthRepository _authRepository;
 
   AppRouter(this._authRepository, this._talker) {
+    routeObserver = RouteObserver<ModalRoute>();
+
     final orderPageRoute = GoRoute(
       path: AppRoutes.orderPath,
       parentNavigatorKey: rootNavigatorKey,
@@ -37,7 +40,7 @@ class AppRouter {
     router = GoRouter(
       navigatorKey: rootNavigatorKey,
       initialLocation: AppRoutes.login.path,
-      observers: [TalkerRouteObserver(_talker)],
+      observers: [routeObserver, TalkerRouteObserver(_talker)],
       redirect: (_, state) {
         final path = state.uri.path;
         final isAuthPath = path == AppRoutes.login.path || path == AppRoutes.signUp.path;

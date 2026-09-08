@@ -1,5 +1,6 @@
 import 'package:candlesticks/candlesticks.dart';
 import 'package:crypter/core/app/navigation/app_routes.dart';
+import 'package:crypter/core/di/providers/app_providers.dart';
 import 'package:crypter/data/extensions/build_context_extensions.dart';
 import 'package:crypter/presentation/common/dialogs/app_dialog.dart';
 import 'package:crypter/presentation/features/chart/notifiers/chart_notifier.dart';
@@ -10,13 +11,43 @@ import 'package:flutter/material.dart' hide Interval;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class ChartScreen extends ConsumerWidget {
+class ChartScreen extends ConsumerStatefulWidget {
   final String title;
 
   const ChartScreen({super.key, required this.title});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ChartScreen> createState() => _ChartScreenState();
+}
+
+class _ChartScreenState extends ConsumerState<ChartScreen> with RouteAware {
+  late final provider = ref.watch(chartProvider.notifier);
+  late final routeProvider = ref.watch(routerProvider);
+
+  @override
+  void didChangeDependencies() {
+    routeProvider.routeObserver.subscribe(this, ModalRoute.of(context)!);
+    super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    routeProvider.routeObserver.unsubscribe(this);
+    super.dispose();
+  }
+
+  @override
+  void didPushNext() {
+    provider.unsubscribeFromWebSocket();
+  }
+
+  @override
+  void didPopNext() {
+    provider.subscribeToWebSocket();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
     return Scaffold(
       appBar: AppBar(
@@ -25,7 +56,7 @@ class ChartScreen extends ConsumerWidget {
           onTap: () => context.go('${AppRoutes.chart.path}${AppRoutes.ai.path}'),
           child: Icon(Icons.question_answer_rounded),
         ),
-        title: Text(title),
+        title: Text(widget.title),
         actions: [
           if (kDebugMode)
             Tooltip(
@@ -46,7 +77,7 @@ class ChartScreen extends ConsumerWidget {
               final isConfirmed = await AppDialog.logout(context);
               if (isConfirmed == true) {
                 try {
-                  await ref.read(chartProvider.notifier).logout();
+                  await provider.logout();
                 } catch (e) {
                   if (context.mounted) {
                     ScaffoldMessenger.of(
