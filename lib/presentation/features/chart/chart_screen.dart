@@ -23,6 +23,7 @@ class ChartScreen extends ConsumerStatefulWidget {
 class _ChartScreenState extends ConsumerState<ChartScreen> with RouteAware {
   late final provider = ref.watch(chartProvider.notifier);
   late final routeProvider = ref.watch(routerProvider);
+  bool _isDialogOpen = false;
 
   @override
   void didChangeDependencies() {
@@ -38,12 +39,16 @@ class _ChartScreenState extends ConsumerState<ChartScreen> with RouteAware {
 
   @override
   void didPushNext() {
-    provider.unsubscribeFromWebSocket();
+    if (!_isDialogOpen) {
+      provider.unsubscribeFromWebSocket();
+    }
   }
 
   @override
   void didPopNext() {
-    provider.subscribeToWebSocket();
+    if (!_isDialogOpen) {
+      provider.subscribeToWebSocket();
+    }
   }
 
   @override
@@ -74,6 +79,7 @@ class _ChartScreenState extends ConsumerState<ChartScreen> with RouteAware {
           SizedBox(width: 2),
           GestureDetector(
             onTap: () async {
+              _isDialogOpen = true;
               final isConfirmed = await AppDialog.logout(context);
               if (isConfirmed == true) {
                 try {
@@ -89,6 +95,8 @@ class _ChartScreenState extends ConsumerState<ChartScreen> with RouteAware {
                 if (context.mounted) {
                   context.go(AppRoutes.login.path);
                 }
+              } else {
+                _isDialogOpen = false;
               }
             },
             child: Icon(Icons.exit_to_app_rounded),

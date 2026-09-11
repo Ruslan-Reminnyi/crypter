@@ -35,7 +35,7 @@ class BinanceWebSocketService implements WebSocketService {
       }),
     );
 
-    _talker.info('Subscribed');
+    _talker.info('Subscribed to $symbol for $interval');
   }
 
   @override
@@ -49,7 +49,7 @@ class BinanceWebSocketService implements WebSocketService {
       }),
     );
 
-    _talker.info("'Unsubscribed");
+    _talker.info("'Unsubscribed from $symbol for $interval");
   }
 
   @override
