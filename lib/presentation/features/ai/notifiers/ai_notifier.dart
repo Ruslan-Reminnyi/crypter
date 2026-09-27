@@ -54,6 +54,11 @@ class AiNotifier extends _$AiNotifier {
     await _sharedPreferences.setInterval(newInterval.timeframe);
   }
 
+  Future<void> changeLimit(int newLimit) async {
+    state = state.copyWith(limit: newLimit);
+    await _sharedPreferences.setLimit(newLimit);
+  }
+
   Future<void> generateOrderCreationRecommendations(String prompt) async {
     try {
       state = state.copyWith(isLoading: true);

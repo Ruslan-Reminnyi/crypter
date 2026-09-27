@@ -5,7 +5,10 @@ import 'package:crypter/core/di/providers/app_providers.dart';
 import 'package:crypter/data/extensions/build_context_extensions.dart';
 import 'package:crypter/presentation/common/validators/input_error.dart';
 import 'package:crypter/presentation/common/validators/validators.dart';
+import 'package:crypter/presentation/features/auth/widgets/app_text_form_field.dart';
+import 'package:crypter/presentation/features/auth/widgets/auth_screen_wrapper/auth_screen_wrapper.dart';
 import 'package:crypter/presentation/features/auth/widgets/password_text_field.dart';
+import 'package:crypter/presentation/features/auth/widgets/text_field_with_label.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -27,76 +30,49 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        controller: _emailController,
-                        decoration: InputDecoration(hintText: context.l10n.email),
-                        keyboardType: .numberWithOptions(decimal: true),
-                        textInputAction: .next,
-                        validator: (value) {
-                          final result = Validators.email(value);
+    return AuthScreenWrapper.login(
+      form: Expanded(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: .center,
+            spacing: 16.0,
+            children: [
+              TextFieldWithLabel.email(
+                textField: AppTextFormField.email(
+                  controller: _emailController,
+                  validator: (value) {
+                    final result = Validators.email(value);
 
-                          return switch (result) {
-                            EmptyInputError() => context.l10n.thisIsRequiredField,
-                            InvalidEmailFormatError() => context.l10n.emailIsNotValid,
-                            _ => null,
-                          };
-                        },
-                      ),
-                      SizedBox(height: 16),
-                      PasswordTextField(
-                        controller: _passwordController,
-                        hintText: context.l10n.password,
-                        validator: (value) {
-                          final result = Validators.password(value);
+                    return switch (result) {
+                      EmptyInputError() => context.l10n.thisIsRequiredField,
+                      InvalidEmailFormatError() => context.l10n.emailIsNotValid,
+                      _ => null,
+                    };
+                  },
+                  prefixIcon: Icons.email_outlined,
+                ),
+              ),
+              TextFieldWithLabel.password(
+                textField: PasswordTextField.password(
+                  controller: _passwordController,
+                  validator: (value) {
+                    final result = Validators.password(value);
 
-                          return switch (result) {
-                            EmptyInputError() => context.l10n.thisIsRequiredField,
-                            InvalidPasswordFormatError() =>
-                              context.l10n.passwordMustBeAtLeastEightCharacters,
-                            _ => null,
-                          };
-                        },
-                      ),
-                    ],
-                  ),
+                    return switch (result) {
+                      EmptyInputError() => context.l10n.thisIsRequiredField,
+                      InvalidPasswordFormatError() =>
+                        context.l10n.passwordMustBeAtLeastEightCharacters,
+                      _ => null,
+                    };
+                  },
                 ),
-                SizedBox(height: 24),
-                Row(
-                  children: [
-                    Text(context.l10n.dontHaveAccountYet),
-                    TextButton(
-                      onPressed: () => context.go(AppRoutes.signUp.path),
-                      child: Text(context.l10n.signUp),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 24),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: _onSave,
-                    style: ButtonStyle(
-                      fixedSize: WidgetStatePropertyAll(Size(double.infinity, 50)),
-                    ),
-                    child: Text(context.l10n.login),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
+      callback: _onSave,
     );
   }
 

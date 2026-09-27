@@ -5,6 +5,9 @@ import 'package:crypter/core/di/providers/app_providers.dart';
 import 'package:crypter/data/extensions/build_context_extensions.dart';
 import 'package:crypter/presentation/common/validators/input_error.dart';
 import 'package:crypter/presentation/common/validators/validators.dart';
+import 'package:crypter/presentation/features/auth/widgets/app_text_form_field.dart';
+import 'package:crypter/presentation/features/auth/widgets/auth_screen_wrapper/auth_screen_wrapper.dart';
+import 'package:crypter/presentation/features/auth/widgets/text_field_with_label.dart';
 import 'package:crypter/presentation/features/auth/widgets/password_text_field.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
@@ -29,107 +32,79 @@ class _RegisterScreenState extends ConsumerState<RegistrationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        controller: _nameController,
-                        decoration: InputDecoration(hintText: context.l10n.name),
-                        textInputAction: .next,
-                        validator: (value) {
-                          final result = Validators.name(value);
+    return AuthScreenWrapper.signUp(
+      form: Expanded(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: .center,
+            spacing: 16.0,
+            children: [
+              TextFieldWithLabel.name(
+                textField: AppTextFormField.name(
+                  controller: _nameController,
+                  validator: (value) {
+                    final result = Validators.name(value);
 
-                          return switch (result) {
-                            EmptyInputError() => context.l10n.thisIsRequiredField,
-                            _ => null,
-                          };
-                        },
-                      ),
-                      SizedBox(height: 16),
-                      TextFormField(
-                        controller: _emailController,
-                        decoration: InputDecoration(hintText: context.l10n.email),
-                        keyboardType: .emailAddress,
-                        textInputAction: .next,
-                        validator: (value) {
-                          final result = Validators.email(value);
+                    return switch (result) {
+                      EmptyInputError() => context.l10n.thisIsRequiredField,
+                      _ => null,
+                    };
+                  },
+                  prefixIcon: Icons.person_outline_rounded,
+                ),
+              ),
+              TextFieldWithLabel.email(
+                textField: AppTextFormField.email(
+                  controller: _emailController,
+                  validator: (value) {
+                    final result = Validators.email(value);
 
-                          return switch (result) {
-                            EmptyInputError() => context.l10n.thisIsRequiredField,
-                            InvalidEmailFormatError() => context.l10n.emailIsNotValid,
-                            _ => null,
-                          };
-                        },
-                      ),
-                      SizedBox(height: 16),
-                      PasswordTextField(
-                        controller: _passwordController,
-                        hintText: context.l10n.password,
-                        validator: (value) {
-                          final result = Validators.password(value);
+                    return switch (result) {
+                      EmptyInputError() => context.l10n.thisIsRequiredField,
+                      InvalidEmailFormatError() => context.l10n.emailIsNotValid,
+                      _ => null,
+                    };
+                  },
+                  prefixIcon: Icons.email_outlined,
+                ),
+              ),
+              _PasswordsSection(
+                passwordTextField: TextFieldWithLabel.password(
+                  textField: PasswordTextField.password(
+                    controller: _passwordController,
+                    validator: (value) {
+                      final result = Validators.password(value);
 
-                          return switch (result) {
-                            EmptyInputError() => context.l10n.thisIsRequiredField,
-                            InvalidPasswordFormatError() =>
-                              context.l10n.passwordMustBeAtLeastEightCharacters,
-                            _ => null,
-                          };
-                        },
-                      ),
-                      SizedBox(height: 16),
-                      PasswordTextField(
-                        controller: _confirmPasswordController,
-                        hintText: context.l10n.confirmPassword,
-                        validator: (value) {
-                          final result = Validators.confirmPassword(
-                            value,
-                            _passwordController.text,
-                          );
-
-                          return switch (result) {
-                            EmptyInputError() => context.l10n.thisIsRequiredField,
-                            InvalidConfirmPasswordFormatError() => context.l10n.passwordsDoNotMatch,
-                            _ => null,
-                          };
-                        },
-                      ),
-                    ],
+                      return switch (result) {
+                        EmptyInputError() => context.l10n.thisIsRequiredField,
+                        InvalidPasswordFormatError() =>
+                          context.l10n.passwordMustBeAtLeastEightCharacters,
+                        _ => null,
+                      };
+                    },
                   ),
                 ),
-                SizedBox(height: 24),
-                Row(
-                  children: [
-                    Text(context.l10n.alreadyHaveAccount),
-                    TextButton(
-                      onPressed: () => context.go(AppRoutes.login.path),
-                      child: Text(context.l10n.login),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 24),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: _onSave,
-                    style: ButtonStyle(
-                      fixedSize: WidgetStatePropertyAll(Size(double.infinity, 50)),
-                    ),
-                    child: Text(context.l10n.signUp),
+                confirmPasswordTextField: TextFieldWithLabel.confirmPassword(
+                  textField: PasswordTextField.confirmPassword(
+                    controller: _confirmPasswordController,
+                    validator: (value) {
+                      final result = Validators.confirmPassword(value, _passwordController.text);
+
+                      return switch (result) {
+                        EmptyInputError() => context.l10n.thisIsRequiredField,
+                        InvalidConfirmPasswordFormatError() => context.l10n.passwordsDoNotMatch,
+                        _ => null,
+                      };
+                    },
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
+      callback: _onSave,
     );
   }
 
@@ -178,5 +153,37 @@ class _RegisterScreenState extends ConsumerState<RegistrationScreen> {
       final iosDeviceInfo = await deviceInfo.iosInfo;
       return '${iosDeviceInfo.model} ${iosDeviceInfo.utsname}';
     }
+  }
+}
+
+class _PasswordsSection extends StatelessWidget {
+  final Widget _passwordTextField;
+  final Widget _confirmPasswordTextField;
+
+  const _PasswordsSection({
+    required this._passwordTextField,
+    required this._confirmPasswordTextField,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final tabletAndMobileLayout = Column(
+      crossAxisAlignment: .start,
+      spacing: 16.0,
+      children: [_passwordTextField, _confirmPasswordTextField],
+    );
+    final desktopLayout = Row(
+      spacing: 24.0,
+      children: [
+        Expanded(child: _passwordTextField),
+        Expanded(child: _confirmPasswordTextField),
+      ],
+    );
+
+    return context.responsiveValue(
+      mobile: () => tabletAndMobileLayout,
+      tablet: () => tabletAndMobileLayout,
+      desktop: () => desktopLayout,
+    );
   }
 }

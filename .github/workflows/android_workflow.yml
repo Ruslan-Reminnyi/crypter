@@ -48,7 +48,7 @@ jobs:
           flutter build ${{ vars.ANDROID_BUILD_TYPE }} \
           -t lib/main.dart \
           --build-name ${{ env.VERSION }} \
-          --build-number ${{ env.BUILD_NUMBER }}
+          --build-number ${{ github.run_number }}
 
       - name: Install Firebase CLI
         uses: ./.github/actions/install-firebase-cli

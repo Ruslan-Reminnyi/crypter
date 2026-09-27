@@ -40,7 +40,7 @@ final class AiNotifierProvider extends $NotifierProvider<AiNotifier, AiState> {
   }
 }
 
-String _$aiNotifierHash() => r'ed0e5664b02e5a0a122d1c2abd3a2a9cdcebe433';
+String _$aiNotifierHash() => r'23dffd37551349a903b610e5703f479daa843cd3';
 
 abstract class _$AiNotifier extends $Notifier<AiState> {
   AiState build();

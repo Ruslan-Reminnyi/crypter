@@ -12,9 +12,10 @@ import 'package:crypter/presentation/common/dialogs/app_dialog.dart';
 import 'package:crypter/presentation/common/formatters/app_input_formatters.dart';
 import 'package:crypter/presentation/common/validators/input_error.dart';
 import 'package:crypter/presentation/common/validators/validators.dart';
+import 'package:crypter/presentation/common/widgets/app_button.dart';
+import 'package:crypter/presentation/common/widgets/parameter_setting.dart';
 import 'package:crypter/presentation/features/orders/notifiers/orders_notifier.dart';
 import 'package:crypter/presentation/features/orders/providers/order_by_id_provider.dart';
-import 'package:crypter/presentation/features/orders/widgets/custom_dropdown_menu_form_field.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -100,11 +101,21 @@ class _OrderPageState extends ConsumerState<OrderPage> {
 
   @override
   Widget build(BuildContext context) {
+    final mobileAndTabletAppBar = AppBar(
+      title: Text(context.l10n.order),
+      leading: IconButton(onPressed: context.pop, icon: Icon(Icons.arrow_back_rounded)),
+    );
+
     return Scaffold(
-      appBar: AppBar(),
+      appBar: context.responsiveValue(
+        mobile: () => mobileAndTabletAppBar,
+        tablet: () => mobileAndTabletAppBar,
+        desktop: () => null,
+      ),
+      backgroundColor: Theme.of(context).colorScheme.onSurfaceVariant,
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: _isCreation
               ? _buildOrderPageContent(context)
               : ref
@@ -127,251 +138,278 @@ class _OrderPageState extends ConsumerState<OrderPage> {
 
   Widget _buildOrderPageContent(BuildContext context) {
     return Column(
+      spacing: 24.0,
       children: [
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: context.responsiveValue(
+              mobile: () => 0.0,
+              tablet: () => 24.0,
+              desktop: () => 24.0,
+            ),
+            vertical: context.responsiveValue(
+              mobile: () => 0.0,
+              tablet: () => 0.0,
+              desktop: () => 24.0,
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: .end,
+            spacing: 8.0,
+            children: [
+              AppButton(
+                label: context.l10n.save,
+                callback: _onSave,
+                width: context.responsiveValue(
+                  mobile: () => 110.0,
+                  tablet: () => 150.0,
+                  desktop: () => 150.0,
+                ),
+                prefixIcon: Icons.save_rounded,
+              ),
+              if (!_isCreation) ...[
+                AppButton(
+                  label: context.l10n.update,
+                  callback: _onSave,
+                  width: context.responsiveValue(
+                    mobile: () => 110.0,
+                    tablet: () => 150.0,
+                    desktop: () => 150.0,
+                  ),
+                  prefixIcon: Icons.mode_edit_outline_rounded,
+                  color: Colors.transparent,
+                  labelColor: Theme.of(context).colorScheme.primaryContainer,
+                  borderColor: Theme.of(context).colorScheme.primaryContainer,
+                ),
+                AppButton(
+                  label: context.l10n.delete,
+                  callback: _onDelete,
+                  width: context.responsiveValue(
+                    mobile: () => 110.0,
+                    tablet: () => 150.0,
+                    desktop: () => 150.0,
+                  ),
+                  prefixIcon: Icons.delete_outline_rounded,
+                  color: Colors.transparent,
+                  labelColor: Theme.of(context).colorScheme.onTertiaryContainer,
+                  borderColor: Theme.of(context).colorScheme.onTertiaryContainer,
+                ),
+              ],
+            ],
+          ),
+        ),
         Form(
           key: _formKey,
           child: Column(
+            spacing: 16.0,
             children: [
-              Row(
-                children: [
-                  Text(context.l10n.orderNumber, style: TextStyle(fontSize: 18)),
-                  SizedBox(width: 4),
-                  Expanded(
-                    child: TextFormField(
-                      autofocus: true,
-                      controller: _numberController,
-                      decoration: InputDecoration(hintText: context.l10n.number),
-                      keyboardType: .number,
-                      textInputAction: .next,
-                      validator: (value) {
-                        final result = Validators.intInput(value);
+              _SettingsSection(
+                symbolSetting: ParameterSetting<Symbol>(
+                  label: context.l10n.symbol,
+                  values: Symbol.values,
+                  itemBuilder: (symbol) => symbol.displayName,
+                  onSelected: (item) {},
+                ),
+                exchangeSetting: ParameterSetting<Exchange>(
+                  label: context.l10n.interval,
+                  values: Exchange.values,
+                  itemBuilder: (exchange) => exchange.displayName,
+                  onSelected: (item) {},
+                ),
+                sideSetting: ParameterSetting<Side>(
+                  label: context.l10n.side,
+                  values: Side.values,
+                  itemBuilder: (side) => side.displayName,
+                  onSelected: (item) {},
+                ),
+                orderStatusSetting: ParameterSetting<OrderStatus>(
+                  label: context.l10n.status,
+                  values: OrderStatus.values,
+                  itemBuilder: (orderStatus) => orderStatus.displayName,
+                  onSelected: (item) {},
+                ),
+              ),
+              _TextFormFieldsSection(
+                numberLabel: context.l10n.orderNumber,
+                numberField: TextFormField(
+                  autofocus: true,
+                  controller: _numberController,
+                  decoration: InputDecoration(hintText: context.l10n.number),
+                  keyboardType: .number,
+                  textInputAction: .next,
+                  validator: (value) {
+                    final result = Validators.intInput(value);
 
-                        return switch (result) {
-                          EmptyInputError() => context.l10n.thisIsRequiredField,
-                          InvalidIntFormatError() => context.l10n.thisInputMustContainOnlyNumbers,
-                          _ => null,
-                        };
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 16),
-              CustomDropdownMenuFormField<Exchange>(
-                values: Exchange.values,
-                initialSelection: Exchange.binance,
-                itemBuilder: (exchange) => exchange.displayName,
-                onSelected: (item) {},
-                width: 150,
-                controller: _exchangeController,
-                textInputAction: .next,
-              ),
-              SizedBox(width: 16),
-              CustomDropdownMenuFormField<Symbol>(
-                values: Symbol.values,
-                initialSelection: Symbol.ethusdt,
-                itemBuilder: (symbol) => symbol.displayName,
-                onSelected: (item) {},
-                width: 150,
-                controller: _symbolController,
-                textInputAction: .next,
-              ),
-              SizedBox(height: 16),
-              CustomDropdownMenuFormField<Side>(
-                values: Side.values,
-                initialSelection: Side.long,
-                itemBuilder: (side) => side.displayName,
-                onSelected: (item) {},
-                width: 150,
-                controller: _sideController,
-                textInputAction: .next,
-              ),
-              SizedBox(height: 16),
-              CustomDropdownMenuFormField<OrderStatus>(
-                values: OrderStatus.values,
-                initialSelection: OrderStatus.working,
-                itemBuilder: (orderStatus) => orderStatus.displayName,
-                onSelected: (item) {},
-                width: 150,
-                controller: _orderStatusController,
-                textInputAction: .next,
-              ),
-              SizedBox(height: 16),
-              TextFormField(
-                controller: _quantityController,
-                decoration: InputDecoration(hintText: context.l10n.quantity),
-                keyboardType: .numberWithOptions(decimal: true),
-                textInputAction: .next,
-                validator: (value) {
-                  final result = Validators.doubleInput(value);
+                    return switch (result) {
+                      EmptyInputError() => context.l10n.thisIsRequiredField,
+                      InvalidIntFormatError() => context.l10n.thisInputMustContainOnlyNumbers,
+                      _ => null,
+                    };
+                  },
+                ),
+                quantityLabel: context.l10n.quantity,
+                quantityField: TextFormField(
+                  controller: _quantityController,
+                  decoration: InputDecoration(hintText: context.l10n.quantity),
+                  keyboardType: .numberWithOptions(decimal: true),
+                  textInputAction: .next,
+                  validator: (value) {
+                    final result = Validators.doubleInput(value);
 
-                  return switch (result) {
-                    EmptyInputError() => context.l10n.thisIsRequiredField,
-                    InvalidIntOrDoubleFormatError() =>
-                      context.l10n.thisInputMustContainEitherNumbersOrDecimal,
-                    _ => null,
-                  };
-                },
-              ),
-              SizedBox(height: 16),
-              TextFormField(
-                controller: _priceController,
-                decoration: InputDecoration(hintText: context.l10n.fillPrice),
-                keyboardType: .numberWithOptions(decimal: true),
-                textInputAction: .next,
-                validator: (value) {
-                  final result = Validators.doubleInput(value);
+                    return switch (result) {
+                      EmptyInputError() => context.l10n.thisIsRequiredField,
+                      InvalidIntOrDoubleFormatError() =>
+                        context.l10n.thisInputMustContainEitherNumbersOrDecimal,
+                      _ => null,
+                    };
+                  },
+                ),
+                fillPriceLabel: context.l10n.fillPrice,
+                fillPriceField: TextFormField(
+                  controller: _priceController,
+                  decoration: InputDecoration(hintText: context.l10n.fillPrice),
+                  keyboardType: .numberWithOptions(decimal: true),
+                  textInputAction: .next,
+                  validator: (value) {
+                    final result = Validators.doubleInput(value);
 
-                  return switch (result) {
-                    EmptyInputError() => context.l10n.thisIsRequiredField,
-                    InvalidIntOrDoubleFormatError() =>
-                      context.l10n.thisInputMustContainEitherNumbersOrDecimal,
-                    _ => null,
-                  };
-                },
-              ),
-              SizedBox(height: 16),
-              TextFormField(
-                controller: _placingTimeController,
-                maxLength: 16,
-                decoration: InputDecoration(labelText: context.l10n.placingTime, counterText: ''),
-                keyboardType: .datetime,
-                textInputAction: .next,
-                inputFormatters: AppInputFormatters.orderDateTime(),
-                validator: (value) {
-                  final result = Validators.dateTime(value);
+                    return switch (result) {
+                      EmptyInputError() => context.l10n.thisIsRequiredField,
+                      InvalidIntOrDoubleFormatError() =>
+                        context.l10n.thisInputMustContainEitherNumbersOrDecimal,
+                      _ => null,
+                    };
+                  },
+                ),
+                placingTimeLabel: context.l10n.placingTime,
+                placingTimeField: TextFormField(
+                  controller: _placingTimeController,
+                  maxLength: 16,
+                  decoration: InputDecoration(hintText: context.l10n.placingTime, counterText: ''),
+                  keyboardType: .datetime,
+                  textInputAction: .next,
+                  inputFormatters: AppInputFormatters.orderDateTime(),
+                  validator: (value) {
+                    final result = Validators.dateTime(value);
 
-                  return switch (result) {
-                    EmptyInputError() => context.l10n.thisIsRequiredField,
-                    InvalidDateTimeFormatError() => context.l10n.dateTimeFormatIs,
-                    DateTimeDoesNotExistError() => context.l10n.thisDateDoesNotExist,
-                    _ => null,
-                  };
-                },
-              ),
-              SizedBox(height: 16),
-              TextFormField(
-                controller: _takeProfitController,
-                decoration: InputDecoration(hintText: context.l10n.takeProfit),
-                keyboardType: .numberWithOptions(decimal: true),
-                textInputAction: .next,
-                validator: (value) {
-                  final result = Validators.doubleInput(value, isRequired: false);
+                    return switch (result) {
+                      EmptyInputError() => context.l10n.thisIsRequiredField,
+                      InvalidDateTimeFormatError() => context.l10n.dateTimeFormatIs,
+                      DateTimeDoesNotExistError() => context.l10n.thisDateDoesNotExist,
+                      _ => null,
+                    };
+                  },
+                ),
+                takeProfitLabel: context.l10n.takeProfit,
+                takeProfitField: TextFormField(
+                  controller: _takeProfitController,
+                  decoration: InputDecoration(hintText: context.l10n.takeProfit),
+                  keyboardType: .numberWithOptions(decimal: true),
+                  textInputAction: .next,
+                  validator: (value) {
+                    final result = Validators.doubleInput(value, isRequired: false);
 
-                  return switch (result) {
-                    InvalidIntOrDoubleFormatError() =>
-                      context.l10n.thisInputMustContainEitherNumbersOrDecimal,
-                    _ => null,
-                  };
-                },
-              ),
-              SizedBox(height: 16),
-              TextFormField(
-                controller: _stopLossController,
-                decoration: InputDecoration(hintText: context.l10n.stopLoss),
-                keyboardType: .numberWithOptions(decimal: true),
-                textInputAction: .next,
-                validator: (value) {
-                  final result = Validators.doubleInput(value, isRequired: false);
+                    return switch (result) {
+                      InvalidIntOrDoubleFormatError() =>
+                        context.l10n.thisInputMustContainEitherNumbersOrDecimal,
+                      _ => null,
+                    };
+                  },
+                ),
+                stopLossLabel: context.l10n.stopLoss,
+                stopLossField: TextFormField(
+                  controller: _stopLossController,
+                  decoration: InputDecoration(hintText: context.l10n.stopLoss),
+                  keyboardType: .numberWithOptions(decimal: true),
+                  textInputAction: .next,
+                  validator: (value) {
+                    final result = Validators.doubleInput(value, isRequired: false);
 
-                  return switch (result) {
-                    InvalidIntOrDoubleFormatError() =>
-                      context.l10n.thisInputMustContainEitherNumbersOrDecimal,
-                    _ => null,
-                  };
-                },
-              ),
-              SizedBox(height: 16),
-              TextFormField(
-                controller: _closingTimeController,
-                maxLength: 16,
-                decoration: InputDecoration(labelText: context.l10n.closingTime, counterText: ''),
-                keyboardType: .datetime,
-                textInputAction: .next,
-                inputFormatters: AppInputFormatters.orderDateTime(),
-                validator: (value) {
-                  final result = Validators.dateTime(value, isRequired: false);
+                    return switch (result) {
+                      InvalidIntOrDoubleFormatError() =>
+                        context.l10n.thisInputMustContainEitherNumbersOrDecimal,
+                      _ => null,
+                    };
+                  },
+                ),
+                closingTimeLabel: context.l10n.closingTime,
+                closingTimeField: TextFormField(
+                  controller: _closingTimeController,
+                  maxLength: 16,
+                  decoration: InputDecoration(hintText: context.l10n.closingTime, counterText: ''),
+                  keyboardType: .datetime,
+                  textInputAction: .next,
+                  inputFormatters: AppInputFormatters.orderDateTime(),
+                  validator: (value) {
+                    final result = Validators.dateTime(value, isRequired: false);
 
-                  return switch (result) {
-                    InvalidDateTimeFormatError() => context.l10n.dateTimeFormatIs,
-                    DateTimeDoesNotExistError() => context.l10n.thisDateDoesNotExist,
-                    _ => null,
-                  };
-                },
-              ),
-              SizedBox(height: 16),
-              TextFormField(
-                controller: _leverageController,
-                decoration: InputDecoration(hintText: context.l10n.leverage),
-                keyboardType: .phone,
-                textInputAction: .next,
-                inputFormatters: AppInputFormatters.orderLeverage(),
-                validator: (value) {
-                  final result = Validators.leverage(value);
+                    return switch (result) {
+                      InvalidDateTimeFormatError() => context.l10n.dateTimeFormatIs,
+                      DateTimeDoesNotExistError() => context.l10n.thisDateDoesNotExist,
+                      _ => null,
+                    };
+                  },
+                ),
+                leverageLabel: context.l10n.leverage,
+                leverageField: TextFormField(
+                  controller: _leverageController,
+                  decoration: InputDecoration(hintText: context.l10n.leverage),
+                  keyboardType: .phone,
+                  textInputAction: .next,
+                  inputFormatters: AppInputFormatters.orderLeverage(),
+                  validator: (value) {
+                    final result = Validators.leverage(value);
 
-                  return switch (result) {
-                    InvalidLeverageFormatError() => context.l10n.useHereSomethingLike,
-                    _ => null,
-                  };
-                },
-              ),
-              SizedBox(height: 16),
-              TextFormField(
-                controller: _marginController,
-                decoration: InputDecoration(hintText: context.l10n.margin),
-                keyboardType: .numberWithOptions(decimal: true),
-                textInputAction: .next,
-                validator: (value) {
-                  final result = Validators.doubleInput(value, isRequired: false);
+                    return switch (result) {
+                      InvalidLeverageFormatError() => context.l10n.useHereSomethingLike,
+                      _ => null,
+                    };
+                  },
+                ),
+                marginLabel: context.l10n.margin,
+                marginField: TextFormField(
+                  controller: _marginController,
+                  decoration: InputDecoration(hintText: context.l10n.margin),
+                  keyboardType: .numberWithOptions(decimal: true),
+                  textInputAction: .next,
+                  validator: (value) {
+                    final result = Validators.doubleInput(value, isRequired: false);
 
-                  return switch (result) {
-                    InvalidIntOrDoubleFormatError() =>
-                      context.l10n.thisInputMustContainEitherNumbersOrDecimal,
-                    _ => null,
-                  };
-                },
-              ),
-              SizedBox(height: 16),
-              TextFormField(
-                controller: _realizedPnLController,
-                decoration: InputDecoration(hintText: context.l10n.realizedPnL),
-                keyboardType: .numberWithOptions(signed: true, decimal: true),
-                textInputAction: .done,
-                onEditingComplete: _onSave,
-                validator: (value) {
-                  final result = Validators.realizedPnL(value);
+                    return switch (result) {
+                      InvalidIntOrDoubleFormatError() =>
+                        context.l10n.thisInputMustContainEitherNumbersOrDecimal,
+                      _ => null,
+                    };
+                  },
+                ),
+                realizedPnLLabel: context.l10n.realizedPnL,
+                realizedPnLField: TextFormField(
+                  controller: _realizedPnLController,
+                  decoration: InputDecoration(hintText: context.l10n.realizedPnL),
+                  keyboardType: .numberWithOptions(signed: true, decimal: true),
+                  textInputAction: .done,
+                  onEditingComplete: _onSave,
+                  validator: (value) {
+                    final result = Validators.realizedPnL(value);
 
-                  return switch (result) {
-                    InvalidRealizedPnLFormatError() =>
-                      context.l10n.thisFieldMustStartFromEitherMinusOrPlus,
-                    _ => null,
-                  };
-                },
+                    return switch (result) {
+                      InvalidRealizedPnLFormatError() =>
+                        context.l10n.thisFieldMustStartFromEitherMinusOrPlus,
+                      _ => null,
+                    };
+                  },
+                ),
+              ),
+              SizedBox(
+                height: context.responsiveValue(
+                  mobile: () => 12.0,
+                  tablet: () => 12.0,
+                  desktop: () => 0.0,
+                ),
               ),
             ],
           ),
         ),
-        SizedBox(height: 24),
-        SizedBox(
-          width: .infinity,
-          child: ElevatedButton(
-            onPressed: _onSave,
-            style: ButtonStyle(fixedSize: WidgetStatePropertyAll(Size(.infinity, 50))),
-            child: Text(_isCreation ? context.l10n.save : context.l10n.update),
-          ),
-        ),
-        SizedBox(height: 24),
-        if (!_isCreation) ...[
-          SizedBox(
-            width: .infinity,
-            child: ElevatedButton(
-              onPressed: _onDelete,
-              style: ButtonStyle(fixedSize: WidgetStatePropertyAll(Size(.infinity, 50))),
-              child: Text(context.l10n.delete),
-            ),
-          ),
-          SizedBox(height: 24),
-        ],
       ],
     );
   }
@@ -494,5 +532,217 @@ class _OrderPageState extends ConsumerState<OrderPage> {
     _realizedPnLController.dispose();
 
     super.dispose();
+  }
+}
+
+class _SettingsSection extends StatelessWidget {
+  final Widget _symbolSetting;
+  final Widget _exchangeSetting;
+  final Widget _sideSetting;
+  final Widget _orderStatusSetting;
+
+  const _SettingsSection({
+    required this._symbolSetting,
+    required this._exchangeSetting,
+    required this._sideSetting,
+    required this._orderStatusSetting,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final mobileLayout = Column(
+      mainAxisSize: .min,
+      spacing: 12.0,
+      children: [_symbolSetting, _exchangeSetting, _sideSetting, _orderStatusSetting],
+    );
+    final tabletAndDesktopLayout = Column(
+      spacing: 12.0,
+      children: [
+        Row(spacing: 12.0, children: [_symbolSetting, _exchangeSetting]),
+        Row(spacing: 12.0, children: [_sideSetting, _orderStatusSetting]),
+      ],
+    );
+
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.onSurfaceVariant,
+        borderRadius: BorderRadius.circular(12.0),
+      ),
+      padding: const EdgeInsets.all(16.0),
+      child: context.responsiveValue(
+        mobile: () => mobileLayout,
+        tablet: () => tabletAndDesktopLayout,
+        desktop: () => tabletAndDesktopLayout,
+      ),
+    );
+  }
+}
+
+class _TextFormField extends StatelessWidget {
+  final String _label;
+  final Widget _textFormField;
+
+  const _TextFormField(this._label, this._textFormField);
+
+  @override
+  Widget build(BuildContext context) {
+    return Flexible(
+      child: SizedBox(
+        height: 108.0,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surface,
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: .start,
+              spacing: 2.0,
+              children: [
+                Text(_label.toUpperCase(), style: Theme.of(context).textTheme.bodySmall),
+                _textFormField,
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _TabletAndDesktopSettingRow extends StatelessWidget {
+  final String _leftLabel;
+  final Widget _leftTextFormField;
+  final String _rightLabel;
+  final Widget _rightTextFormField;
+
+  const _TabletAndDesktopSettingRow({
+    required this._leftLabel,
+    required this._leftTextFormField,
+    required this._rightLabel,
+    required this._rightTextFormField,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Row(
+        mainAxisSize: .min,
+        spacing: 16.0,
+        children: [
+          _TextFormField(_leftLabel, _leftTextFormField),
+          _TextFormField(_rightLabel, _rightTextFormField),
+        ],
+      ),
+    );
+  }
+}
+
+class _TextFormFieldsSection extends StatelessWidget {
+  final String _numberLabel;
+  final Widget _numberField;
+  final String _quantityLabel;
+  final Widget _quantityField;
+  final String _fillPriceLabel;
+  final Widget _fillPriceField;
+  final String _placingTimeLabel;
+  final Widget _placingTimeField;
+  final String _takeProfitLabel;
+  final Widget _takeProfitField;
+  final String _stopLossLabel;
+  final Widget _stopLossField;
+  final String _closingTimeLabel;
+  final Widget _closingTimeField;
+  final String _leverageLabel;
+  final Widget _leverageField;
+  final String _marginLabel;
+  final Widget _marginField;
+  final String _realizedPnLLabel;
+  final Widget _realizedPnLField;
+
+  const _TextFormFieldsSection({
+    required this._numberLabel,
+    required this._numberField,
+    required this._quantityLabel,
+    required this._quantityField,
+    required this._fillPriceLabel,
+    required this._fillPriceField,
+    required this._placingTimeLabel,
+    required this._placingTimeField,
+    required this._takeProfitLabel,
+    required this._takeProfitField,
+    required this._stopLossLabel,
+    required this._stopLossField,
+    required this._closingTimeLabel,
+    required this._closingTimeField,
+    required this._leverageLabel,
+    required this._leverageField,
+    required this._marginLabel,
+    required this._marginField,
+    required this._realizedPnLLabel,
+    required this._realizedPnLField,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final mobileLayout = Column(
+      mainAxisSize: .min,
+      spacing: 16.0,
+      children: [
+        _TextFormField(_numberLabel, _numberField),
+        _TextFormField(_quantityLabel, _quantityField),
+        _TextFormField(_fillPriceLabel, _fillPriceField),
+        _TextFormField(_placingTimeLabel, _placingTimeField),
+        _TextFormField(_takeProfitLabel, _takeProfitField),
+        _TextFormField(_stopLossLabel, _stopLossField),
+        _TextFormField(_closingTimeLabel, _closingTimeField),
+        _TextFormField(_leverageLabel, _leverageField),
+        _TextFormField(_marginLabel, _marginField),
+        _TextFormField(_realizedPnLLabel, _realizedPnLField),
+      ],
+    );
+    final tabletAndDesktopLayout = Column(
+      spacing: 16.0,
+      children: [
+        _TabletAndDesktopSettingRow(
+          leftLabel: _numberLabel,
+          leftTextFormField: _numberField,
+          rightLabel: _quantityLabel,
+          rightTextFormField: _quantityField,
+        ),
+        _TabletAndDesktopSettingRow(
+          leftLabel: _fillPriceLabel,
+          leftTextFormField: _fillPriceField,
+          rightLabel: _placingTimeLabel,
+          rightTextFormField: _placingTimeField,
+        ),
+        _TabletAndDesktopSettingRow(
+          leftLabel: _takeProfitLabel,
+          leftTextFormField: _takeProfitField,
+          rightLabel: _stopLossLabel,
+          rightTextFormField: _stopLossField,
+        ),
+        _TabletAndDesktopSettingRow(
+          leftLabel: _closingTimeLabel,
+          leftTextFormField: _closingTimeField,
+          rightLabel: _leverageLabel,
+          rightTextFormField: _leverageField,
+        ),
+        _TabletAndDesktopSettingRow(
+          leftLabel: _marginLabel,
+          leftTextFormField: _marginField,
+          rightLabel: _realizedPnLLabel,
+          rightTextFormField: _realizedPnLField,
+        ),
+      ],
+    );
+
+    return context.responsiveValue(
+      mobile: () => mobileLayout,
+      tablet: () => tabletAndDesktopLayout,
+      desktop: () => tabletAndDesktopLayout,
+    );
   }
 }

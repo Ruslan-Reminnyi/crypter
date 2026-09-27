@@ -5,7 +5,7 @@ class CustomDropdownMenu<T> extends StatelessWidget {
   final T initialSelection;
   final String Function(T) itemBuilder;
   final ValueChanged<T?> onSelected;
-  final double width;
+  final double? width;
 
   const CustomDropdownMenu({
     super.key,
@@ -13,7 +13,7 @@ class CustomDropdownMenu<T> extends StatelessWidget {
     required this.initialSelection,
     required this.itemBuilder,
     required this.onSelected,
-    required this.width,
+    this.width,
   });
 
   @override
@@ -25,6 +25,7 @@ class CustomDropdownMenu<T> extends StatelessWidget {
       initialSelection: initialSelection,
       onSelected: (value) => onSelected(value),
       width: width,
+      textStyle: Theme.of(context).textTheme.titleMedium,
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:crypter/data/extensions/build_context_extensions.dart';
 import 'package:crypter/domain/enums/order_tab.dart';
 import 'package:crypter/presentation/common/dialogs/app_dialog.dart';
 import 'package:crypter/presentation/features/orders/notifiers/orders_notifier.dart';
@@ -23,25 +24,42 @@ class FilteredOrdersPage extends ConsumerWidget {
 
     return Stack(
       children: [
-        ListView.builder(
-          itemCount: orders.length,
-          itemBuilder: (context, index) => OrderTile(
-            order: orders[index],
-            onDelete: () async {
-              final isConfirmed = await AppDialog.orderDeletion(context);
+        Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(12.0),
+              bottomRight: Radius.circular(12.0),
+            ),
+          ),
+          padding: EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 12.0),
+          margin: EdgeInsets.fromLTRB(
+            24.0,
+            context.responsiveValue(mobile: () => 24.0, tablet: () => 0.0, desktop: () => 0.0),
+            context.responsiveValue(mobile: () => 24.0, tablet: () => 24.0, desktop: () => 12.0),
+            24.0,
+          ),
+          child: ListView.separated(
+            itemCount: orders.length,
+            separatorBuilder: (_, _) => SizedBox(height: 8.0),
+            itemBuilder: (context, index) => OrderTile(
+              order: orders[index],
+              onDelete: () async {
+                final isConfirmed = await AppDialog.orderDeletion(context);
 
-              if (isConfirmed == true && context.mounted) {
-                try {
-                  await ref.read(ordersProvider.notifier).deleteOrder(orders[index].id!);
-                } catch (e) {
-                  if (context.mounted) {
-                    ScaffoldMessenger.of(
-                      context,
-                    ).showSnackBar(SnackBar(content: Text(e.toString())));
+                if (isConfirmed == true && context.mounted) {
+                  try {
+                    await ref.read(ordersProvider.notifier).deleteOrder(orders[index].id!);
+                  } catch (e) {
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(
+                        context,
+                      ).showSnackBar(SnackBar(content: Text(e.toString())));
+                    }
                   }
                 }
-              }
-            },
+              },
+            ),
           ),
         ),
         if (state.isLoading)
