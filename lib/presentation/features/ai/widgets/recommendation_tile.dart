@@ -2,7 +2,7 @@ import 'package:crypter/data/extensions/build_context_extensions.dart';
 import 'package:crypter/data/extensions/string_extensions.dart';
 import 'package:crypter/data/models/ai/recommendations/ai_recommendation.dart';
 import 'package:crypter/domain/enums/side.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class RecommendationTile extends StatelessWidget {
   final AiRecommendation recommendation;

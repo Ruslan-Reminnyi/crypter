@@ -1,7 +1,7 @@
 import 'package:crypter/core/styles/app_colors.dart';
 import 'package:crypter/domain/enums/form_factor.dart';
 import 'package:crypter/l10n/app_localizations.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 extension AppLocalizationsType on BuildContext {
   AppLocalizations get l10n {

@@ -6,7 +6,7 @@ import 'package:crypter/core/di/providers/app_providers.dart';
 import 'package:crypter/core/logging/app_talker.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

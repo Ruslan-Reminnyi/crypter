@@ -1,6 +1,6 @@
 import 'package:crypter/data/extensions/build_context_extensions.dart';
 import 'package:crypter/domain/enums/form_factor.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// A layout for the full screen according to FormFactor
 class AppResponsiveScreen extends StatelessWidget {

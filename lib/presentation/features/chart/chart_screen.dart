@@ -16,7 +16,7 @@ import 'package:crypter/presentation/features/ai/widgets/limit_parameter_setting
 import 'package:crypter/presentation/features/chart/notifiers/chart_notifier.dart';
 import 'package:crypter/presentation/features/chart/providers/crypto_info_repository_stream.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart' hide Interval;
+import 'package:material_ui/material_ui.dart' hide Interval;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 

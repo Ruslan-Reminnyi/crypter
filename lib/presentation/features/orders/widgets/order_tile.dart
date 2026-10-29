@@ -1,9 +1,8 @@
 import 'package:crypter/core/app/navigation/app_routes.dart';
+import 'package:crypter/data/extensions/build_context_extensions.dart';
 import 'package:crypter/data/models/order/order.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../../../data/extensions/build_context_extensions.dart';
 
 class OrderTile extends StatelessWidget {
   final Order order;

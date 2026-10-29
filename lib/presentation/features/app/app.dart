@@ -2,8 +2,7 @@ import 'package:crypter/core/app/navigation/router.dart';
 import 'package:crypter/core/di/providers/app_providers.dart';
 import 'package:crypter/core/styles/app_themes.dart';
 import 'package:crypter/l10n/app_localizations.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class App extends ConsumerWidget {
@@ -18,12 +17,7 @@ class App extends ConsumerWidget {
       title: 'Crypter',
       themeMode: .dark,
       darkTheme: AppThemes.dark,
-      localizationsDelegates: [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
+      localizationsDelegates: GlobalMaterialLocalizations.delegates,
       supportedLocales: AppLocalizations.supportedLocales,
       routeInformationParser: appRouter.routeInformationParser,
       routeInformationProvider: appRouter.routeInformationProvider,

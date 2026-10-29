@@ -4,7 +4,7 @@ import 'package:crypter/presentation/common/dialogs/app_dialog.dart';
 import 'package:crypter/presentation/features/orders/notifiers/orders_notifier.dart';
 import 'package:crypter/presentation/features/orders/providers/filtered_orders_provider.dart';
 import 'package:crypter/presentation/features/orders/widgets/order_tile.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FilteredOrdersPage extends ConsumerWidget {

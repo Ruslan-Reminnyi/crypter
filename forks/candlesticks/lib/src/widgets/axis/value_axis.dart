@@ -4,7 +4,7 @@ import 'package:candlesticks/src/models/price_scale.dart';
 import 'package:candlesticks/src/utils/helper_functions.dart';
 import 'package:candlesticks/src/widgets/candle_sticks_style_provider.dart';
 import 'package:candlesticks/src/widgets/dash_line_painter.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class ValueAxis extends StatefulWidget {
   const ValueAxis({

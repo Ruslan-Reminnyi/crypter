@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:candlesticks/candlesticks.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 import './symbol_search_modal.dart';

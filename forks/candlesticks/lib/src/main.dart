@@ -4,7 +4,7 @@ import 'package:candlesticks/src/widgets/candle_sticks_style_provider.dart';
 import 'package:candlesticks/src/widgets/chart_composer.dart';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 final isDesktopLike = kIsWeb ||
     defaultTargetPlatform == TargetPlatform.macOS ||

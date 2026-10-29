@@ -1,7 +1,7 @@
 import 'package:candlesticks/src/models/candle.dart';
 import 'package:candlesticks/src/widgets/candle_info_text.dart';
 import 'package:candlesticks/src/widgets/candle_sticks_style_provider.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class HoveredCandleInfoBar extends StatelessWidget {
   const HoveredCandleInfoBar({

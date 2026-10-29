@@ -1,6 +1,6 @@
 import 'package:crypter/core/styles/app_colors.dart';
 import 'package:crypter/core/styles/app_fonts.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class AppThemes {
   static ThemeData get dark {

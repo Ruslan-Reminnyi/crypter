@@ -4,7 +4,7 @@ import 'package:candlesticks/src/controller/candlesticks_viewport.dart';
 import 'package:candlesticks/src/models/candle_sticks_style.dart';
 import 'package:candlesticks/src/models/price_scale.dart';
 import 'package:candlesticks/src/widgets/candle_sticks_style_provider.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class MobileGestureHandler extends StatefulWidget {
   final double maxHeight;

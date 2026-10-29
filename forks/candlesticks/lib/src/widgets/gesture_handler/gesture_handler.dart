@@ -4,7 +4,7 @@ import 'package:candlesticks/src/models/price_scale.dart';
 import 'package:candlesticks/src/widgets/gesture_handler/desktop_gesture_handler.dart';
 import 'package:candlesticks/src/widgets/gesture_handler/mobile_gesture_handler.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class GestureHandler extends StatelessWidget {
   const GestureHandler({

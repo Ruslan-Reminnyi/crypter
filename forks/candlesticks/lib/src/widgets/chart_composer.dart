@@ -8,7 +8,7 @@ import 'package:candlesticks/src/widgets/axis/time_axis.dart';
 import 'package:candlesticks/src/widgets/candle_stick_widget.dart';
 import 'package:candlesticks/src/widgets/main_chart_pane.dart';
 import 'package:candlesticks/src/widgets/candle_sticks_style_provider.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// This widget manages gestures
 /// Calculates the highest and lowest price of visible candles.

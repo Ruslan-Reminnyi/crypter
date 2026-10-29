@@ -11,7 +11,7 @@ import 'package:crypter/presentation/features/auth/widgets/password_text_field.d
 import 'package:crypter/presentation/features/auth/widgets/text_field_with_label.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 

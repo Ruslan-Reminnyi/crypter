@@ -5,7 +5,7 @@ import 'package:candlesticks/src/models/candle.dart';
 import 'package:candlesticks/src/models/candle_sticks_style.dart';
 import 'package:candlesticks/src/widgets/candle_sticks_style_provider.dart';
 import 'package:candlesticks/src/widgets/dash_line_painter.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Draws the horizontal time axis at the bottom of the chart.
 ///

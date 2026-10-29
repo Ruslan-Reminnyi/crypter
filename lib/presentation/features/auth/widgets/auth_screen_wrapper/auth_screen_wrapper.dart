@@ -4,7 +4,7 @@ import 'package:crypter/presentation/common/widgets/app_scaffold/app_scaffold.da
 import 'package:crypter/presentation/features/auth/widgets/auth_footer.dart';
 import 'package:crypter/presentation/features/auth/widgets/auth_header.dart';
 import 'package:crypter/presentation/features/auth/widgets/cyan_glow.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class AuthScreenWrapper extends StatelessWidget {
   final Widget _form;

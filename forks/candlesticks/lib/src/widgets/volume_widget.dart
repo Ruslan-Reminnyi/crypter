@@ -1,5 +1,5 @@
 import 'package:candlesticks/src/models/candle.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class VolumeWidget extends LeafRenderObjectWidget {
   final List<Candle> candles;

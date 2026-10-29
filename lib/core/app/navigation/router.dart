@@ -8,7 +8,7 @@ import 'package:crypter/presentation/features/chart/chart_screen.dart';
 import 'package:crypter/presentation/features/orders/orders_screen.dart';
 import 'package:crypter/presentation/features/orders/pages/order_page.dart';
 import 'package:crypter/presentation/features/orders/pages/filtered_orders_page.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:go_router/go_router.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 

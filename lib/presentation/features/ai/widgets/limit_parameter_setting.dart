@@ -1,6 +1,6 @@
 import 'package:crypter/data/extensions/build_context_extensions.dart';
 import 'package:crypter/presentation/features/ai/notifiers/ai_notifier.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 const double kLimitNumberWidth = 50.0;

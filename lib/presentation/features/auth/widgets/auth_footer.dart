@@ -2,7 +2,7 @@ import 'package:crypter/core/app/navigation/app_routes.dart';
 import 'package:crypter/data/extensions/build_context_extensions.dart';
 import 'package:crypter/domain/enums/auth_type.dart';
 import 'package:crypter/presentation/common/widgets/app_button.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:go_router/go_router.dart';
 
 class AuthFooter extends StatelessWidget {

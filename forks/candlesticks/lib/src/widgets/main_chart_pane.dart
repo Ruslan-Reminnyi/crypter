@@ -11,7 +11,7 @@ import 'package:candlesticks/src/widgets/gesture_handler/gesture_handler.dart';
 import 'package:candlesticks/src/widgets/high_low_animator.dart';
 import 'package:candlesticks/src/widgets/hovered_candle_info_bar.dart';
 import 'package:candlesticks/src/widgets/volume_widget.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../models/candle.dart';
 

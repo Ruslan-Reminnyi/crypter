@@ -13,7 +13,7 @@ import 'package:crypter/presentation/features/ai/notifiers/ai_notifier.dart';
 import 'package:crypter/presentation/features/ai/widgets/limit_parameter_setting.dart';
 import 'package:crypter/presentation/features/ai/widgets/recommendation_tile.dart';
 import 'package:crypter/presentation/common/widgets/parameter_setting.dart';
-import 'package:flutter/material.dart' hide Interval;
+import 'package:material_ui/material_ui.dart' hide Interval;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
