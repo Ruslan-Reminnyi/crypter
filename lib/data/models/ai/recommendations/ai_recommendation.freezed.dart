@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'ai_recommendation.dart';
@@ -9,6 +9,7 @@ part of 'ai_recommendation.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $AiRecommendationCopyWith<AiRecommendation> get copyWith => _$AiRecommendationCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AiRecommendation&&(identical(other.orderType, orderType) || other.orderType == orderType)&&(identical(other.takeProfit, takeProfit) || other.takeProfit == takeProfit)&&(identical(other.stopLoss, stopLoss) || other.stopLoss == stopLoss)&&(identical(other.explanation, explanation) || other.explanation == explanation));
+  final _this = this as AiRecommendation;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AiRecommendation&&(identical(other.orderType, _this.orderType) || other.orderType == _this.orderType)&&(identical(other.takeProfit, _this.takeProfit) || other.takeProfit == _this.takeProfit)&&(identical(other.stopLoss, _this.stopLoss) || other.stopLoss == _this.stopLoss)&&(identical(other.explanation, _this.explanation) || other.explanation == _this.explanation));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,orderType,takeProfit,stopLoss,explanation);
+int get hashCode {
+  final _this = this as AiRecommendation;
+  return Object.hash(runtimeType,_this.orderType,_this.takeProfit,_this.stopLoss,_this.explanation);
+}
 
 @override
 String toString() {
-  return 'AiRecommendation(orderType: $orderType, takeProfit: $takeProfit, stopLoss: $stopLoss, explanation: $explanation)';
+  final _this = this as AiRecommendation;
+  return 'AiRecommendation(orderType: ${_this.orderType}, takeProfit: ${_this.takeProfit}, stopLoss: ${_this.stopLoss}, explanation: ${_this.explanation})';
 }
 
 
@@ -66,7 +72,7 @@ class _$AiRecommendationCopyWithImpl<$Res>
 /// Create a copy of AiRecommendation
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? orderType = null,Object? takeProfit = freezed,Object? stopLoss = freezed,Object? explanation = null,}) {
-  return _then(_self.copyWith(
+  return _then(AiRecommendation(
 orderType: null == orderType ? _self.orderType : orderType // ignore: cast_nullable_to_non_nullable
 as String,takeProfit: freezed == takeProfit ? _self.takeProfit : takeProfit // ignore: cast_nullable_to_non_nullable
 as double?,stopLoss: freezed == stopLoss ? _self.stopLoss : stopLoss // ignore: cast_nullable_to_non_nullable
@@ -233,16 +239,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AiRecommendation&&(identical(other.orderType, orderType) || other.orderType == orderType)&&(identical(other.takeProfit, takeProfit) || other.takeProfit == takeProfit)&&(identical(other.stopLoss, stopLoss) || other.stopLoss == stopLoss)&&(identical(other.explanation, explanation) || other.explanation == explanation));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AiRecommendation&&(identical(other.orderType, orderType) || other.orderType == orderType)&&(identical(other.takeProfit, takeProfit) || other.takeProfit == takeProfit)&&(identical(other.stopLoss, stopLoss) || other.stopLoss == stopLoss)&&(identical(other.explanation, explanation) || other.explanation == explanation));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,orderType,takeProfit,stopLoss,explanation);
+int get hashCode {
+    return Object.hash(runtimeType,orderType,takeProfit,stopLoss,explanation);
+}
 
 @override
 String toString() {
-  return 'AiRecommendation(orderType: $orderType, takeProfit: $takeProfit, stopLoss: $stopLoss, explanation: $explanation)';
+    return 'AiRecommendation(orderType: $orderType, takeProfit: $takeProfit, stopLoss: $stopLoss, explanation: $explanation)';
 }
 
 

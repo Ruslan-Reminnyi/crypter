@@ -46,7 +46,7 @@ abstract class _$AiNotifier extends $Notifier<AiState> {
   AiState build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<AiState, AiState>;
     final element =
         ref.element
@@ -56,6 +56,6 @@ abstract class _$AiNotifier extends $Notifier<AiState> {
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
   }
 }

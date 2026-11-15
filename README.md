@@ -10,9 +10,9 @@ This project is a starting point for a Flutter application.
 
 ## Versioning
 
-* [Flutter](https://github.com/flutter/flutter.git) • 3.47.8 channel stable
-* Framework • revision 737ba8f885d • 2026-10-23
-* Tools • Dart 3.13.7
+* [Flutter](https://github.com/flutter/flutter.git) • 3.50.0 channel stable
+* Framework • revision ab2912035e1 • 2026-11-09
+* Tools • Dart 3.14.0
 
 ```
 $ xcodebuild -version

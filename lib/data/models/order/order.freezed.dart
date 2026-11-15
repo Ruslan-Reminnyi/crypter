@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'order.dart';
@@ -9,6 +9,7 @@ part of 'order.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $OrderCopyWith<Order> get copyWith => _$OrderCopyWithImpl<Order>(this as Order, 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Order&&(identical(other.id, id) || other.id == id)&&(identical(other.number, number) || other.number == number)&&(identical(other.symbol, symbol) || other.symbol == symbol)&&(identical(other.exchange, exchange) || other.exchange == exchange)&&(identical(other.side, side) || other.side == side)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.fillPrice, fillPrice) || other.fillPrice == fillPrice)&&(identical(other.placingTime, placingTime) || other.placingTime == placingTime)&&(identical(other.status, status) || other.status == status)&&(identical(other.takeProfit, takeProfit) || other.takeProfit == takeProfit)&&(identical(other.stopLoss, stopLoss) || other.stopLoss == stopLoss)&&(identical(other.closingTime, closingTime) || other.closingTime == closingTime)&&(identical(other.leverage, leverage) || other.leverage == leverage)&&(identical(other.margin, margin) || other.margin == margin)&&(identical(other.realizedPnL, realizedPnL) || other.realizedPnL == realizedPnL));
+  final _this = this as Order;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Order&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.number, _this.number) || other.number == _this.number)&&(identical(other.symbol, _this.symbol) || other.symbol == _this.symbol)&&(identical(other.exchange, _this.exchange) || other.exchange == _this.exchange)&&(identical(other.side, _this.side) || other.side == _this.side)&&(identical(other.quantity, _this.quantity) || other.quantity == _this.quantity)&&(identical(other.fillPrice, _this.fillPrice) || other.fillPrice == _this.fillPrice)&&(identical(other.placingTime, _this.placingTime) || other.placingTime == _this.placingTime)&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.takeProfit, _this.takeProfit) || other.takeProfit == _this.takeProfit)&&(identical(other.stopLoss, _this.stopLoss) || other.stopLoss == _this.stopLoss)&&(identical(other.closingTime, _this.closingTime) || other.closingTime == _this.closingTime)&&(identical(other.leverage, _this.leverage) || other.leverage == _this.leverage)&&(identical(other.margin, _this.margin) || other.margin == _this.margin)&&(identical(other.realizedPnL, _this.realizedPnL) || other.realizedPnL == _this.realizedPnL));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,number,symbol,exchange,side,quantity,fillPrice,placingTime,status,takeProfit,stopLoss,closingTime,leverage,margin,realizedPnL);
+int get hashCode {
+  final _this = this as Order;
+  return Object.hash(runtimeType,_this.id,_this.number,_this.symbol,_this.exchange,_this.side,_this.quantity,_this.fillPrice,_this.placingTime,_this.status,_this.takeProfit,_this.stopLoss,_this.closingTime,_this.leverage,_this.margin,_this.realizedPnL);
+}
 
 @override
 String toString() {
-  return 'Order(id: $id, number: $number, symbol: $symbol, exchange: $exchange, side: $side, quantity: $quantity, fillPrice: $fillPrice, placingTime: $placingTime, status: $status, takeProfit: $takeProfit, stopLoss: $stopLoss, closingTime: $closingTime, leverage: $leverage, margin: $margin, realizedPnL: $realizedPnL)';
+  final _this = this as Order;
+  return 'Order(id: ${_this.id}, number: ${_this.number}, symbol: ${_this.symbol}, exchange: ${_this.exchange}, side: ${_this.side}, quantity: ${_this.quantity}, fillPrice: ${_this.fillPrice}, placingTime: ${_this.placingTime}, status: ${_this.status}, takeProfit: ${_this.takeProfit}, stopLoss: ${_this.stopLoss}, closingTime: ${_this.closingTime}, leverage: ${_this.leverage}, margin: ${_this.margin}, realizedPnL: ${_this.realizedPnL})';
 }
 
 
@@ -66,7 +72,7 @@ class _$OrderCopyWithImpl<$Res>
 /// Create a copy of Order
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? number = null,Object? symbol = null,Object? exchange = null,Object? side = null,Object? quantity = null,Object? fillPrice = null,Object? placingTime = null,Object? status = null,Object? takeProfit = freezed,Object? stopLoss = freezed,Object? closingTime = freezed,Object? leverage = freezed,Object? margin = freezed,Object? realizedPnL = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(Order(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,number: null == number ? _self.number : number // ignore: cast_nullable_to_non_nullable
 as int,symbol: null == symbol ? _self.symbol : symbol // ignore: cast_nullable_to_non_nullable
@@ -255,16 +261,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Order&&(identical(other.id, id) || other.id == id)&&(identical(other.number, number) || other.number == number)&&(identical(other.symbol, symbol) || other.symbol == symbol)&&(identical(other.exchange, exchange) || other.exchange == exchange)&&(identical(other.side, side) || other.side == side)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.fillPrice, fillPrice) || other.fillPrice == fillPrice)&&(identical(other.placingTime, placingTime) || other.placingTime == placingTime)&&(identical(other.status, status) || other.status == status)&&(identical(other.takeProfit, takeProfit) || other.takeProfit == takeProfit)&&(identical(other.stopLoss, stopLoss) || other.stopLoss == stopLoss)&&(identical(other.closingTime, closingTime) || other.closingTime == closingTime)&&(identical(other.leverage, leverage) || other.leverage == leverage)&&(identical(other.margin, margin) || other.margin == margin)&&(identical(other.realizedPnL, realizedPnL) || other.realizedPnL == realizedPnL));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Order&&(identical(other.id, id) || other.id == id)&&(identical(other.number, number) || other.number == number)&&(identical(other.symbol, symbol) || other.symbol == symbol)&&(identical(other.exchange, exchange) || other.exchange == exchange)&&(identical(other.side, side) || other.side == side)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.fillPrice, fillPrice) || other.fillPrice == fillPrice)&&(identical(other.placingTime, placingTime) || other.placingTime == placingTime)&&(identical(other.status, status) || other.status == status)&&(identical(other.takeProfit, takeProfit) || other.takeProfit == takeProfit)&&(identical(other.stopLoss, stopLoss) || other.stopLoss == stopLoss)&&(identical(other.closingTime, closingTime) || other.closingTime == closingTime)&&(identical(other.leverage, leverage) || other.leverage == leverage)&&(identical(other.margin, margin) || other.margin == margin)&&(identical(other.realizedPnL, realizedPnL) || other.realizedPnL == realizedPnL));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,number,symbol,exchange,side,quantity,fillPrice,placingTime,status,takeProfit,stopLoss,closingTime,leverage,margin,realizedPnL);
+int get hashCode {
+    return Object.hash(runtimeType,id,number,symbol,exchange,side,quantity,fillPrice,placingTime,status,takeProfit,stopLoss,closingTime,leverage,margin,realizedPnL);
+}
 
 @override
 String toString() {
-  return 'Order(id: $id, number: $number, symbol: $symbol, exchange: $exchange, side: $side, quantity: $quantity, fillPrice: $fillPrice, placingTime: $placingTime, status: $status, takeProfit: $takeProfit, stopLoss: $stopLoss, closingTime: $closingTime, leverage: $leverage, margin: $margin, realizedPnL: $realizedPnL)';
+    return 'Order(id: $id, number: $number, symbol: $symbol, exchange: $exchange, side: $side, quantity: $quantity, fillPrice: $fillPrice, placingTime: $placingTime, status: $status, takeProfit: $takeProfit, stopLoss: $stopLoss, closingTime: $closingTime, leverage: $leverage, margin: $margin, realizedPnL: $realizedPnL)';
 }
 
 

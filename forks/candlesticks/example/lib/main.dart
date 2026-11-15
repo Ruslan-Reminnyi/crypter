@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:candlesticks/candlesticks.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 import './symbol_search_modal.dart';
@@ -12,7 +13,8 @@ import './candle_ticker_model.dart';
 import './repository.dart';
 
 void main() {
-  runApp(const MyApp());
+  // TODO ProviderScope is only for suppresing warnings from Reverpod
+  runApp(ProviderScope(child: const MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -211,9 +213,8 @@ class _MyAppState extends State<MyApp> {
               width: 200,
               color: Theme.of(context).colorScheme.surface,
               child: Wrap(
-                children: _intervals
-                    .map((interval) => _buildIntervalButton(interval, context))
-                    .toList(),
+                children:
+                    _intervals.map((interval) => _buildIntervalButton(interval, context)).toList(),
               ),
             ),
           ),

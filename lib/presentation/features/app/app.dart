@@ -17,7 +17,7 @@ class App extends ConsumerWidget {
       title: 'Crypter',
       themeMode: .dark,
       darkTheme: AppThemes.dark,
-      localizationsDelegates: GlobalMaterialLocalizations.delegates,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       routeInformationParser: appRouter.routeInformationParser,
       routeInformationProvider: appRouter.routeInformationProvider,
